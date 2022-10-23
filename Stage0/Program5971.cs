@@ -5,7 +5,7 @@ namespace Stage0
     partial class program
     {
         static void Main(string[] args)
-        {
+        {   
             Welcome5971();
             Welcome3422();
             Console.ReadKey();
