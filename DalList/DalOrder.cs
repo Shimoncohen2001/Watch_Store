@@ -2,32 +2,15 @@
 namespace Dal;
 public class DalOrder
 {
-    public void AddOrder()// ne pas oublier de return le id de ce qu'on a ajoutter
+    public void AddOrder(Order order)// ne pas oublier de return le id de ce qu'on a ajoutter
     {
-        int Orderid = 0;
-        int.TryParse(Console.ReadLine(), out Orderid);
-        string Customername = Console.ReadLine();
-        string Customeraddress = Console.ReadLine();
-        string CustomerEmail = Console.ReadLine();
-        // utiliser TimeSpan pour bien gerer les temps
-        DateTime Orderderdate = DateTime.Now;
-        DateTime Shipdate = DateTime.Now;
-        DateTime DeliveryDate = DateTime.Now;
-        Order order = new Order();
-        order.Id = Orderid;
-        order.CustomerName = Customername;
-        order.CustomerAdress = Customeraddress;
-        order.CustomerEmail = CustomerEmail;
-        order.OrderDate = Orderderdate;
-        order.ShipDate = Shipdate;
-        order.DeliveryDate = DeliveryDate;
         DataSource.GetAddOrderToList(order);
     }
 
     public Order GetOrder(int OrderId)
     {
         Order order = new Order();
-        foreach (var item in DataSource._orders)
+        foreach (var item in    DataSource._orders)
         {
             if (item.Id == OrderId)
             {
@@ -69,16 +52,16 @@ public class DalOrder
             {
                 Order NewOrder = new Order();
                 NewOrder = GetOrder(orderId);
-                Console.WriteLine(@"choose option: 1. Update the name Customer
+                bool finish=false;
+                while (!finish)
+                {
+                    Console.WriteLine(@"choose option: 
+                                           1. Update the name Customer
                                            2. update the Email Customner
                                            3. update the adress customer
                                            4. PRESS ANY KEY TO THE EXIT OPTION");
-                int choice = 0;
-                int.TryParse(Console.ReadLine(), out choice);
-                int c = 1;
-                do // the customer can update maximum three parameter after that its exit of the function
-                {
-                    c++;
+                    int choice = 0;
+                    int.TryParse(Console.ReadLine(), out choice);
                     if (choice == 1)// update the name
                     {
                         Console.WriteLine("Enter the new name: ");
@@ -103,8 +86,8 @@ public class DalOrder
                         GetOrderList()[count] = NewOrder;
                         return;
                     }
+
                 }
-                while (c <= 3);
             }
                     count++;
         }

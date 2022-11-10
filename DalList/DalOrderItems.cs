@@ -4,21 +4,8 @@ namespace Dal;
 public class DalOrderItems
 {
     
-    public void AddOrderItems()
+    public void AddOrderItems(OrderItems orderItems)
     {
-        int ProductId = 0;
-        int.TryParse(Console.ReadLine(), out ProductId);
-        int OrderItemId = 0;
-        int.TryParse((Console.ReadLine()), out OrderItemId);
-        double OrderItemPrice = 0;
-        double.TryParse((Console.ReadLine()), out OrderItemPrice);
-        int OrderItemAmount = 0;
-        int.TryParse((Console.ReadLine()), out OrderItemAmount);
-        OrderItems orderItems = new OrderItems();
-        orderItems.ProductId = ProductId;
-        orderItems.OrderId = OrderItemId;
-        orderItems.Price = OrderItemPrice;
-        orderItems.Amount = OrderItemAmount;
         DataSource.GetAddOrderItemToList(orderItems);
     }
    public OrderItems GetOrderItems(int OrderId,int ProductId)
@@ -48,7 +35,6 @@ public class DalOrderItems
                 }
             }
             count++;
-
         }
     }
     /// <summary>
@@ -64,32 +50,30 @@ public class DalOrderItems
             {
                 OrderItems NewOrderItem = new OrderItems();
                 NewOrderItem = GetOrderItems(orderId,productId);
-                Console.WriteLine(@"choose option: 1. Update the Amount of your product
-                                           2. PRESS ANY KEY TO THE EXIT OPTION");
-                int choice = 0;
-                int.TryParse(Console.ReadLine(), out choice);
-                int c = 1;
-                do // the customer can update maximum three parameter after that its exit of the function
+                bool finish=false;
+                while (!finish)
                 {
-                    c++;
-                    if (choice == 1)// update the name
-                    {
-                        DalProducts dalProducts = new DalProducts();
-                        Console.WriteLine("Enter the new Amount: ");
-                        int NewAmount = 0;
-                        int.TryParse(Console.ReadLine(),out NewAmount);
-                        NewOrderItem.Amount = NewAmount;
-                        NewOrderItem.Price = NewAmount * dalProducts.GetProduct(productId).Price;
-                    }
-                   
-                    else// exit 
-                    {
-                        Console.WriteLine("Order updated");
-                        GetOrderItemsList()[count] = NewOrderItem;
-                        return;
-                    }
+                     Console.WriteLine(@"choose option:
+                                           1. Update the Amount of your product
+                                           2. PRESS ANY KEY TO THE EXIT OPTION");
+                     int choice = 0;
+                     int.TryParse(Console.ReadLine(), out choice);
+                     if (choice == 1)// update the name
+                     {
+                         DalProducts dalProducts = new DalProducts();
+                         Console.WriteLine("Enter the new Amount: ");
+                         int NewAmount = 0;
+                         int.TryParse(Console.ReadLine(),out NewAmount);
+                         NewOrderItem.Amount = NewAmount;
+                         NewOrderItem.Price = NewAmount * dalProducts.GetProduct(productId).Price;
+                     }
+                     else// exit 
+                     {
+                         Console.WriteLine("amount updated");
+                         GetOrderItemsList()[count] = NewOrderItem;
+                         return;
+                     }
                 }
-                while (c <= 3);
             }
             count++;
         }
