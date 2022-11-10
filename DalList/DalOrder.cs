@@ -2,11 +2,20 @@
 namespace Dal;
 public class DalOrder
 {
-    public void AddOrder(Order order)// ne pas oublier de return le id de ce qu'on a ajoutter
+    /// <summary>
+    /// //////////////////////////Add/////////////////////////
+    /// </summary>
+    /// <param name="order"></param>
+    public void AddOrder(Order order) 
     {
         DataSource.GetAddOrderToList(order);
     }
 
+    /// <summary>
+    /// //////////////////////////GetById////////////////////
+    /// </summary>
+    /// <param name="OrderId"></param>
+    /// <returns></returns>
     public Order GetOrder(int OrderId)
     {
         Order order = new Order();
@@ -19,10 +28,20 @@ public class DalOrder
         }
         return order;
     }
+
+    /// <summary>
+    /// //////////////////////GetList/////////////////////////
+    /// </summary>
+    /// <returns></returns>
     public Order[] GetOrderList()
     {
         return DataSource._orders;
     }
+
+    /// <summary>
+    /// /////////////////////Delete///////////////////////////
+    /// </summary>
+    /// <param name="orderId"></param>
     public void DeleteOrder(int orderId)
     {
         int count = 0;
@@ -30,7 +49,7 @@ public class DalOrder
         {
             if (item.Id == orderId)
             {
-                for (int i = count; i < DataSource.Config._orderIndex - 2; i++)// Shifting elements
+                for (int i = count; i < DataSource.Config._orderIndex; i++) // Shifting elements
                 {
                     GetOrderList()[i] = GetOrderList()[i + 1];
                 }
@@ -39,8 +58,9 @@ public class DalOrder
 
         }
     }
+
     /// <summary>
-    /// //////////////////////////update///////////////////////////////////
+    /// //////////////////////////Update///////////////////////////////////
     /// </summary>
     /// <param name="orderId"></param>
     public void UpdateOrder(int orderId)
@@ -57,14 +77,14 @@ public class DalOrder
                 {
                     Console.WriteLine(@"choose option: 
                                            1. Update the name Customer
-                                           2. update the Email Customner
-                                           3. update the adress customer
-                                           4. PRESS ANY KEY TO THE EXIT OPTION");
+                                           2. Update the Email Customner
+                                           3. Update the adress customer
+                                           4. EXIT");
                     int choice = 0;
                     int.TryParse(Console.ReadLine(), out choice);
                     if (choice == 1)// update the name
                     {
-                        Console.WriteLine("Enter the new name: ");
+                        Console.WriteLine("Enter the new Name: ");
                         string NewName = Console.ReadLine();
                         NewOrder.CustomerName = NewName;
                     }
@@ -82,7 +102,7 @@ public class DalOrder
                     }
                     else// exit 
                     {
-                        Console.WriteLine("Order updated");
+                        Console.WriteLine("Order updated.");
                         GetOrderList()[count] = NewOrder;
                         return;
                     }
@@ -91,7 +111,7 @@ public class DalOrder
             }
                     count++;
         }
-        throw new Exception("Order cannot be found");
+        throw new Exception("Order cannot be found!");
 
     }
 }

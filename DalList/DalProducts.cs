@@ -3,10 +3,21 @@ using System.Linq;
 namespace Dal;
 public class DalProducts
 {
+
+    /// <summary>
+    /// ///////////////////////////Add//////////////////////////////
+    /// </summary>
+    /// <param name="products"></param>
     public void AddProducts(Products products)
     {
         DataSource.GetAddProductToList(products);
     }
+
+    /// <summary>
+    /// ///////////////////////////GetById///////////////////////////
+    /// </summary>
+    /// <param name="ProductId"></param>
+    /// <returns></returns>
     public Products GetProduct(int ProductId)
     {
         Products products = new Products();
@@ -17,10 +28,20 @@ public class DalProducts
         }
         return products;
     }
+
+    /// <summary>
+    /// ////////////////////////////GetList////////////////////////
+    /// </summary>
+    /// <returns></returns>
     public  Products[] GetProductList()
     {
         return DataSource._products;
     }
+
+    /// <summary>
+    /// //////////////////////////Delete///////////////////////////
+    /// </summary>
+    /// <param name="ProductId"></param>
     public void DeletProduct(int ProductId)
     {
         int count = 0;
@@ -28,15 +49,22 @@ public class DalProducts
         {
             if(item.Id == ProductId)
             {
-                for (int i = count; i < DataSource.Config._productsIndex-2; i++)// Shifting elements
+                for (int i = count; i < DataSource.Config._productsIndex; i++)// Shifting elements
                 {
                     GetProductList()[i]= GetProductList()[i+1];
+                    
                 }
             }
             count++;
 
         }
     }
+
+    /// <summary>
+    /// //////////////////////////Update/////////////////////////
+    /// </summary>
+    /// <param name="productId"></param>
+    /// <exception cref="Exception"></exception>
     public void UpdateProduct(int productId)
     {
         int count = 0;
@@ -55,12 +83,12 @@ public class DalProducts
                                            2. update the Price Product
                                            3. update the Category Product
                                            4. update the amount in the stock
-                                           5. PRESS ANY KEY TO THE EXIT OPTION");
+                                           5. EXIT ");
                 int choice = 0;
                 int.TryParse(Console.ReadLine(), out choice);
                     if (choice == 1)// update the name
                     {
-                        Console.WriteLine("Enter the new name: ");
+                        Console.WriteLine("Enter the new Name: ");
                         string NewName = Console.ReadLine();
                         NewProduct.Name = NewName;
                     }
@@ -73,21 +101,21 @@ public class DalProducts
                     }
                     else if (choice == 3)// uodate the adress
                     {
-                        Console.WriteLine("choose the new category 0. men 1. women 2. children");
+                        Console.WriteLine("Choose the new category 0. Men 1. Women 2. Children");
                         int NewCategorie = 0;
                         int.TryParse(Console.ReadLine(),out NewCategorie);
                         NewProduct.Category = (Category)NewCategorie;
                     }
-                    else if(choice==4)
+                    else if(choice == 4)
                     {
-                        Console.WriteLine("Enter the new amount in the stock: ");
+                        Console.WriteLine("Enter the new Amount in the stock: ");
                         int NewInStock = 0;
                         int.TryParse(Console.ReadLine(), out NewInStock);
                         NewProduct.InStock=NewInStock;
                     }
                     else// exit 
                     {
-                        Console.WriteLine("Product updated");
+                        Console.WriteLine("Product updated.");
                         DataSource._products[count] = NewProduct;
                         return;
                     }
@@ -95,7 +123,7 @@ public class DalProducts
             }
             count++;
         }
-        throw new Exception("Product cannot be found");
+        throw new Exception("Product cannot be found!");
 
     }
 }

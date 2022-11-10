@@ -3,33 +3,54 @@
 namespace Dal;
 public class DalOrderItems
 {
-    
+    /// <summary>
+    /// ////////////////////////////Add//////////////////////////
+    /// </summary>
+    /// <param name="orderItems"></param>
     public void AddOrderItems(OrderItems orderItems)
     {
         DataSource.GetAddOrderItemToList(orderItems);
     }
-   public OrderItems GetOrderItems(int OrderId,int ProductId)
-   {
-        OrderItems orderItems = new OrderItems();
-        foreach (var item in DataSource._orderItems)
-        {
-            if(item.OrderId==OrderId && item.ProductId==ProductId)
-                orderItems=item;
-        }
-    return orderItems;
-   }
+
+    /// <summary>
+    /// ///////////////////////////GetById//////////////////////
+    /// </summary>
+    /// <param name="OrderId"></param>
+    /// <param name="ProductId"></param>
+    /// <returns></returns>
+    public OrderItems GetOrderItems(int OrderId, int ProductId)
+    {
+         OrderItems orderItems = new OrderItems();
+         foreach (var item in DataSource._orderItems)
+         {
+             if(item.OrderId == OrderId && item.ProductId == ProductId)
+                 orderItems = item;
+         }
+         return orderItems;
+    }
+
+    /// <summary>
+    /// ///////////////////////GetList/////////////////////////
+    /// </summary>
+    /// <returns></returns>
     public OrderItems[] GetOrderItemsList()
     {
         return DataSource._orderItems;
     }
+
+    /// <summary>
+    /// //////////////////////Delete///////////////////////////
+    /// </summary>
+    /// <param name="ProductId"></param>
+    /// <param name="orderId"></param>
     public void DeletOrderItem(int ProductId,int orderId)
     {
         int count = 0;
         foreach (var item in GetOrderItemsList())
         {
-            if (item.OrderId == orderId && item.ProductId==ProductId)
+            if (item.OrderId == orderId && item.ProductId == ProductId)
             {
-                for (int i = count; i < DataSource.Config._orderItemsIndex - 2; i++)// Shifting elements
+                for (int i = count; i < DataSource.Config._orderItemsIndex; i++)// Shifting elements
                 {
                     GetOrderItemsList()[i] = GetOrderItemsList()[i + 1];
                 }
@@ -37,8 +58,9 @@ public class DalOrderItems
             count++;
         }
     }
+
     /// <summary>
-    /// /////////////////////////////////////////update//////////////////////////
+    /// //////////////////////////Update///////////////////////
     /// </summary>
     /// <param name="orderId"></param>
     public void UpdateOrderItem(int orderId, int productId)
@@ -46,30 +68,30 @@ public class DalOrderItems
         int count = 0;
         foreach (var item in GetOrderItemsList())
         {
-            if (item.OrderId == orderId && item.ProductId==productId )
+            if (item.OrderId == orderId && item.ProductId == productId )
             {
                 OrderItems NewOrderItem = new OrderItems();
-                NewOrderItem = GetOrderItems(orderId,productId);
-                bool finish=false;
+                NewOrderItem = GetOrderItems(orderId, productId);
+                bool finish = false;
                 while (!finish)
                 {
                      Console.WriteLine(@"choose option:
-                                           1. Update the Amount of your product
-                                           2. PRESS ANY KEY TO THE EXIT OPTION");
+                                           1. Update the Amount of your product:
+                                           2. EXIT ");
                      int choice = 0;
                      int.TryParse(Console.ReadLine(), out choice);
-                     if (choice == 1)// update the name
+                     if (choice == 1) 
                      {
                          DalProducts dalProducts = new DalProducts();
                          Console.WriteLine("Enter the new Amount: ");
                          int NewAmount = 0;
-                         int.TryParse(Console.ReadLine(),out NewAmount);
+                         int.TryParse(Console.ReadLine(), out NewAmount);
                          NewOrderItem.Amount = NewAmount;
                          NewOrderItem.Price = NewAmount * dalProducts.GetProduct(productId).Price;
                      }
-                     else// exit 
+                     else // exit 
                      {
-                         Console.WriteLine("amount updated");
+                         Console.WriteLine("Amount updated.");
                          GetOrderItemsList()[count] = NewOrderItem;
                          return;
                      }
@@ -77,7 +99,7 @@ public class DalOrderItems
             }
             count++;
         }
-        throw new Exception("OrderItem cannot be found");
+        throw new Exception("OrderItem cannot be found!");
 
     }
 }
