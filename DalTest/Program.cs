@@ -238,7 +238,7 @@ static class  Program
                             Console.WriteLine("Enter the productId of the orderitem that you want to delete: ");
                             int prodId3 = 0;
                             int.TryParse(Console.ReadLine(), out prodId3);
-                            dalOrderItems.DeletOrderItem(orderid3, prodId3);
+                            dalOrderItems.DeletOrderItem(prodId3, orderid3);
                             break;
 
                         default:
