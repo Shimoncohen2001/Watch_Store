@@ -1,5 +1,5 @@
 ﻿using DO;
-
+using System.Collections.Generic;
 namespace Dal;
 internal static class DataSource
 {
@@ -15,9 +15,6 @@ internal static class DataSource
 
     internal static class Config
     {
-        internal static int _orderIndex = 0;
-        internal static int _productsIndex = 0;
-        internal static int _orderItemsIndex = 0;
         internal static int _automaticProdId { get; set; }
         internal static int _automaticOrderId { get; set; }
     }
@@ -39,8 +36,7 @@ internal static class DataSource
             ord.OrderDate = DateTime.Now;
             ord.ShipDate = DateTime.Now;
             ord.DeliveryDate = DateTime.Now;
-            _orders[i] = ord; 
-            Config._orderIndex++;
+            _orders.Add(ord); 
         }
 
         /////////////////////////Product///////////////////////////////////
@@ -54,8 +50,7 @@ internal static class DataSource
             int stock = 0;
             stock = rand.Next(10);
             pro.InStock = stock;
-            _products[a] = pro;
-            Config._productsIndex++;
+            _products.Add(pro);
         }
 
         ///////////////////////OrderItem///////////////////////////////////
@@ -72,29 +67,28 @@ internal static class DataSource
                     orderItems.Price = (orderItems.Amount) * (_products[c].Price);
                 }
             }
-            _orderItems[b] = orderItems;
-            Config._orderItemsIndex++;
+            _orderItems.Add(orderItems);
         }
     }
 
     // This will contain arrays for the "ישויות"
     // We nead to add a private function that will add all the objects in the array of each yechout
-    internal static Order[]_orders = new Order[100]; // _camelCase
-    internal static Products[]_products = new Products[50]; // _camelCase
-    internal static OrderItems[]_orderItems = new OrderItems[200]; // _camelCase
+    internal static List<Order>_orders = new List<Order>(); // _camelCase
+    internal static List<Products>_products = new List<Products>(); // _camelCase
+    internal static List<OrderItems>_orderItems = new List<OrderItems>(); // _camelCase
 
     /// <summary>
     /// //////////////////////////////////Add//////////////////////////////////////////
     /// </summary>
     private static void AddOrderToList(Order o)  // add an order into the list of orders
     {
-        //bool isExist = _orders.Any(order => order.Id == o.Id);
-        //if (isExist)
-        //{
-        //    throw new Exception("this Order Id already exist");
+        if (_orders.Exists(p => p.Id == o.Id))
+        {
+            // exception already exist
 
-        //}
-
+        }
+        else
+        {
         Order order = new Order();  // create a new object to add a new element on the list of Orders
         order.Id = o.Id;
         order.CustomerName = o.CustomerName;
@@ -103,8 +97,8 @@ internal static class DataSource
         order.OrderDate = o.OrderDate;
         order.ShipDate = o.ShipDate;
         order.DeliveryDate = o.DeliveryDate;
-        _orders[Config._orderIndex] = order;  // add order into array in the first free place
-        Config._orderIndex++;
+        _orders.Add(order);  // add order into array in the first free place
+        }
 
     }
 
@@ -114,19 +108,17 @@ internal static class DataSource
     /// <param name="pr"></param>
     private static void AddProductToList(Products pr)  // Add an Product into the list of Products
     {
-        int count = 0;
-        bool exist = false;
-        foreach (var item in _products)
-        {
-            if (pr.Id == item.Id)  // If product already existe only apdate the stock
-            {
-                exist=true;
-                _products[count].InStock += pr.InStock;
-            }
-             count++;
-        }
         
-        if (!exist)
+
+        if (_products.Exists(p => p.Id == pr.Id))
+        {
+            int index = _products.FindIndex(p => p.Id == pr.Id);
+            Products product = new Products();
+            product = _products[index];
+            product.InStock += pr.InStock;
+            _products[index] = product;
+        }
+        else
         {
             Products p = new Products();
             p.Id = pr.Id;
@@ -134,8 +126,7 @@ internal static class DataSource
             p.Price = pr.Price;
             p.Category = pr.Category;
             p.InStock = pr.InStock;
-            _products[Config._productsIndex] = p;  // Add product into array in the first free place
-            Config._productsIndex++;
+            _products.Add(p);  // Add product into array in the first free place
         }
     }
 
@@ -144,30 +135,24 @@ internal static class DataSource
     /// </summary>
     /// <param name="ordIt"></param>
     private static void AddOrderItemToList(OrderItems ordIt)  // Add an orderItem into the list of ordersItems
-    { 
-        int count = 0;
-        bool exist = false;
-        foreach (var item in _orderItems)
+    {
+        if (_orderItems.Exists(p => p.ProductId == ordIt.ProductId)&&_orderItems.Exists(r=>r.OrderId==ordIt.OrderId))
         {
-            if(item.OrderId == ordIt.OrderId)
-            {
-                exist = true;
-                _orderItems[count].Amount = ordIt.Amount;
-            }
-            
-            count++;
+            int index = _orderItems.FindIndex(p => p.OrderId == ordIt.OrderId && p.ProductId== ordIt.OrderId);
+            OrderItems orderItems = new OrderItems();
+            orderItems = _orderItems[index];
+            orderItems.Amount += ordIt.Amount;
+            _orderItems[index] = orderItems;
         }
 
-        if(!exist)
+        else
         {
-
-            OrderItems oi = new OrderItems();
-            oi.ProductId = ordIt.ProductId;
-            oi.OrderId = ordIt.OrderId;
-            oi.Price = ordIt.Price;
-            oi.Amount = ordIt.Amount;
-            _orderItems[Config._orderItemsIndex] = oi;  // Add OrderItem into array in the first free place
-            Config._orderItemsIndex++;
+            OrderItems Oitems = new OrderItems();
+            Oitems.ProductId = ordIt.ProductId;
+            Oitems.OrderId = ordIt.OrderId;
+            Oitems.Price = ordIt.Price;
+            Oitems.Amount=ordIt.Amount;
+            _orderItems.Add(Oitems);  // Add product into array in the first free place
         }
     }
     public static void GetAddOrderItemToList(OrderItems ordIt)

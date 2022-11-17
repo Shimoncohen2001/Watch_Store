@@ -1,12 +1,14 @@
 ﻿using DO;
+using DalApi;
+
 namespace Dal;
-public class DalOrder
+internal class DalOrder:IOrder
 {
     /// <summary>
     /// //////////////////////////Add/////////////////////////
     /// </summary>
     /// <param name="order"></param>
-    public void AddOrder(Order order) 
+    public void Add(Order order) 
     {
         DataSource.GetAddOrderToList(order);
     }
@@ -16,7 +18,7 @@ public class DalOrder
     /// </summary>
     /// <param name="OrderId"></param>
     /// <returns></returns>
-    public Order GetOrder(int OrderId)
+    public Order Get(int OrderId, int val=0)
     {
         Order order = new Order();
         foreach (var item in    DataSource._orders)
@@ -33,7 +35,7 @@ public class DalOrder
     /// //////////////////////GetList/////////////////////////
     /// </summary>
     /// <returns></returns>
-    public Order[] GetOrderList()
+    public IEnumerable<Order> GetList()
     {
         return DataSource._orders;
     }
@@ -42,36 +44,24 @@ public class DalOrder
     /// /////////////////////Delete///////////////////////////
     /// </summary>
     /// <param name="orderId"></param>
-    public void DeleteOrder(int orderId)
+    public void Delete(int orderId,int v=0)
     {
-        int count = 0;
-        foreach (var item in GetOrderList())
-        {
-            if (item.Id == orderId)
-            {
-                for (int i = count; i < DataSource.Config._orderIndex; i++) // Shifting elements
-                {
-                    GetOrderList()[i] = GetOrderList()[i + 1];
-                }
-            }
-            count++;
-
-        }
+        DataSource._orders.Remove(Get(orderId));
     }
 
     /// <summary>
     /// //////////////////////////Update///////////////////////////////////
     /// </summary>
     /// <param name="orderId"></param>
-    public void UpdateOrder(int orderId)
+    public void Update(int orderId,int v=0)
     {
         int count = 0;
-        foreach (var item in GetOrderList())
+        foreach (var item in GetList())
         {
             if (item.Id == orderId)
             {
                 Order NewOrder = new Order();
-                NewOrder = GetOrder(orderId);
+                NewOrder = Get(orderId);
                 bool finish=false;
                 while (!finish)
                 {
@@ -103,7 +93,7 @@ public class DalOrder
                     else// exit 
                     {
                         Console.WriteLine("Order updated.");
-                        GetOrderList()[count] = NewOrder;
+                        GetList().ToList()[count] = NewOrder;// yoel propose modifff a revoir et tester
                         return;
                     }
 
@@ -112,6 +102,7 @@ public class DalOrder
                     count++;
         }
         throw new Exception("Order cannot be found!");
-
     }
+
+    
 }

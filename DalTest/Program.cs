@@ -1,14 +1,18 @@
 ﻿using System;
 using Dal;
+using DalApi;
 using DalFacade;
 namespace DO;
 static class  Program
 { 
     public static void Display()
     {
-        DalProducts products = new DalProducts();
-        DalOrder dalOrder = new DalOrder();  
-        DalOrderItems dalOrderItems = new DalOrderItems();
+        //DalProducts products = new DalProducts();
+        //DalOrder dalOrder = new DalOrder();  
+        //DalOrderItems dalOrderItems = new DalOrderItems();
+        IDal dal;
+        DalList dalList=new DalList();
+        dal = dalList;
         int flag = 1;
         while(flag != 0)
         {
@@ -58,18 +62,18 @@ static class  Program
                             p.Price = price;
                             p.InStock = stock;
                             p.Category = category;
-                            products.AddProducts(p);
+                            dal.Product.Add(p);
                             break;
 
                         case 2:
                             Console.WriteLine("Enter the id of the product that you want: ");
                             int Newid = 0;
                             int.TryParse(Console.ReadLine(), out Newid);
-                            Console.WriteLine(products.GetProduct(Newid).ToString());
+                            Console.WriteLine(dal.Product.Get(Newid,0).ToString());
                             break;
 
                         case 3:
-                            foreach (var item in products.GetProductList())
+                            foreach (var item in dal.Product.GetList())
                             {
                                 if(item.Id != 0)
                                 {
@@ -83,14 +87,14 @@ static class  Program
                             int id2 = 0;
                             int.TryParse(Console.ReadLine(), out id2);
                             // toute les saisis du update doivent etre dans le main
-                            products.UpdateProduct(id2);
+                            dal.Product.Update(id2,0);
                             break;
 
                         case 5:
                             Console.WriteLine("Enter the id of the product that you want to delete");
                             int id3 = 0;
                             int.TryParse(Console.ReadLine(), out id3);
-                            products.DeletProduct(id3);
+                            dal.Product.Delete(id3,0);
                             break;
 
                         default:
@@ -133,18 +137,18 @@ static class  Program
                             ord.CustomerName = name;
                             ord.CustomerEmail = Email;
                             ord.CustomerAdress = Adress;
-                            dalOrder.AddOrder(ord);
+                            dal.Order.Add(ord);
                             break;
 
                         case 2:
                             Console.WriteLine("Enter the id of the order that you want: ");
                             int orderid = 0;
                             int.TryParse(Console.ReadLine(), out orderid);
-                            Console.WriteLine(dalOrder.GetOrder(orderid));
+                            Console.WriteLine(dal.Order.Get(orderid,0));
                             break;
 
                         case 3:
-                            foreach (var item in dalOrder.GetOrderList())
+                            foreach (var item in dal.Order.GetList())
                             {
                                 if(item.Id != 0)
                                 {
@@ -157,14 +161,14 @@ static class  Program
                             Console.WriteLine("Enter the id of the product that you want to update:");
                             int orderid2 = 0;
                             int.TryParse(Console.ReadLine(), out orderid2);
-                            dalOrder.UpdateOrder(orderid2);
+                            dal.Order.Update(orderid2,0);
                             break;
 
                         case 5:
                             Console.WriteLine("Enter the id that you want to delete:");
                             int orderid3 = 0;
                             int.TryParse(Console.ReadLine(), out orderid3);
-                            dalOrder.DeleteOrder(orderid3);
+                            dal.Order.Delete(orderid3,0);
                             break;
                             
                         default:
@@ -197,8 +201,8 @@ static class  Program
                             orderitems.OrderId = ordId;
                             orderitems.ProductId = productId;
                             orderitems.Amount = Amount;
-                            orderitems.Price = (products.GetProduct(productId).Price) * Amount;
-                            dalOrderItems.AddOrderItems(orderitems);
+                            orderitems.Price = (dal.Product.Get(productId,0).Price) * Amount;
+                            dal.OrderItem.Add(orderitems);
                             break;
 
                         case 2:
@@ -208,11 +212,11 @@ static class  Program
                             Console.WriteLine("Enter the product id of the orderitem that you want: ");
                             int prodId = 0;
                             int.TryParse(Console.ReadLine(), out prodId);
-                            Console.WriteLine(dalOrderItems.GetOrderItems(orderid, prodId)); 
+                            Console.WriteLine(dal.OrderItem.Get(orderid, prodId)); 
                             break;
 
                         case 3:
-                            foreach (var item in dalOrderItems.GetOrderItemsList())
+                            foreach (var item in dal.OrderItem.GetList())
                             {
                                 if(item.ProductId != 0 && item.OrderId != 0)
                                 {
@@ -228,7 +232,7 @@ static class  Program
                             Console.WriteLine("Enter the productId of the orderitem that you want: ");
                             int prodId2 = 0;
                             int.TryParse(Console.ReadLine(), out prodId2);
-                            dalOrderItems.UpdateOrderItem(orderid2, prodId2);
+                            dal.OrderItem.Update(orderid2, prodId2);
                             break;
 
                         case 5:
@@ -238,7 +242,7 @@ static class  Program
                             Console.WriteLine("Enter the productId of the orderitem that you want to delete: ");
                             int prodId3 = 0;
                             int.TryParse(Console.ReadLine(), out prodId3);
-                            dalOrderItems.DeletOrderItem(prodId3, orderid3);
+                            dal.OrderItem.Delete(prodId3, orderid3 );
                             break;
 
                         default:
