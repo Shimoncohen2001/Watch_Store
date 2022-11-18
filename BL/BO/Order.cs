@@ -4,19 +4,29 @@ namespace BO;
 
 public class Order
 {
-    public int ID { get; set; }
-    public string Name { get; set; }
-    public double Price { get; set; }
-    public Category Category { get; set; }
-    public int Amount { get; set; }
-    public bool InStock { get; set; }
+    public int Id { get; set; }
+    public string CustomerName { get; set; }
+    public string CustomerEmail { get; set; }
+    public string CustomerAdress { get; set; }
+    public DateTime OrderDate { get; set; }
+    public OrderStatus Status { get; set; }
+    public DateTime PaymentDate { get; set; }
+    public DateTime ShipDate { get; set; }
+    public DateTime DeliveryDate { get; set; }
+    public OrderItem Items { get; set; } // De BL car ne peut pas posséder orderItem de DAL vu qu'on a aucune data ici
+    public double TotalPrice { get; set; }
 
     public override string ToString() => $@"
-     Order Id: {ID}
-     Customer Name: {Name}
-     Price: {Price}
-     Category: {Category}
-     Amount: {Amount}
-     Instock: {InStock}
+     Order Id: {Id}
+     Customer Name: {CustomerName}
+     CustomerEmail: {CustomerEmail}
+     CustomerAdress: {CustomerAdress}
+     Order Date: {OrderDate}
+     Order Status: {Status}
+     Payment Date: {PaymentDate}
+     Ship Date: {ShipDate}
+     DeliveryDate: {DeliveryDate}
+     Order Item: {Items}
+     Toal Price: {TotalPrice}
     ";
 }

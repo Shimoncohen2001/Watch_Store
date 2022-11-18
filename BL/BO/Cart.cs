@@ -7,7 +7,7 @@ public class Cart
     public string CustomerName { get; set; }
     public string CustomerEmail { get; set; }
     public string CustomerAddress { get; set; }
-    public OrderItems Items { get; set; }
+    public OrderItem Items { get; set; }  // De BL car ne peut pas posséder orderItem de DAL vu qu'on a aucune data ici
     public double TotalPrice { get; set; }
 
     public override string ToString() => $@"

@@ -1,18 +1,12 @@
-﻿using System;
-using Dal;
+﻿using Dal;
 using DalApi;
-using DalFacade;
+
 namespace DO;
 static class  Program
 { 
     public static void Display()
     {
-        //DalProducts products = new DalProducts();
-        //DalOrder dalOrder = new DalOrder();  
-        //DalOrderItems dalOrderItems = new DalOrderItems();
-        IDal dal;
-        DalList dalList=new DalList();
-        dal = dalList;
+        IDal dal = new DalList();
         int flag = 1;
         while(flag != 0)
         {
@@ -258,8 +252,6 @@ static class  Program
     
     public static void Main(string[]args)
     {
-        DateTime today = DateTime.Now;
-        
         Display();
     }
 
