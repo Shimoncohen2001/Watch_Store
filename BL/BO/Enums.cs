@@ -3,4 +3,4 @@
 
     public enum Category {Men, Women, Children}
     
-    public enum OrderStatus { }
+    public enum OrderStatus {Approved, Expedited, Received }

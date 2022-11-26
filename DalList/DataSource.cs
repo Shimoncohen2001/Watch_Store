@@ -23,19 +23,21 @@ internal static class DataSource
     {
         Config._automaticProdId = 100000;
         Config._automaticOrderId = 300;
-
         ////////////////////////////Order///////////////////////////////////
         int i = 0;
         for ( ; i <= 20 ; i++)
         {
+            int a = rand.Next(10);
+            TimeSpan duration = new TimeSpan(0, 0, a, 0);
             Order ord = new Order();
             ord.Id = Config._automaticOrderId++;
             ord.CustomerName = ((CustomerNames)rand.Next(10)).ToString();
             ord.CustomerAdress = ((Adress)rand.Next(10)).ToString()+ " street, " + (rand.Next(50)).ToString();
             ord.CustomerEmail = ord.CustomerName + (rand.Next(200)).ToString() + "@gmail.com";
             ord.OrderDate = DateTime.Now;
-            ord.ShipDate = DateTime.Now;
-            ord.DeliveryDate = DateTime.Now;
+           
+            ord.ShipDate = ord.OrderDate.Add(duration);
+            ord.DeliveryDate = ord.ShipDate.Add(duration);
             _orders.Add(ord); 
         }
 

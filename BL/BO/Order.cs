@@ -13,7 +13,9 @@ public class Order
     public DateTime PaymentDate { get; set; }
     public DateTime ShipDate { get; set; }
     public DateTime DeliveryDate { get; set; }
-    public OrderItem Items { get; set; } // De BL car ne peut pas posséder orderItem de DAL vu qu'on a aucune data ici
+
+    public List<OrderItem> orderItems=new List<OrderItem>();
+    //public OrderItem Items { get; set; } // De BL car ne peut pas posséder orderItem de DAL vu qu'on a aucune data ici
     public double TotalPrice { get; set; }
 
     public override string ToString() => $@"
@@ -26,7 +28,7 @@ public class Order
      Payment Date: {PaymentDate}
      Ship Date: {ShipDate}
      DeliveryDate: {DeliveryDate}
-     Order Item: {Items}
+     Order Item: {orderItems}
      Toal Price: {TotalPrice}
     ";
 }
