@@ -1,5 +1,6 @@
 ﻿using Dal;
 using DalApi;
+
 namespace BlImplementation;
 internal class BlProduct : BlApi.IProduct
 {
@@ -24,6 +25,7 @@ internal class BlProduct : BlApi.IProduct
         }
         return productsForList;
     }
+
     /// <summary>
     /// Check if the ID of the Product exist and is valid for to return the Product or not for the director
     /// </summary>
@@ -52,6 +54,7 @@ internal class BlProduct : BlApi.IProduct
         }
         throw new BO.NoExistingItemException("Product doesn't exist!"); // Positive ID but not exist in the list of Products
     }
+
     /// <summary>
     /// Check if the ID of the Product exist and is valid for to return the Product or not for the client
     /// </summary>
@@ -67,13 +70,14 @@ internal class BlProduct : BlApi.IProduct
             if (item.Id == productId)
             {
                 DO.Products products = Dal.Product.Get(productId, 0);
+                int index = cart.orderItems.FindIndex(OrderItems => OrderItems.ProductID == productId);
                 BO.ProductItem productItem = new BO.ProductItem()
                 {
                     ID = productId,
                     Name = products.Name,
                     Price = products.Price,
                     Category = (BO.Category)products.Category,
-                    Amount = products.InStock
+                    Amount = cart.orderItems[index].Amount,
                 };
                 if (products.InStock > 0)
                     productItem.InStock = true;
@@ -84,6 +88,7 @@ internal class BlProduct : BlApi.IProduct
         }
         throw new BO.NoExistingItemException("Product doesn't exist!"); // Positive ID but not exist in the list of Products
     }
+
     /// <summary>
     /// Test if the data of the product is right for to ad him in the list of Products in the DataSource or not
     /// </summary>
@@ -108,6 +113,7 @@ internal class BlProduct : BlApi.IProduct
         };
         Dal.Product.Add(products);
     }
+
     /// <summary>
     /// Delete a Product from the list of Products in the DataSource if its possible
     /// </summary>
@@ -128,6 +134,7 @@ internal class BlProduct : BlApi.IProduct
             }
         }
     }
+
     /// <summary>
     /// Update directly the product in the DataSource
     /// </summary>

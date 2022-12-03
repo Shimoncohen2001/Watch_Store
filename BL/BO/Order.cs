@@ -18,17 +18,23 @@ public class Order
     //public OrderItem Items { get; set; } // De BL car ne peut pas posséder orderItem de DAL vu qu'on a aucune data ici
     public double TotalPrice { get; set; }
 
-    public override string ToString() => $@"
-     Order Id: {Id}
-     Customer Name: {CustomerName}
-     CustomerEmail: {CustomerEmail}
-     CustomerAdress: {CustomerAdress}
-     Order Date: {OrderDate}
-     Order Status: {Status}
-     Payment Date: {PaymentDate}
-     Ship Date: {ShipDate}
-     DeliveryDate: {DeliveryDate}
-     Order Item: {orderItems}
-     Toal Price: {TotalPrice}
-    ";
+    public override string ToString()
+    {
+        string OdrerItems = string.Join("", orderItems);
+        return ($@"
+        
+        Order Id: {Id}
+        Customer Name: {CustomerName}
+        CustomerEmail: {CustomerEmail}
+        CustomerAdress: {CustomerAdress}
+        Order Date: {OrderDate}
+        Order Status: {Status}
+        Payment Date: {PaymentDate}
+        Ship Date: {ShipDate}
+        DeliveryDate: {DeliveryDate}
+        Order Item: {OdrerItems}
+        Toal Price: {TotalPrice}
+        ");
+
+    }
 }

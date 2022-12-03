@@ -12,7 +12,9 @@ public class OrderItem
     public double TotalPrice { get; set; }
 
     public override string ToString() => $@"
-     Order ID = {ID}: {ProductID},
+     OrderItem ID = {ID}
+     Name={Name}
+     ProductId ={ProductID},
      Price - {Price}
      Amount: {Amount}
      Total price - {TotalPrice}

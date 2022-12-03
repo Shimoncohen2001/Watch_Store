@@ -15,7 +15,7 @@ internal class Program
             Console.WriteLine(@"Choose one of the several options: 0. Exit
                                    1. Test Products
                                    2. Test Orders
-                                   3. Test OrderItem");
+                                   3. Test Cart");
             int chosen = 0;
             int.TryParse(Console.ReadLine(), out chosen);
             switch (chosen)
@@ -103,27 +103,16 @@ internal class Program
                             Console.WriteLine("Enter the id of the product that you want:");
                             int id3 = 0;
                             int.TryParse(Console.ReadLine(), out id3);
-                            Console.WriteLine("Enter your cart details:");
-                            Console.Write("CustomerName: ");
-                            string customerName = Console.ReadLine();
-                            Console.Write("CustomerEmail: ");
-                            string customerEmail = Console.ReadLine();
-                            Console.Write("CustomerAddress: ");
-                            string customerAddress = Console.ReadLine();
-                            Console.Write("Items: ");
-                            BO.OrderItem orderItem1 = new BO.OrderItem();
-                            int orderItemId = 0;
-                            int.TryParse(Console.ReadLine(), out orderItemId);
-                            Console.Write("TotalPrice: ");
-                            double totalPrice = 0;
-                            double.TryParse(Console.ReadLine(), out totalPrice);
-                            BO.Cart cart = new BO.Cart();
-                            cart.CustomerName = customerName;
-                            cart.CustomerEmail = customerEmail;
-                            cart.CustomerAddress = customerAddress;
-                            //Utiliser getOrderItem(orderItemId) pour remplir cart.Items
-                            cart.TotalPrice = totalPrice;
-                            bl.Product.GetClient(id3, cart);
+                            Console.WriteLine("Enter your Order Id:");
+                            int id4 = 0;
+                            int.TryParse(Console.ReadLine(), out id4);
+                            BO.Cart cart1 = new BO.Cart() { CustomerAddress= bl.Order.GetOrderItem(id4).CustomerAdress, 
+                                CustomerEmail= bl.Order.GetOrderItem(id4).CustomerEmail, 
+                                CustomerName=bl.Order.GetOrderItem(id4).CustomerName, 
+                                orderItems=bl.Order.GetOrderItem(id4).orderItems,
+                                TotalPrice=bl.Order.GetOrderItem(id4).TotalPrice 
+                            };
+                            Console.WriteLine(bl.Product.GetClient(id3,cart1).ToString());
                             break;
                         default:
                             break;
@@ -179,9 +168,23 @@ internal class Program
 
                     case 3:
                      
+                            Console.WriteLine("Enter your name:");
+                            string customerName1 = Console.ReadLine();
+                            Console.Write("Enter the Customer Email: ");
+                            string customerEmail1 = Console.ReadLine();
+                            Console.Write("Enter the Customer Address: ");
+                            string customerAddress1 = Console.ReadLine();
+                            BO.Cart cart = new BO.Cart();
+                            cart.CustomerName = customerName1;
+                            cart.CustomerEmail = customerEmail1;
+                            cart.CustomerAddress = customerAddress1;
+                    bool stop= false;
+                    while(!stop)
+                    {
                     Console.WriteLine(@"Choose one of the several options: 1. Add a Product to Cart
                                    2. Update amount of Product in Cart
-                                   3. Cart confirmation ");
+                                   3. Cart confirmation 
+                                   ");
                     int chosen4 = 0;
                     int.TryParse(Console.ReadLine(), out chosen4);
                     switch (chosen4)
@@ -190,56 +193,32 @@ internal class Program
                             Console.WriteLine("Enter the id of the product that you want:");
                             int id = 0;
                             int.TryParse(Console.ReadLine(), out id);
-                            Console.WriteLine("Enter your name:");
-                            string customerName = Console.ReadLine();
-                            Console.Write("Enter the Customer Email: ");
-                            string customerEmail = Console.ReadLine();
-                            Console.Write("Enter the Customer Address: ");
-                            string customerAddress = Console.ReadLine();
-                            
-                            BO.Cart cart = new BO.Cart();
-                            cart.CustomerName = customerName;
-                            cart.CustomerEmail = customerEmail;
-                            cart.CustomerAddress = customerAddress;
                             //Utiliser getOrderItem(orderItemId1) pour remplir cart.Items
                             cart.TotalPrice =0;
                             bl.Cart.Add(cart, id);
                             break;
 
                         case 2:
-                            Console.WriteLine("Enter the id of the product that you want:");
-                            int id1 = 0;
-                            int.TryParse(Console.ReadLine(), out id1);
-                            Console.WriteLine("Enter the details of your Cart:");
-                            Console.Write("Enter the Customer Name: ");
-                            string customerName1 = Console.ReadLine();
-                            Console.Write("Enter the Customer Email: ");
-                            string customerEmail1 = Console.ReadLine();
-                            Console.Write("Enter the Customer Address: ");
-                            string customerAddress1 = Console.ReadLine();
-                            BO.OrderItem orderItem2 = new BO.OrderItem();
-                            int orderItemId2 = 0;
-                            int.TryParse(Console.ReadLine(), out orderItemId2);
-                            int totalPrice1 = 0;
-                            int.TryParse(Console.ReadLine(), out totalPrice1);
-                            BO.Cart cart1 = new BO.Cart();
-                            cart1.CustomerName = customerName1;
-                            cart1.CustomerEmail = customerEmail1;
-                            cart1.CustomerAddress = customerAddress1;
-                            //Utiliser getOrderItem(orderItemId2) pour remplir cart1.Items
-                            cart1.TotalPrice = totalPrice1;
-                            Console.WriteLine("Enter the new amount of product you choose in your cart:");
-                            int newAmount = 0;
-                            int.TryParse(Console.ReadLine(), out newAmount);
-                            bl.Cart.Update(cart1, id1, newAmount);
+                                Console.WriteLine("Enter the id of the product that you want:");
+                                int id1 = 0;
+                                int.TryParse(Console.ReadLine(),out id1);
+                                Console.WriteLine("Enter the new Amount:");
+                                int newAmount = 0;
+                                int.TryParse(Console.ReadLine(),out newAmount);
+                                bl.Cart.Update(cart, id1, newAmount);
                             break;
 
                         case 3:
-                            // Confirmation cart func
+                                bl.Cart.Confirmation(cart);
+                                Console.WriteLine("Your Order was confirmed");
+                                stop=true;
                             break;
+
                         default:
                             break;
                             //}
+                    }
+
                     }
                     break;
                 default:

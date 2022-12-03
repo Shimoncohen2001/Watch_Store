@@ -15,7 +15,7 @@ public class ProductItem
      Product ID= {ID}: {Name},
      category - {Category}
      Price: {Price}
-     Amount in stock: {Amount}
+     Amount in Cart: {Amount}
      InStock: {InStock}
     ";
 }

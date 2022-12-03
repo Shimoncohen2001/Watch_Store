@@ -17,18 +17,20 @@ internal static class DataSource
     {
         internal static int _automaticProdId { get; set; }
         internal static int _automaticOrderId { get; set; }
+        internal static int _automaticOrderItemsId { get; set; }    
     }
     
     private static void _Sinitialise()
     {
         Config._automaticProdId = 100000;
         Config._automaticOrderId = 300;
+        Config._automaticOrderItemsId = 0;
         ////////////////////////////Order///////////////////////////////////
         int i = 0;
         for ( ; i <= 20 ; i++)
         {
             int a = rand.Next(10);
-            TimeSpan duration = new TimeSpan(0, 0, a, 0);
+            TimeSpan duration = new TimeSpan(0, a, 0, 0);
             Order ord = new Order();
             ord.Id = Config._automaticOrderId++;
             ord.CustomerName = ((CustomerNames)rand.Next(10)).ToString();
@@ -59,6 +61,7 @@ internal static class DataSource
         for (int b = 0; b < 40; b++)
         {
             OrderItems orderItems = new OrderItems();
+            orderItems.Id = Config._automaticOrderItemsId++;
             orderItems.OrderId = rand.Next(300, 320);
             orderItems.ProductId = rand.Next(100000, 100010);
             orderItems.Amount = rand.Next(10);
@@ -92,7 +95,7 @@ internal static class DataSource
         else
         {
         Order order = new Order();  // create a new object to add a new element on the list of Orders
-        order.Id = o.Id;
+        order.Id = Config._automaticOrderId++;
         order.CustomerName = o.CustomerName;
         order.CustomerEmail = o.CustomerEmail;
         order.CustomerAdress = o.CustomerAdress;
@@ -110,8 +113,6 @@ internal static class DataSource
     /// <param name="pr"></param>
     private static void AddProductToList(Products pr)  // Add an Product into the list of Products
     {
-        
-
         if (_products.Exists(p => p.Id == pr.Id))
         {
             int index = _products.FindIndex(p => p.Id == pr.Id);
@@ -138,7 +139,7 @@ internal static class DataSource
     /// <param name="ordIt"></param>
     private static void AddOrderItemToList(OrderItems ordIt)  // Add an orderItem into the list of ordersItems
     {
-        if (_orderItems.Exists(p => p.ProductId == ordIt.ProductId)&&_orderItems.Exists(r=>r.OrderId==ordIt.OrderId))
+        if (_orderItems.Exists(p =>p.ProductId == ordIt.ProductId && p.OrderId==ordIt.OrderId))
         {
             int index = _orderItems.FindIndex(p => p.OrderId == ordIt.OrderId && p.ProductId== ordIt.OrderId);
             OrderItems orderItems = new OrderItems();
@@ -146,10 +147,10 @@ internal static class DataSource
             orderItems.Amount += ordIt.Amount;
             _orderItems[index] = orderItems;
         }
-
         else
         {
             OrderItems Oitems = new OrderItems();
+            Oitems.Id = Config._automaticOrderItemsId++;
             Oitems.ProductId = ordIt.ProductId;
             Oitems.OrderId = ordIt.OrderId;
             Oitems.Price = ordIt.Price;

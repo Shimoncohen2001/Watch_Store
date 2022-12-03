@@ -47,6 +47,7 @@ internal class DalOrder:IOrder
     public void Delete(int orderId,int v=0)
     {
         DataSource._orders.Remove(Get(orderId));
+        DataSource.Config._automaticOrderId--;
     }
 
     /// <summary>

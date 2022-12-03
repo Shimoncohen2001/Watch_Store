@@ -1,10 +1,7 @@
-﻿using BlApi;
-using BO;
-using Dal;
+﻿using Dal;
 using DalApi;
-using DO;
-using System.Net.Mail;
-using System.Runtime.InteropServices;
+using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 
 namespace BlImplementation;
 
@@ -19,23 +16,26 @@ internal class BlOrder : BlApi.IOrder
         List<BO.OrderForList> listOrders = new List<BO.OrderForList>();
         foreach (var item in Dal.Order.GetList())
         {
+            amountOfItems = 0;
+            totalPrice=0;
             foreach (var item1 in Dal.OrderItem.GetList())
             {
                 if (item1.OrderId==item.Id)
                 {
                     amountOfItems+=item1.Amount;
-                    totalPrice+=amountOfItems*(item1.Price);
+                    //totalPrice+=amountOfItems*(item1.Price);
+                    totalPrice = GetOrderItem(item1.OrderId).TotalPrice;
                 }
             }
-            if (item.OrderDate<=DateTime.Now && item.ShipDate>DateTime.Now)
+            if (item.OrderDate<=DateTime.Now && (item.ShipDate>DateTime.Now|| item.ShipDate==DateTime.MinValue))
             {
                  status = 0;
             }
-            else if(item.ShipDate<=DateTime.Now && item.DeliveryDate>DateTime.Now)
+            else if((item.ShipDate<=DateTime.Now && item.DeliveryDate>DateTime.Now)||(item.ShipDate!=DateTime.MinValue && item.DeliveryDate==DateTime.MinValue ) )
             {
                 status = 1;
             }
-            else if (item.DeliveryDate<=DateTime.Now)
+            else if (item.DeliveryDate<=DateTime.Now&& item.DeliveryDate!=DateTime.MinValue)
             {
                 status = 2;
             }
@@ -66,7 +66,7 @@ internal class BlOrder : BlApi.IOrder
                         {
                             int ProductId=item1.ProductId;
                             string productName=Dal.Product.Get(item1.ProductId,0).Name;
-                            double price=Convert.ToDouble(item1.Price);
+                            double price= Dal.Product.Get(item1.ProductId, 0).Price;
                             int Amount=Convert.ToInt32(item1.Amount);
                             BO.OrderItem orderItem=new BO.OrderItem() { Name=productName,
                                 Price=price,
@@ -76,7 +76,7 @@ internal class BlOrder : BlApi.IOrder
                                 TotalPrice=Amount*price
                                 };
                             orderItemsList.Add(orderItem);
-                            totalPrice += Dal.Product.Get(item1.ProductId, 0).Price * item1.Amount;
+                            totalPrice += orderItem.TotalPrice;
                         }//tout ceci marche uniquemetn dans le cas ou tout estv rempli comme il se doit 
                         // c'est a dire qu'il ne se peut pas que deux orderitems ayant le meme orderId possede egalemt le meme product id
                         // donc gerer bien ca
@@ -94,15 +94,15 @@ internal class BlOrder : BlApi.IOrder
                         TotalPrice = totalPrice,
                         orderItems= orderItemsList
                     };
-                    if(order.ShipDate>DateTime.Now)
+                    if(order.ShipDate>DateTime.Now || order.ShipDate==DateTime.MinValue)
                     {
                         order.Status=BO.OrderStatus.Approved;
                     }
-                    else if (order.ShipDate<DateTime.Now && order.DeliveryDate>DateTime.Now)
+                    else if (order.ShipDate<DateTime.Now && (order.DeliveryDate>DateTime.Now || order.DeliveryDate==DateTime.MinValue))
                     {
                         order.Status = BO.OrderStatus.Expedited;
                     }
-                    else if (order.DeliveryDate<=DateTime.Now)
+                    else if (order.DeliveryDate<=DateTime.Now && order.DeliveryDate!=DateTime.MinValue)
                     {
                         order.Status = BO.OrderStatus.Received;
                     }
@@ -120,10 +120,12 @@ internal class BlOrder : BlApi.IOrder
     
     public BO.Order UpdateOrderShipping(int OrderId)
     {
-        if (Dal.Order.GetList().ToList().Exists(Order => Order.Id == OrderId&&Order.ShipDate>DateTime.Now))// test if the Order With the specific OrderiD EXIST and already not sent
+        if (Dal.Order.GetList().ToList().Exists(Order => Order.Id == OrderId&&(Order.ShipDate>DateTime.Now||Order.ShipDate==DateTime.MinValue)))// test if the Order With the specific OrderiD EXIST and already not sent
         {
-            GetOrderItem(OrderId).ShipDate = DateTime.Now;// update the order shipping date
-            GetOrderItem(OrderId).Status = BO.OrderStatus.Expedited;
+            BO.Order order1= new BO.Order();
+            order1=GetOrderItem(OrderId);
+            order1.ShipDate=DateTime.Now;
+            order1.Status = BO.OrderStatus.Expedited;
             DO.Order order = new DO.Order() { Id = Dal.Order.Get(OrderId, 0).Id,
                 CustomerAdress = Dal.Order.Get(OrderId, 0).CustomerAdress,
                 CustomerEmail = Dal.Order.Get(OrderId, 0).CustomerEmail,
@@ -133,8 +135,9 @@ internal class BlOrder : BlApi.IOrder
                 ShipDate = DateTime.Now
             };
             Dal.Order.Delete(OrderId, 0);//remove on the dal
+            
             Dal.Order.Add(order);// Add the updated Order to the dal
-            return GetOrderItem(OrderId);
+            return order1;
         }
         else
         {
@@ -145,12 +148,20 @@ internal class BlOrder : BlApi.IOrder
     
     public BO.Order UpdadteOrderReceived(int OrderId)
     {
-        if (Dal.Order.GetList().ToList().Exists(Order=>Order.Id==OrderId&&(Order.ShipDate < DateTime.Now && Order.DeliveryDate > DateTime.Now)))//  test if the Order With the specific OrderiD EXIST and already not Received
+        //Dal.Order.GetList().ToList().Exists(Order=>Order.Id==OrderId&&(Order.ShipDate < DateTime.Now && (Order.DeliveryDate >= DateTime.Now||Order.DeliveryDate==DateTime.MinValue
+        if (Dal.Order.GetList().ToList().Exists(Order => Order.Id == OrderId && (Order.DeliveryDate > DateTime.Now || Order.DeliveryDate == DateTime.MinValue)))//  test if the Order With the specific OrderiD EXIST and already not Received
         {
             BO.Order order = new BO.Order();
             order=GetOrderItem(OrderId);
             order.DeliveryDate=DateTime.Now;
             order.Status = BO.OrderStatus.Received;
+            foreach (var item in Dal.OrderItem.GetList().ToList())// we nead also to delete the order items of the previous order
+            {
+                    if (item.OrderId == OrderId)
+                    {
+                        Dal.OrderItem.Delete(item.ProductId, item.OrderId);
+                    }
+            }
             Dal.Order.Delete(OrderId,0);// the Order was delivered to the client so we nead to remove it from the orderList
             return order;
         }
