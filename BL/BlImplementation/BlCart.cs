@@ -1,11 +1,14 @@
 ﻿using BlApi;
 using Dal;
 using DalApi;
+using static System.Random;
 
 namespace BlImplementation;
 
 internal class BlCart : ICart
 {
+    static Random rand = new Random();
+    int automaticOrderId = rand.Next(321, 400);
     private IDal Dal = new DalList();
 
     /// <summary>
@@ -77,7 +80,9 @@ internal class BlCart : ICart
     public BO.Cart Confirmation(BO.Cart cart)
     {
         // faire tous les test sur les donne du cart
+        
         DO.Order order= new DO.Order();
+        order.Id = automaticOrderId;
         order.CustomerAdress = cart.CustomerAddress;
         order.CustomerName=cart.CustomerName;
         order.CustomerEmail=cart.CustomerEmail;

@@ -1,7 +1,5 @@
 ﻿using Dal;
 using DalApi;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 
 namespace BlImplementation;
 
@@ -126,7 +124,8 @@ internal class BlOrder : BlApi.IOrder
             order1=GetOrderItem(OrderId);
             order1.ShipDate=DateTime.Now;
             order1.Status = BO.OrderStatus.Expedited;
-            DO.Order order = new DO.Order() { Id = Dal.Order.Get(OrderId, 0).Id,
+            DO.Order order = new DO.Order() {
+                Id = Dal.Order.Get(OrderId, 0).Id,
                 CustomerAdress = Dal.Order.Get(OrderId, 0).CustomerAdress,
                 CustomerEmail = Dal.Order.Get(OrderId, 0).CustomerEmail,
                 CustomerName = Dal.Order.Get(OrderId, 0).CustomerName,
@@ -197,9 +196,8 @@ internal class BlOrder : BlApi.IOrder
     }
 
 
-    public void UpdateOrder()
+    public void UpdateOrder(int orderId)
     {
-
         throw new NotImplementedException();
     }
 
