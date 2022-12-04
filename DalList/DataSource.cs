@@ -95,7 +95,7 @@ internal static class DataSource
         else
         {
         Order order = new Order();  // create a new object to add a new element on the list of Orders
-        order.Id = Config._automaticOrderId++;
+            order.Id = o.Id;
         order.CustomerName = o.CustomerName;
         order.CustomerEmail = o.CustomerEmail;
         order.CustomerAdress = o.CustomerAdress;
