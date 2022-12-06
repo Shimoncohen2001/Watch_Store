@@ -107,13 +107,12 @@ internal class BlOrder : BlApi.IOrder
                     return order;
                 }
             }
-            throw new Exception("NO existing item");
+            throw new BO.NoExistingItemException("Order not exist");
         }
         else
         {
-            throw new Exception("invalid Id");
+            throw new BO.IdNotValidExcpetion("Invalid Id!");
         }
-        // faire aussi try catch
     }
     
     public BO.Order UpdateOrderShipping(int OrderId)
@@ -134,20 +133,21 @@ internal class BlOrder : BlApi.IOrder
                 ShipDate = DateTime.Now
             };
             Dal.Order.Delete(OrderId, 0);//remove on the dal
-            
             Dal.Order.Add(order);// Add the updated Order to the dal
             return order1;
         }
+        else if (Dal.Order.GetList().ToList().Exists(Order => Order.Id == OrderId && !(Order.ShipDate > DateTime.Now || Order.ShipDate == DateTime.MinValue)))
+        {
+            throw new BO.OrderAlreadyExpeditedException("Order already expedited");
+        }
         else
         {
-            throw new Exception("No Existing Items");
+            throw new BO.NoExistingItemException("Order Not exist");
         }
-        //faire aussi try catch
     }
     
     public BO.Order UpdadteOrderReceived(int OrderId)
     {
-        //Dal.Order.GetList().ToList().Exists(Order=>Order.Id==OrderId&&(Order.ShipDate < DateTime.Now && (Order.DeliveryDate >= DateTime.Now||Order.DeliveryDate==DateTime.MinValue
         if (Dal.Order.GetList().ToList().Exists(Order => Order.Id == OrderId && (Order.DeliveryDate > DateTime.Now || Order.DeliveryDate == DateTime.MinValue)))//  test if the Order With the specific OrderiD EXIST and already not Received
         {
             BO.Order order = new BO.Order();
@@ -164,9 +164,13 @@ internal class BlOrder : BlApi.IOrder
             Dal.Order.Delete(OrderId,0);// the Order was delivered to the client so we nead to remove it from the orderList
             return order;
         }
+        else if(Dal.Order.GetList().ToList().Exists(Order => Order.Id == OrderId && !(Order.DeliveryDate > DateTime.Now || Order.DeliveryDate == DateTime.MinValue)))
+        {
+            throw new BO.OrderAlreadyReceivedException("Order already received!");
+        }
         else
         {
-            throw new Exception("No Existing Item");
+            throw new BO.NoExistingItemException("Order not exist");
         }
         // faire aussi try catch
     }
@@ -189,10 +193,8 @@ internal class BlOrder : BlApi.IOrder
         }
         else
         {
-            throw new Exception("No existing item");
-            // ne pas oublier de fwaire la hariga de noExisting items
+            throw new BO.NoExistingItemException("Order not exist");
         }
-        // faire aussi try catch
     }
 
 

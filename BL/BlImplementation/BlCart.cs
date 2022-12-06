@@ -25,6 +25,10 @@ internal class BlCart : ICart
         BO.Product product = new BO.Product();
         DO.Products products = new DO.Products();
         products = Dal.Product.Get(productId, 0);
+        if (String.IsNullOrEmpty(cart.CustomerName) || String.IsNullOrEmpty(cart.CustomerAddress) || !cart.CustomerEmail.Contains(".*@gmail.com"))
+        {
+            throw new BO.InvalidStringFormatException("Invalid details format");
+        }
         if (!cart.orderItems.Exists(OrderItem => OrderItem.ProductID == productId))// test if the product not exist in the Cart
         {
 
@@ -32,7 +36,7 @@ internal class BlCart : ICart
             {
 
                 if (products.InStock == 0)
-                        throw new BO.StockNotValidExcpetion("Invalid stock!");// rupture de stock
+                        throw new BO.StockNotValidExcpetion("Empty stock!");// rupture de stock
 
                 else
                 {
@@ -60,7 +64,7 @@ internal class BlCart : ICart
         else
         {
             if (products.InStock == 0)
-                throw new BO.StockNotValidExcpetion("Invalid stock!");// rupture de stock
+                throw new BO.StockNotValidExcpetion("empty stock!");// rupture de stock
             else
             {
                 int index = cart.orderItems.FindIndex(OrderItem=> OrderItem.ProductID==productId);
@@ -79,8 +83,21 @@ internal class BlCart : ICart
     /// <returns></returns>
     public BO.Cart Confirmation(BO.Cart cart)
     {
-        // faire tous les test sur les donne du cart
-        
+        foreach (var item in cart.orderItems)
+        {
+            if ((Dal.Product.Get(item.ProductID,0).InStock-item.Amount)<0)
+            {
+                throw new BO.NotEnoughInStockException("There is not enough stock of the product "+ item.Name);
+            }
+        }
+        if (String.IsNullOrEmpty(cart.CustomerName) || String.IsNullOrEmpty(cart.CustomerAddress) || !cart.CustomerEmail.Contains(".*@gmail.com"))
+        {
+            throw new BO.InvalidStringFormatException("Invalid details format");
+        }
+        if (cart.orderItems.Count==0)
+        {
+            throw new BO.ItemNotExistInCartException("there are no product in the cart yet");
+        }
         DO.Order order= new DO.Order();
         order.Id = automaticOrderId;
         order.CustomerAdress = cart.CustomerAddress;
@@ -118,32 +135,47 @@ internal class BlCart : ICart
     /// <exception cref="Exception"></exception>
     public BO.Cart Update(BO.Cart cart, int productId, int newAmount)
     {
-        int index=cart.orderItems.FindIndex(OrderItem=> OrderItem.ProductID==productId);
-        if (cart.orderItems[index].Amount!=newAmount)
+        if (newAmount<0)
         {
-            if (cart.orderItems[index].Amount<newAmount)
+            throw new BO.NegativeAmountException("Cannot choose a negative amount");
+        }
+        if (!Dal.Product.GetList().ToList().Exists(Product=> Product.Id==productId))
+        {
+            throw new BO.NoExistingItemException("Product Not Exist");
+        }
+        if(cart.orderItems.Exists(OrderItem => OrderItem.ProductID == productId))
+        {
+            int index=cart.orderItems.FindIndex(OrderItem=> OrderItem.ProductID==productId);
+            if (cart.orderItems[index].Amount!=newAmount)
             {
-                for (int i = cart.orderItems[index].Amount; i < newAmount; i++)
+                if (cart.orderItems[index].Amount<newAmount)
                 {
-                    Add(cart, productId);
+                    for (int i = cart.orderItems[index].Amount; i < newAmount; i++)
+                    {
+                        Add(cart, productId);
+                    }
+                }
+                if (cart.orderItems[index].Amount>newAmount && cart.orderItems[index].Amount!=0)
+                {
+                    double price = Dal.Product.Get(productId, 0).Price;
+                    int dif = cart.orderItems[index].Amount - newAmount;
+                    cart.orderItems[index].Amount = newAmount;
+                    cart.orderItems[index].TotalPrice = newAmount * price;
+                    cart.TotalPrice -= dif * price;
+                }
+                if (newAmount==0)
+                {
+                    double difprice = cart.orderItems[index].TotalPrice;
+                    cart.orderItems.RemoveAt(index);
+                    cart.TotalPrice-= difprice;
                 }
             }
-            if (cart.orderItems[index].Amount>newAmount && cart.orderItems[index].Amount!=0)
-            {
-                double price = Dal.Product.Get(productId, 0).Price;
-                int dif = cart.orderItems[index].Amount - newAmount;
-                cart.orderItems[index].Amount = newAmount;
-                cart.orderItems[index].TotalPrice = newAmount * price;
-                cart.TotalPrice -= dif * price;
-            }
-            if (newAmount==0)
-            {
-                double difprice = cart.orderItems[index].TotalPrice;
-                cart.orderItems.RemoveAt(index);
-                cart.TotalPrice-= difprice;
-            }
+            return cart;
         }
-        return cart;
+        else
+        {
+            throw new BO.ItemNotExistInCartException("Product not exist in your cart");
+        }
     }
 
     

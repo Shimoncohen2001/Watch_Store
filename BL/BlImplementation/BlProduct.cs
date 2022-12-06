@@ -34,7 +34,7 @@ internal class BlProduct : BlApi.IProduct
     public BO.Product GetDirector(int productId)
     {
         if (productId < 0)
-            throw new BO.IdNotValidExcpetion("Invalid ID!");
+            throw new BO.IdNotValidExcpetion(" Impossible negative Id! ");
         List<DO.Products> productsForLists = (List<DO.Products>)Dal.Product.GetList();
         foreach (var item in productsForLists)
         {
@@ -120,9 +120,15 @@ internal class BlProduct : BlApi.IProduct
     /// <param name="id"></param>
     public void Delete(int productId)
     {
-        /*
-         * Attendre les fonctions Order pour faire la harigua DeleteItemNoteValid
-         */
+        
+        if (Dal.OrderItem.GetList().ToList().Exists(OrderItem=> OrderItem.ProductId==productId))
+        {
+            throw new BO.DeleteItemNotValidExcpetion("Impossible to delete product!");
+        }
+        if (!Dal.Product.GetList().ToList().Exists(Product => Product.Id == productId))
+        {
+            throw new BO.NoExistingItemException("Product mot exist");
+        }
         List<BO.ProductForList> listOfProduct = (List<BO.ProductForList>)GetProductForLists();
         foreach (var item in listOfProduct)
         {
@@ -133,6 +139,7 @@ internal class BlProduct : BlApi.IProduct
                 Dal.Product.Delete(productId, 0);
             }
         }
+
     }
 
     /// <summary>
@@ -147,7 +154,7 @@ internal class BlProduct : BlApi.IProduct
             throw new BO.NameNotValidExcpetion("Invalid name!");
         if (product.Price < 0)
             throw new BO.PriceNotValidExcpetion("Invalid Price!");
-        if (product.InStock <= 0)
+        if (product.InStock < 0)
             throw new BO.StockNotValidExcpetion("Invalid stock!");
         List<DO.Products> productsForLists = (List<DO.Products>)Dal.Product.GetList();
         foreach (var item in productsForLists)

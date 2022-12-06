@@ -23,8 +23,37 @@ internal class NoExistingItemException : Exception
     protected NoExistingItemException(SerializationInfo info, StreamingContext context) : base(info, context) { }
 
 }
+[Serializable]
 
+internal class OrderAlreadyExpeditedException : Exception
 
+{
+
+    public OrderAlreadyExpeditedException() : base() { }
+
+    public OrderAlreadyExpeditedException(string message) : base(message) { }
+
+    public OrderAlreadyExpeditedException(string message, Exception inner) : base(message, inner) { }
+
+    protected OrderAlreadyExpeditedException(SerializationInfo info, StreamingContext context) : base(info, context) { }
+
+}
+
+[Serializable]
+
+internal class OrderAlreadyReceivedException : Exception
+
+{
+
+    public OrderAlreadyReceivedException() : base() { }
+
+    public OrderAlreadyReceivedException(string message) : base(message) { }
+
+    public OrderAlreadyReceivedException(string message, Exception inner) : base(message, inner) { }
+
+    protected OrderAlreadyReceivedException(SerializationInfo info, StreamingContext context) : base(info, context) { }
+
+}
 
 [Serializable]
 
@@ -41,7 +70,60 @@ internal class ItemAlreadyExistException : Exception
     protected ItemAlreadyExistException(SerializationInfo info, StreamingContext context) : base(info, context) { }
 
 }
+[Serializable]
 
+internal class ItemNotExistInCartException : Exception
+
+{
+
+    public ItemNotExistInCartException() : base() { }
+
+    public ItemNotExistInCartException(string message) : base(message) { }
+
+    public ItemNotExistInCartException(string message, Exception inner) : base(message, inner) { }
+
+    protected ItemNotExistInCartException(SerializationInfo info, StreamingContext context) : base(info, context) { }
+
+}
+[Serializable]
+internal class NotEnoughInStockException : Exception
+
+{
+    public NotEnoughInStockException() : base() { }
+
+    public NotEnoughInStockException(string message) : base(message) { }
+
+    public NotEnoughInStockException(string message, Exception inner) : base(message, inner) { }
+
+    protected NotEnoughInStockException(SerializationInfo info, StreamingContext context) : base(info, context) { }
+
+}
+[Serializable]
+internal class NegativeAmountException : Exception
+
+{
+    public NegativeAmountException() : base() { }
+
+    public NegativeAmountException(string message) : base(message) { }
+
+    public NegativeAmountException(string message, Exception inner) : base(message, inner) { }
+
+    protected NegativeAmountException(SerializationInfo info, StreamingContext context) : base(info, context) { }
+
+}
+[Serializable]
+internal class InvalidStringFormatException : Exception
+
+{
+    public InvalidStringFormatException() : base() { }
+
+    public InvalidStringFormatException(string message) : base(message) { }
+
+    public InvalidStringFormatException(string message, Exception inner) : base(message, inner) { }
+
+    protected InvalidStringFormatException(SerializationInfo info, StreamingContext context) : base(info, context) { }
+
+}
 
 
 [Serializable]
