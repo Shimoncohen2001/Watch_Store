@@ -67,9 +67,10 @@ static class  Program
                             break;
 
                         case 3:
+                           
                             foreach (var item in dal.Product.GetList())
                             {
-                                if(item.Id != 0)
+                                if(item?.Id != 0)
                                 {
                                  Console.WriteLine(item.ToString());
                                 }
@@ -144,7 +145,7 @@ static class  Program
                         case 3:
                             foreach (var item in dal.Order.GetList())
                             {
-                                if(item.Id != 0)
+                                if(item?.Id != 0)
                                 {
                                 Console.WriteLine(item.ToString());
                                 }
@@ -212,7 +213,7 @@ static class  Program
                         case 3:
                             foreach (var item in dal.OrderItem.GetList())
                             {
-                                if(item.ProductId != 0 && item.OrderId != 0)
+                                if(item?.ProductId != 0 && item?.OrderId != 0)
                                 {
                                 Console.WriteLine(item.ToString());
                                 }

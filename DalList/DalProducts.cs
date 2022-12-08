@@ -24,8 +24,8 @@ internal class DalProducts : IProduct
         Products products = new Products();
         foreach (var item in DataSource._products)
         {
-            if (item.Id == ProductId)
-                products = item;
+            if (item?.Id == ProductId)
+                 products = (Products)item;
         }
         return products;
     }
@@ -34,7 +34,7 @@ internal class DalProducts : IProduct
     /// ////////////////////////////GetList////////////////////////
     /// </summary>
     /// <returns></returns>
-    public IEnumerable<Products> GetList()
+    public IEnumerable<Products?> GetList(Products? products = null, Func<Products?, bool> func = null)
     {
         return DataSource._products;
     }
@@ -58,10 +58,10 @@ internal class DalProducts : IProduct
         int count = 0;
         foreach (var item in GetList())
         {
-            if (item.Id == productId)
+            if (item?.Id == productId)
             {
                 Products NewProduct = new Products();
-                NewProduct = Get(productId);
+                NewProduct = (Products)Get(productId);
                 bool finish = false;
                 while (!finish)
                 {

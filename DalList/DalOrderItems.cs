@@ -24,8 +24,8 @@ internal class DalOrderItems : IOrderItem
         OrderItems orderItems = new OrderItems();
         foreach (var item in DataSource._orderItems)
         {
-            if (item.OrderId == OrderId && item.ProductId == ProductId)
-                orderItems = item;
+            if (item?.OrderId == OrderId && item?.ProductId == ProductId)
+                orderItems = (OrderItems)item;
         }
         return orderItems;
     }
@@ -34,7 +34,7 @@ internal class DalOrderItems : IOrderItem
     /// ///////////////////////GetList/////////////////////////
     /// </summary>
     /// <returns></returns>
-    public IEnumerable<OrderItems> GetList()
+    public IEnumerable<OrderItems?> GetList(OrderItems? orderItems = null, Func<OrderItems?, bool> func =null)
     {
         return DataSource._orderItems;
     }
@@ -58,7 +58,7 @@ internal class DalOrderItems : IOrderItem
         int count = 0;
         foreach (var item in GetList())
         {
-            if (item.OrderId == orderId && item.ProductId == productId)
+            if (item?.OrderId == orderId && item?.ProductId == productId)
             {
                 OrderItems NewOrderItem = new OrderItems();
                 NewOrderItem = Get(orderId, productId);
@@ -77,7 +77,7 @@ internal class DalOrderItems : IOrderItem
                         int NewAmount = 0;
                         int.TryParse(Console.ReadLine(), out NewAmount);
                         NewOrderItem.Amount = NewAmount;
-                        NewOrderItem.Price = NewAmount * dalProducts.Get(productId).Price;
+                        NewOrderItem.Price = NewAmount * (double)(dalProducts.Get(productId).Price);
                     }
                     else // exit 
                     {

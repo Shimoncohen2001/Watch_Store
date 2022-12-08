@@ -9,17 +9,17 @@ internal class BlProduct : BlApi.IProduct
     /// Copy the list of Products from DataSource to a list of BO.ProductForList and return the list
     /// </summary>
     /// <returns></returns>
-    public IEnumerable<BO.ProductForList> GetProductForLists()
+    public IEnumerable<BO.ProductForList?> GetProductForLists()
     {
-        List<BO.ProductForList> productsForList = new List<BO.ProductForList>();
+        List<BO.ProductForList?> productsForList = new List<BO.ProductForList?>();
         foreach (var item in Dal.Product.GetList())
         {
             BO.ProductForList p = new BO.ProductForList()
             {
-                ID = item.Id,
-                Name = item.Name,
-                Price = item.Price,
-                Category = (BO.Category)item.Category
+                ID = (int)item?.Id,
+                Name = (string)item?.Name,
+                Price = (double)item?.Price,
+                Category = (BO.Category)item?.Category
             };
             productsForList.Add(p);
         }
@@ -35,10 +35,10 @@ internal class BlProduct : BlApi.IProduct
     {
         if (productId < 0)
             throw new BO.IdNotValidExcpetion(" Impossible negative Id! ");
-        List<DO.Products> productsForLists = (List<DO.Products>)Dal.Product.GetList();
+        List<DO.Products?> productsForLists = (List<DO.Products?>)Dal.Product.GetList();
         foreach (var item in productsForLists)
         {
-            if (item.Id == productId)
+            if (item?.Id == productId)
             {
                 DO.Products products = Dal.Product.Get(productId, 0);
                 BO.Product product = new BO.Product()
@@ -64,10 +64,10 @@ internal class BlProduct : BlApi.IProduct
     {
         if (productId < 0)
             throw new BO.IdNotValidExcpetion("Invalid ID!");
-        List<DO.Products> productsForLists = (List<DO.Products>)Dal.Product.GetList();
+        List<DO.Products?> productsForLists = (List<DO.Products?>)Dal.Product.GetList();
         foreach (var item in productsForLists)
         {
-            if (item.Id == productId)
+            if (item?.Id == productId)
             {
                 DO.Products products = Dal.Product.Get(productId, 0);
                 int index = cart.orderItems.FindIndex(OrderItems => OrderItems.ProductID == productId);
@@ -103,6 +103,8 @@ internal class BlProduct : BlApi.IProduct
             throw new BO.PriceNotValidExcpetion("Invalid Price!");
         if (product.InStock <= 0)
             throw new BO.StockNotValidExcpetion("Invalid stock!");
+        if (Dal.Product.GetList().ToList().Exists(Product => Product?.Id == product.ID))
+            throw new BO.ItemAlreadyExistException("this product already exist");
         DO.Products products = new DO.Products()
         {
             Id = product.ID,
@@ -121,18 +123,18 @@ internal class BlProduct : BlApi.IProduct
     public void Delete(int productId)
     {
         
-        if (Dal.OrderItem.GetList().ToList().Exists(OrderItem=> OrderItem.ProductId==productId))
+        if (Dal.OrderItem.GetList().ToList().Exists(OrderItem=> OrderItem?.ProductId==productId))
         {
             throw new BO.DeleteItemNotValidExcpetion("Impossible to delete product!");
         }
-        if (!Dal.Product.GetList().ToList().Exists(Product => Product.Id == productId))
+        if (!Dal.Product.GetList().ToList().Exists(Product => Product?.Id == productId))
         {
             throw new BO.NoExistingItemException("Product mot exist");
         }
-        List<BO.ProductForList> listOfProduct = (List<BO.ProductForList>)GetProductForLists();
+        List<BO.ProductForList?> listOfProduct = (List<BO.ProductForList?>)GetProductForLists();
         foreach (var item in listOfProduct)
         {
-            if (item.ID == productId)
+            if (item?.ID == productId)
             {
                 DO.Products products = new DO.Products();
                 products.Id = item.ID;
@@ -156,16 +158,16 @@ internal class BlProduct : BlApi.IProduct
             throw new BO.PriceNotValidExcpetion("Invalid Price!");
         if (product.InStock < 0)
             throw new BO.StockNotValidExcpetion("Invalid stock!");
-        List<DO.Products> productsForLists = (List<DO.Products>)Dal.Product.GetList();
+        List<DO.Products?> productsForLists = (List<DO.Products?>)Dal.Product.GetList();
         foreach (var item in productsForLists)
         {
-            if (item.Id == product.ID)
+            if (item?.Id == product.ID)
             {
-                if (product.Name != item.Name)
+                if (product.Name != item?.Name)
                     throw new BO.NameNotValidExcpetion("Invalid name!");
-                if (product.Price != item.Price)
+                if (product.Price != item?.Price)
                     throw new BO.PriceNotValidExcpetion("Invalid price!");
-                if (product.InStock != item.InStock)
+                if (product.InStock != item?.InStock)
                     throw new BO.StockNotValidExcpetion("Invalid stock!");
                 DO.Products products = new DO.Products()
                 {

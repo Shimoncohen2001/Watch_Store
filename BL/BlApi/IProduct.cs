@@ -5,7 +5,7 @@ namespace BlApi;
 /// </summary>
 public interface IProduct
 {
-    public IEnumerable<ProductForList> GetProductForLists();
+    public IEnumerable<ProductForList?> GetProductForLists();
     public Product GetDirector(int productId);
     public ProductItem GetClient(int productId, Cart cart);
     public void Add(Product product);

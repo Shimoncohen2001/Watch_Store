@@ -15,7 +15,7 @@ public struct Products
     /// <summary>
     /// name of the product
     /// </summary>
-    public string Name { get; set; }
+    public string? Name { get; set; }
     /// <summary>
     /// price of the product
     /// </summary>
@@ -23,7 +23,7 @@ public struct Products
     /// <summary>
     /// cathegorie of the product
     /// </summary>
-    public Category Category { get; set; }
+    public Category? Category { get; set; }
     /// <summary>
     /// amount of the product in the stock
     /// </summary>

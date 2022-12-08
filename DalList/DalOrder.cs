@@ -1,5 +1,6 @@
 ﻿using DO;
 using DalApi;
+using System.Dynamic;
 
 namespace Dal;
 internal class DalOrder:IOrder
@@ -23,9 +24,9 @@ internal class DalOrder:IOrder
         Order order = new Order();
         foreach (var item in    DataSource._orders)
         {
-            if (item.Id == OrderId)
+            if (item?.Id == OrderId)
             {
-                order = item;
+                order = (Order)item;
             }
         }
         return order;
@@ -35,7 +36,7 @@ internal class DalOrder:IOrder
     /// //////////////////////GetList/////////////////////////
     /// </summary>
     /// <returns></returns>
-    public IEnumerable<Order> GetList()
+    public IEnumerable<Order?> GetList(Func<Order?,bool> func=null)
     {
         return DataSource._orders;
     }
@@ -59,7 +60,7 @@ internal class DalOrder:IOrder
         int count = 0;
         foreach (var item in GetList())
         {
-            if (item.Id == orderId)
+            if (item?.Id == orderId)
             {
                 Order NewOrder = new Order();
                 NewOrder = Get(orderId);

@@ -1,6 +1,7 @@
 ﻿using BlApi;
 using Dal;
 using DalApi;
+using DO;
 using static System.Random;
 
 namespace BlImplementation;
@@ -25,7 +26,7 @@ internal class BlCart : ICart
         BO.Product product = new BO.Product();
         DO.Products products = new DO.Products();
         products = Dal.Product.Get(productId, 0);
-        if (String.IsNullOrEmpty(cart.CustomerName) || String.IsNullOrEmpty(cart.CustomerAddress) || !cart.CustomerEmail.Contains(".*@gmail.com"))
+        if (String.IsNullOrEmpty(cart.CustomerName) || String.IsNullOrEmpty(cart.CustomerAddress) || !cart.CustomerEmail.Contains("@gmail.com"))
         {
             throw new BO.InvalidStringFormatException("Invalid details format");
         }
@@ -90,7 +91,7 @@ internal class BlCart : ICart
                 throw new BO.NotEnoughInStockException("There is not enough stock of the product "+ item.Name);
             }
         }
-        if (String.IsNullOrEmpty(cart.CustomerName) || String.IsNullOrEmpty(cart.CustomerAddress) || !cart.CustomerEmail.Contains(".*@gmail.com"))
+        if (String.IsNullOrEmpty(cart.CustomerName) || String.IsNullOrEmpty(cart.CustomerAddress) || !cart.CustomerEmail.Contains("@gmail.com"))
         {
             throw new BO.InvalidStringFormatException("Invalid details format");
         }
@@ -111,7 +112,7 @@ internal class BlCart : ICart
         foreach (var item in cart.orderItems)
         {
             DO.OrderItems orderItems= new DO.OrderItems();
-            orderItems.OrderId = Dal.Order.GetList().Last().Id;// return the id of the last element that was added one the list
+            orderItems.OrderId = (int)Dal.Order.GetList().Last()?.Id;// return the id of the last element that was added one the list
             orderItems.ProductId=item.ProductID;
             orderItems.Amount = item.Amount;    
             orderItems.Price=item.TotalPrice;
@@ -139,7 +140,7 @@ internal class BlCart : ICart
         {
             throw new BO.NegativeAmountException("Cannot choose a negative amount");
         }
-        if (!Dal.Product.GetList().ToList().Exists(Product=> Product.Id==productId))
+        if (!Dal.Product.GetList().ToList().Exists(Product=> Product?.Id==productId))
         {
             throw new BO.NoExistingItemException("Product Not Exist");
         }

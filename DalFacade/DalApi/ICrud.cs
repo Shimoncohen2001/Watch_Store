@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 
 namespace DalApi
 {
-     public  interface ICrud<T>
+    public  interface ICrud<T> where T : struct
     {
         public  void Add(T t);
         public  void Update(int Id1,int Id2);
         public T Get(int Id1,int Id2);
         public void Delete(int Id1, int Id2);
-        public IEnumerable<T> GetList();
+        public IEnumerable<T?> GetList(Func<T?, bool>? func = null);
+
     }
 }
