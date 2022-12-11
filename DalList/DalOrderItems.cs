@@ -34,8 +34,14 @@ internal class DalOrderItems : IOrderItem
     /// ///////////////////////GetList/////////////////////////
     /// </summary>
     /// <returns></returns>
-    public IEnumerable<OrderItems?> GetList(OrderItems? orderItems = null, Func<OrderItems?, bool> func =null)
+    public IEnumerable<OrderItems?> GetList(Func<OrderItems?, bool> func=null)
     {
+        if (func != null)
+        {
+            Predicate<OrderItems?> predicate1 = (ordI) => func(ordI);
+            var newList = DataSource._orderItems.FindAll(predicate1);
+            return newList;
+        }
         return DataSource._orderItems;
     }
 

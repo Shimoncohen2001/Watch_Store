@@ -1,5 +1,6 @@
 ﻿using Dal;
 using DalApi;
+using System;
 
 namespace DO;
 static class  Program
@@ -67,13 +68,77 @@ static class  Program
                             break;
 
                         case 3:
-                           
-                            foreach (var item in dal.Product.GetList())
+                            Console.WriteLine(@"Sort your list of product by: 1: All
+                                2: Category
+                                3:from most expensive to least expensive
+                                4:From Least expensive to most Expensive    
+                                5:By Brands
+                                ");
+                            int chosen5=0;
+                            int.TryParse(Console.ReadLine(), out chosen5);
+                            switch (chosen5)
                             {
-                                if(item?.Id != 0)
-                                {
-                                 Console.WriteLine(item.ToString());
-                                }
+                                case 1:
+                                        foreach (var item in dal.Product.GetList())
+                                        {
+                                            if(item?.Id != 0)
+                                            {
+                                             Console.WriteLine(item.ToString());
+                                            }
+                                        }
+                                    break;
+                                case 2:
+                                    Console.WriteLine("1: Men------------- 2: Women --------------3: Children-----------");
+                                    int choice1=0;
+                                    int.TryParse(Console.ReadLine(), out choice1);
+                                    if (choice1==1)
+                                    {
+                                        Func<Products?, bool>? optionaldel = (Prod) => Prod?.Category == Category.Men;
+                                        foreach (var item in dal.Product.GetList(optionaldel))
+                                        {
+                                            if (item?.Id!=0)
+                                            {
+                                                Console.WriteLine(item.ToString());
+                                            }
+                                        }
+                                    } 
+                                    if (choice1==2)
+                                    {
+                                        Func<Products?, bool>? predicate = (Prod) => Prod?.Category == Category.Women;
+                                        foreach (var item in dal.Product.GetList(predicate))
+                                        {
+                                            if (item?.Id!=0)
+                                            {
+                                                Console.WriteLine(item.ToString());
+                                            }
+                                        }
+                                    }
+                                    if (choice1==3)
+                                    {
+                                        Func<Products?, bool>? predicate = (Prod) => Prod?.Category == Category.Children;
+                                        foreach (var item in dal.Product.GetList(predicate))
+                                        {
+                                            if (item?.Id!=0)
+                                            {
+                                                Console.WriteLine(item.ToString());
+                                            }
+                                        }
+                                    }
+                                    break;
+                                case 3:
+                                    List<Products?> SortedList = new List<Products?>();
+                                    SortedList = dal.Product.GetList().ToList();
+                                    SortedList.Sort((P1,P2)=> P1.Value.Price.CompareTo(P2.Value.Price));
+                                    foreach (var item in SortedList)
+                                    {
+                                        if (item?.Id != 0)
+                                        {
+                                            Console.WriteLine(item.ToString());
+                                        }
+                                    }
+                                    break;
+                                default:
+                                    break;
                             }
                             break;
 

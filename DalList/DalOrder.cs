@@ -1,6 +1,7 @@
 ﻿using DO;
 using DalApi;
 using System.Dynamic;
+using System;
 
 namespace Dal;
 internal class DalOrder:IOrder
@@ -38,6 +39,12 @@ internal class DalOrder:IOrder
     /// <returns></returns>
     public IEnumerable<Order?> GetList(Func<Order?,bool> func=null)
     {
+        if (func != null)
+        {
+            Predicate<Order?> predicate1 = (ord) => func(ord);
+            var newList = DataSource._orders.FindAll(predicate1);
+            return newList;
+        }
         return DataSource._orders;
     }
 

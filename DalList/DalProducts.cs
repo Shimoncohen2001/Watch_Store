@@ -1,5 +1,7 @@
 ﻿using DO;
 using DalApi;
+using System;
+using System.Reflection;
 
 namespace Dal;
 internal class DalProducts : IProduct
@@ -34,8 +36,14 @@ internal class DalProducts : IProduct
     /// ////////////////////////////GetList////////////////////////
     /// </summary>
     /// <returns></returns>
-    public IEnumerable<Products?> GetList(Products? products = null, Func<Products?, bool> func = null)
+    public IEnumerable<Products?> GetList(Func<Products?, bool>? predicate=null)
     {
+        if (predicate!=null)
+        {
+            Predicate<Products?> predicate1=(Prod)=> predicate(Prod);
+            var newList = DataSource._products.FindAll(predicate1);
+            return newList;
+        }
         return DataSource._products;
     }
 
