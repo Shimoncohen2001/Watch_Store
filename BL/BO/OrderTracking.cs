@@ -5,9 +5,9 @@ namespace BO;
 public class OrderTracking
 {
     public int ID { get; set; }
-    public OrderStatus Status { get; set; }
+    public OrderStatus? Status { get; set; }
 
-    public List<Tuple<DateTime, string>> OrderTrackingList = new List<Tuple<DateTime, string>>();
+    public List<Tuple<DateTime?, string?>?>? OrderTrackingList = new List<Tuple<DateTime?, string?>?>();
 
 
     public override string ToString() => $@"

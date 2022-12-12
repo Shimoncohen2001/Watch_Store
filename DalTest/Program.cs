@@ -126,10 +126,25 @@ static class  Program
                                     }
                                     break;
                                 case 3:
-                                    List<Products?> SortedList = new List<Products?>();
-                                    SortedList = dal.Product.GetList().ToList();
-                                    SortedList.Sort((P1,P2)=> P1.Value.Price.CompareTo(P2.Value.Price));
-                                    foreach (var item in SortedList)
+                                    foreach (var item in dal.Product.GetList().OrderByDescending(Prod => Prod?.Price).ToList())
+                                    {
+                                        if (item?.Id != 0)
+                                        {
+                                            Console.WriteLine(item.ToString());
+                                        }
+                                    }
+                                    break;
+                                case 4:
+                                    foreach (var item in dal.Product.GetList().OrderBy(Prod => Prod?.Price).ToList())
+                                    {
+                                        if (item?.Id != 0)
+                                        {
+                                            Console.WriteLine(item.ToString());
+                                        }
+                                    }
+                                    break;
+                                case 5:
+                                    foreach (var item in dal.Product.GetList().OrderBy(Prod => Prod?.Name).ToList())
                                     {
                                         if (item?.Id != 0)
                                         {
@@ -208,15 +223,87 @@ static class  Program
                             break;
 
                         case 3:
-                            foreach (var item in dal.Order.GetList())
+                            Console.WriteLine(@"Sort your list of order by: 1: All
+                                2: Name
+                                3: Date
+                                ");
+                            int chosen5 = 0;
+                            int.TryParse(Console.ReadLine(), out chosen5);
+                            switch (chosen5)
                             {
-                                if(item?.Id != 0)
-                                {
-                                Console.WriteLine(item.ToString());
-                                }
+                                case 1:
+                                    foreach (var item in dal.Order.GetList())
+                                    {
+                                        if (item?.Id != 0)
+                                        {
+                                            Console.WriteLine(item.ToString());
+                                        }
+                                    }
+                                    break;
+                                case 2:
+                                    Console.WriteLine("1: Name alphabetically ascending------------- 2: Name  alphabetically descending--------------");
+                                    int choice1 = 0;
+                                    int.TryParse(Console.ReadLine(), out choice1);
+                                    if (choice1 == 1)
+                                    {
+                                        foreach (var item in dal.Order.GetList().OrderBy(Ord => Ord?.CustomerName).ToList())
+                                        {
+                                            if (item?.Id != 0)
+                                            {
+                                                Console.WriteLine(item.ToString());
+                                            }
+                                        }
+                                    }
+                                    if (choice1 == 2)
+                                    {
+                                        foreach (var item in dal.Order.GetList().OrderByDescending(Ord => Ord?.CustomerName).ToList())
+                                        {
+                                            if (item?.Id != 0)
+                                            {
+                                                Console.WriteLine(item.ToString());
+                                            }
+                                        }
+                                    }
+                                    break;
+                                case 3:
+                                    Console.WriteLine("1: OrderDate------------- 2: ShipDate-------------- 3: DeliveryDate--------------");
+                                    int choice2 = 0;
+                                    int.TryParse(Console.ReadLine(), out choice2);
+                                    if (choice2 == 1)
+                                    {
+                                        foreach (var item in dal.Order.GetList().OrderBy(Ord => Ord?.OrderDate).ToList())
+                                        {
+                                            if (item?.Id != 0)
+                                            {
+                                                Console.WriteLine(item.ToString());
+                                            }
+                                        }
+                                    }
+                                    if (choice2 == 2)
+                                    {
+                                        foreach (var item in dal.Order.GetList().OrderBy(Ord => Ord?.ShipDate).ToList())
+                                        {
+                                            if (item?.Id != 0)
+                                            {
+                                                Console.WriteLine(item.ToString());
+                                            }
+                                        }
+                                    }
+                                    if (choice2 == 3)
+                                    {
+                                        foreach (var item in dal.Order.GetList().OrderBy(Ord => Ord?.DeliveryDate).ToList())
+                                        {
+                                            if (item?.Id != 0)
+                                            {
+                                                Console.WriteLine(item.ToString());
+                                            }
+                                        }
+                                    }
+                                    break;
+                                default:
+                                    break;
                             }
                             break;
-
                         case 4:
                             Console.WriteLine("Enter the id of the product that you want to update:");
                             int orderid2 = 0;
@@ -236,7 +323,7 @@ static class  Program
                     }
                     break;
 
-                case 3:
+                    case 3:
                     Console.WriteLine(@"Choose one of the several options: 1. Add a Orderitem
                                    2. Get a orderitem
                                    3. Get orderitem List
@@ -276,12 +363,75 @@ static class  Program
                             break;
 
                         case 3:
-                            foreach (var item in dal.OrderItem.GetList())
+                            Console.WriteLine(@"Sort your list of order by: 1: All
+                                2: Price
+                                3: Amount
+                                ");
+                            int chosen5 = 0;
+                            int.TryParse(Console.ReadLine(), out chosen5);
+                            switch (chosen5)
                             {
-                                if(item?.ProductId != 0 && item?.OrderId != 0)
-                                {
-                                Console.WriteLine(item.ToString());
-                                }
+                                case 1:
+                                    foreach (var item in dal.Order.GetList())
+                                    {
+                                        if (item?.Id != 0)
+                                        {
+                                            Console.WriteLine(item.ToString());
+                                        }
+                                    }
+                                    break;
+                                case 2:
+                                    Console.WriteLine("1: Price ascending------------- 2: Price descending--------------");
+                                    int choice1 = 0;
+                                    int.TryParse(Console.ReadLine(), out choice1);
+                                    if (choice1 == 1)
+                                    {
+                                        foreach (var item in dal.OrderItem.GetList().OrderBy(OrdItem => OrdItem?.Price).ToList())
+                                        {
+                                            if (item?.Id != 0)
+                                            {
+                                                Console.WriteLine(item.ToString());
+                                            }
+                                        }
+                                    }
+                                    if (choice1 == 2)
+                                    {
+                                        foreach (var item in dal.OrderItem.GetList().OrderByDescending(OrdItem => OrdItem?.Price).ToList())
+                                        {
+                                            if (item?.Id != 0)
+                                            {
+                                                Console.WriteLine(item.ToString());
+                                            }
+                                        }
+                                    }
+                                    break;
+                                case 3:
+                                    Console.WriteLine("1: Amount ascending------------- 2: Amount descending--------------");
+                                    int choice2 = 0;
+                                    int.TryParse(Console.ReadLine(), out choice1);
+                                    if (choice2 == 1)
+                                    {
+                                        foreach (var item in dal.OrderItem.GetList().OrderBy(OrdItem => OrdItem?.Amount).ToList())
+                                        {
+                                            if (item?.Id != 0)
+                                            {
+                                                Console.WriteLine(item.ToString());
+                                            }
+                                        }
+                                    }
+                                    if (choice2 == 2)
+                                    {
+                                        foreach (var item in dal.OrderItem.GetList().OrderByDescending(OrdItem => OrdItem?.Amount).ToList())
+                                        {
+                                            if (item?.Id != 0)
+                                            {
+                                                Console.WriteLine(item.ToString());
+                                            }
+                                        }
+                                    }
+                                    break;
+                                default:
+                                    break;
                             }
                             break;
 

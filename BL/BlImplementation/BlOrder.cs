@@ -183,9 +183,9 @@ internal class BlOrder : BlApi.IOrder
             orderTracking.ID = OrderId;
             int index = GetOrderList().ToList().FindIndex(Order => Order.ID == OrderId);
             orderTracking.Status = GetOrderList().ToList()[index].Status;// get the status value of the list of order of the bl
-            Tuple<DateTime, string> description1 = new Tuple<DateTime, string>(GetOrderItem(OrderId).PaymentDate, "Order Appoved");
-            Tuple<DateTime, string> description2 = new Tuple<DateTime, string>(GetOrderItem(OrderId).ShipDate, "Order Expedied");
-            Tuple<DateTime, string> description3 = new Tuple<DateTime, string>(GetOrderItem(OrderId).DeliveryDate, "Order Received");
+            Tuple<DateTime?, string?>? description1 = new (GetOrderItem(OrderId).PaymentDate, "Order Appoved");
+            Tuple<DateTime?, string?>? description2 = new (GetOrderItem(OrderId).ShipDate, "Order Expedied");
+            Tuple<DateTime?, string?>? description3 = new (GetOrderItem(OrderId).DeliveryDate, "Order Received");
             orderTracking.OrderTrackingList.Add(description1);
             orderTracking.OrderTrackingList.Add(description2);
             orderTracking.OrderTrackingList.Add(description3);

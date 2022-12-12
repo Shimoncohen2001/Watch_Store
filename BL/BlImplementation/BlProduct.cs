@@ -129,7 +129,7 @@ internal class BlProduct : BlApi.IProduct
         }
         if (!Dal.Product.GetList().ToList().Exists(Product => Product?.Id == productId))
         {
-            throw new BO.NoExistingItemException("Product mot exist");
+            throw new BO.NoExistingItemException("Product not exist");
         }
         List<BO.ProductForList?> listOfProduct = (List<BO.ProductForList?>)GetProductForLists();
         foreach (var item in listOfProduct)
@@ -180,6 +180,8 @@ internal class BlProduct : BlApi.IProduct
                 Dal.Product.Update(products.Id, 0);
                 break;
             }
+            else
+                throw new BO.NoExistingItemException("Product doesn't exist!");
         }
     }
 }
