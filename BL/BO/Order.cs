@@ -19,7 +19,7 @@ public class Order
 
     public override string ToString()
     {
-        string OdrerItems = string.Join("", orderItems);
+        string OdrerItems = string.Join("", orderItems!);
         return ($@"
         
         Order Id: {Id}

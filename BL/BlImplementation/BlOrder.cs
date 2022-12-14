@@ -20,9 +20,9 @@ internal class BlOrder : BlApi.IOrder
             {
                 if (item1?.OrderId == item?.Id)
                 {
-                    amountOfItems+=(int)item1?.Amount;
+                    amountOfItems+=(int)item1?.Amount!;
                     //totalPrice+=amountOfItems*(item1.Price);
-                    totalPrice = GetOrderItem((int)item1?.OrderId).TotalPrice;
+                    totalPrice = GetOrderItem((int)item1?.OrderId!).TotalPrice;
                 }
             }
             if (item?.OrderDate<=DateTime.Now && (item?.ShipDate>DateTime.Now|| item?.ShipDate==DateTime.MinValue))
@@ -38,7 +38,7 @@ internal class BlOrder : BlApi.IOrder
                 status = 2;
             }
                 BO.OrderForList orderForList = new BO.OrderForList() { CustomerName=item?.CustomerName,
-                ID=(int)item?.Id, 
+                ID=(int)item?.Id!, 
                 AmountOfItems=amountOfItems, 
                 TotalPrice=totalPrice, 
                 Status=(BO.OrderStatus)status};
@@ -68,10 +68,10 @@ internal class BlOrder : BlApi.IOrder
                         OrderitemId++;
                         if(item1?.OrderId==OrderId)
                         {
-                            int ProductId=(int)item1?.ProductId;
-                            string productName=Dal.Product.Get((int)item1?.ProductId,0).Name;
-                            double price= Dal.Product.Get((int)item1?.ProductId, 0).Price;
-                            int Amount=Convert.ToInt32((int)item1?.Amount);
+                            int ProductId=(int)item1?.ProductId!;
+                            string productName=Dal.Product.Get((int)item1?.ProductId!,0).Name!;
+                            double price= Dal.Product.Get((int)item1?.ProductId!, 0).Price;
+                            int Amount=Convert.ToInt32((int)item1?.Amount!);
                             BO.OrderItem orderItem=new BO.OrderItem() { Name=productName,
                                 Price=price,
                                 Amount=Amount,
@@ -91,10 +91,10 @@ internal class BlOrder : BlApi.IOrder
                         CustomerAdress = item?.CustomerAdress,
                         CustomerEmail = item?.CustomerEmail,
                         CustomerName = item?.CustomerName,
-                        DeliveryDate =(DateTime) item?.DeliveryDate,
-                        OrderDate = (DateTime)item?.OrderDate,
-                        ShipDate = (DateTime)item?.ShipDate,
-                        PaymentDate = (DateTime)item?.OrderDate,
+                        OrderDate = item?.OrderDate!,
+                        ShipDate = item?.ShipDate! ?? DateTime.MinValue,
+                        DeliveryDate = item?.DeliveryDate! ?? DateTime.MinValue,
+                        PaymentDate = (DateTime)item?.OrderDate!,
                         TotalPrice = totalPrice,
                         orderItems= orderItemsList
                     };
@@ -164,7 +164,7 @@ internal class BlOrder : BlApi.IOrder
             {
                     if (item?.OrderId == OrderId)
                     {
-                        Dal.OrderItem.Delete((int)item?.ProductId,(int) item?.OrderId);
+                        Dal.OrderItem.Delete((int)item?.ProductId!,(int) item?.OrderId!);
                     }
             }
             Dal.Order.Delete(OrderId,0);// the Order was delivered to the client so we nead to remove it from the orderList
@@ -187,12 +187,12 @@ internal class BlOrder : BlApi.IOrder
         {
             BO.OrderTracking orderTracking = new BO.OrderTracking();
             orderTracking.ID = OrderId;
-            int index = GetOrderList().ToList().FindIndex(Order => Order.ID == OrderId);
-            orderTracking.Status = GetOrderList().ToList()[index].Status;// get the status value of the list of order of the bl
+            int index = GetOrderList().ToList().FindIndex(Order => Order!.ID == OrderId);
+            orderTracking.Status = GetOrderList().ToList()[index]!.Status;// get the status value of the list of order of the bl
             Tuple<DateTime?, string?>? description1 = new (GetOrderItem(OrderId).PaymentDate, "Order Appoved");
             Tuple<DateTime?, string?>? description2 = new (GetOrderItem(OrderId).ShipDate, "Order Expedied");
             Tuple<DateTime?, string?>? description3 = new (GetOrderItem(OrderId).DeliveryDate, "Order Received");
-            orderTracking.OrderTrackingList.Add(description1);
+            orderTracking.OrderTrackingList!.Add(description1);
             orderTracking.OrderTrackingList.Add(description2);
             orderTracking.OrderTrackingList.Add(description3);
             return orderTracking;
