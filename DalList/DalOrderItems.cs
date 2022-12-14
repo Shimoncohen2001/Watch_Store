@@ -99,4 +99,10 @@ internal class DalOrderItems : IOrderItem
 
     }
 
+    public OrderItems? GetItem(Func<OrderItems?, bool>? predicate)
+    {
+        Predicate<OrderItems?> predicate1 = ordIt => predicate!(ordIt);
+        OrderItems? oI = DataSource._orderItems.Find(predicate1);
+        return oI;
+    }
 }

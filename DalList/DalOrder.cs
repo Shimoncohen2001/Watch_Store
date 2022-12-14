@@ -113,5 +113,10 @@ internal class DalOrder:IOrder
         throw new Exception("Order cannot be found!");
     }
 
-    
+    public Order? GetItem(Func<Order?, bool>? predicate)
+    {
+        Predicate<Order?> predicate1 = ord => predicate!(ord);
+        Order? o = DataSource._orders.Find(predicate1);
+        return o;
+    }
 }

@@ -123,4 +123,10 @@ internal class DalProducts : IProduct
 
     }
 
+    public Products? GetItem(Func<Products?, bool>? predicate)
+    {
+        Predicate<Products?> predicate1 = prod => predicate!(prod);
+        Products? p = DataSource._products.Find(predicate1);
+        return p;
+    }
 }

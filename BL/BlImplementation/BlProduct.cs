@@ -1,5 +1,7 @@
 ﻿using Dal;
 using DalApi;
+using DO;
+using System;
 
 namespace BlImplementation;
 internal class BlProduct : BlApi.IProduct
@@ -9,19 +11,26 @@ internal class BlProduct : BlApi.IProduct
     /// Copy the list of Products from DataSource to a list of BO.ProductForList and return the list
     /// </summary>
     /// <returns></returns>
-    public IEnumerable<BO.ProductForList?> GetProductForLists()
+    public IEnumerable<BO.ProductForList?> GetProductForLists(Func<BO.ProductForList?, bool>? func = null)
     {
         List<BO.ProductForList?> productsForList = new List<BO.ProductForList?>();
+
         foreach (var item in Dal.Product.GetList())
         {
             BO.ProductForList p = new BO.ProductForList()
             {
                 ID = (int)item?.Id,
-                Name = (string)item?.Name,
+                Name = item?.Name,
                 Price = (double)item?.Price,
                 Category = (BO.Category)item?.Category
             };
             productsForList.Add(p);
+        }
+        if (func != null)
+        {
+            Predicate<BO.ProductForList?> predicate1 = (Prod) => func(Prod);
+            var newList = productsForList.FindAll(predicate1);
+            return newList;
         }
         return productsForList;
     }
@@ -180,6 +189,8 @@ internal class BlProduct : BlApi.IProduct
                 Dal.Product.Update(products.Id, 0);
                 break;
             }
+            else
+                throw new BO.NoExistingItemException("Product doesn't exist");
         }
     }
 }

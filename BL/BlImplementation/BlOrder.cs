@@ -6,7 +6,7 @@ namespace BlImplementation;
 internal class BlOrder : BlApi.IOrder
 {
     private IDal Dal = new DalList();  // Permet d'acceder au mofa de l'interface Order de la DAL
-    public IEnumerable<BO.OrderForList?> GetOrderList()// for the admin only
+    public IEnumerable<BO.OrderForList?> GetOrderList(Func<BO.OrderForList?, bool>? func = null)// for the admin only
     {
         int amountOfItems = 0;
         double totalPrice=0;
@@ -43,6 +43,12 @@ internal class BlOrder : BlApi.IOrder
                 TotalPrice=totalPrice, 
                 Status=(BO.OrderStatus)status};
                 listOrders.Add(orderForList);
+        }
+        if (func != null)
+        {
+            Predicate<BO.OrderForList?> predicate1 = (ord) => func(ord);
+            var newList = listOrders.FindAll(predicate1);
+            return newList;
         }
         return listOrders;
     }

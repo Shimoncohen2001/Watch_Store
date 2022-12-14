@@ -1,6 +1,5 @@
 ﻿using BlImplementation;
 using BlApi;
-using DalApi;
 
 namespace BlTest;
 
@@ -81,9 +80,93 @@ internal class Program
                             }
                             break;
                         case 3:
-                            foreach (var item in bl.Product.GetProductForLists())
+                            
+                            Console.WriteLine(@"Sort your list of product by: 1: All
+                                2: Category
+                                3: By Brands
+                                4: Most to least expensive
+                                5: Least to most expensive
+                                ");
+                            int chosen5 = 0;
+                            int.TryParse(Console.ReadLine(), out chosen5);
+                            switch (chosen5)
                             {
-                                Console.WriteLine(item.ToString());
+                                case 1:
+                                    foreach (var item in bl.Product.GetProductForLists())
+                                    {
+                                        Console.WriteLine(item.ToString());
+                                    }
+                                    break;
+                                case 2:
+                                    Console.WriteLine("1: Men------------- 2: Women -------------- 3: Children-----------");
+                                    int choice2 = 0;
+                                    int.TryParse(Console.ReadLine(), out choice2);
+                                    if (choice2 == 1)
+                                    {
+                                        Func<BO.ProductForList?, bool>? optionaldel1 = (Prod) => Prod?.Category == BO.Category.Men;
+                                        foreach (var item in bl.Product.GetProductForLists(optionaldel1))
+                                        {
+                                            if (item?.ID != 0)
+                                            {
+                                                Console.WriteLine(item.ToString());
+                                            }
+                                        }
+                                    }
+                                    if (choice2 == 2)
+                                    {
+                                        Func<BO.ProductForList?, bool>? optionaldel2 = (Prod) => Prod?.Category == BO.Category.Women;
+                                        foreach (var item in bl.Product.GetProductForLists(optionaldel2))
+                                        {
+                                            if (item?.ID != 0)
+                                            {
+                                                Console.WriteLine(item.ToString());
+                                            }
+                                        }
+                                    }
+                                    if (choice2 == 3)
+                                    {
+                                        Func<BO.ProductForList?, bool>? optionaldel3 = (Prod) => Prod?.Category == BO.Category.Children;
+                                        foreach (var item in bl.Product.GetProductForLists(optionaldel3))
+                                        {
+                                            if (item?.ID != 0)
+                                            {
+                                                Console.WriteLine(item.ToString());
+                                            }
+                                        }
+                                    }
+                                    break;
+                                case 3:
+                                    string prodName;
+                                    prodName = Console.ReadLine();
+                                    Func<BO.ProductForList?, bool>? optionaldel = (Prod) => Prod?.Name == prodName;
+                                    foreach (var item in bl.Product.GetProductForLists(optionaldel))
+                                    {
+                                        if (item?.ID != 0)
+                                        {
+                                            Console.WriteLine(item.ToString());
+                                        }
+                                    }
+                                    break;
+                                case 4:
+                                    foreach (var item in bl.Product.GetProductForLists().OrderByDescending(product => product?.Price).ToList())
+                                    {
+                                        if (item?.ID != 0)
+                                        {
+                                            Console.WriteLine(item.ToString());
+                                        }
+                                    }
+                                    break;
+                                case 5:
+                                    foreach (var item in bl.Product.GetProductForLists().OrderBy(product => product?.Price).ToList())
+                                    {
+                                        if (item?.ID != 0)
+                                        {
+                                            Console.WriteLine(item.ToString());
+                                        }
+                                    }
+                                    break;
+                                default:
+                                    break;
                             }
                             break;
                         case 4:
@@ -179,9 +262,86 @@ internal class Program
                     switch (chosen3)
                     {
                         case 1:
-                            foreach (var item in bl.Order.GetOrderList())
+                            
+                            Console.WriteLine(@"Sort your list of order by: 1: All
+                                2: By CustomerName 
+                                3: By OrderStatus
+                                ");
+                            int chosen5 = 0;
+                            int.TryParse(Console.ReadLine(), out chosen5);
+                            switch (chosen5)
                             {
-                                Console.WriteLine(item.ToString());
+                                case 1:
+                                    foreach (var item in bl.Order.GetOrderList())
+                                    {
+                                        Console.WriteLine(item.ToString());
+                                    }
+                                    break;
+                                case 2:
+                                    Console.WriteLine("1: CustomerName in order------------- 2: CustomerName Descending--------------");
+                                    int choice1 = 0;
+                                    int.TryParse(Console.ReadLine(), out choice1);
+                                    if (choice1 == 1)
+                                    {
+                                        foreach (var item in bl.Order.GetOrderList().OrderBy(order => order?.CustomerName).ToList())
+                                        {
+                                            if (item?.ID != null)
+                                            {
+                                                Console.WriteLine(item.ToString());
+                                            }
+                                        }
+                                    }
+                                    if (choice1 == 2)
+                                    {
+                                        foreach (var item in bl.Order.GetOrderList().OrderByDescending(order => order?.CustomerName).ToList())
+                                        {
+                                            if (item?.ID != null)
+                                            {
+                                                Console.WriteLine(item.ToString());
+                                            }
+                                        }
+                                    }
+                                    break;
+                                case 3:
+                                    Console.WriteLine("1: Approved------------- 2: Expedited-------------- 3: Received-------------");
+                                    int choice2 = 0;
+                                    int.TryParse(Console.ReadLine(), out choice2);
+                                    if (choice2 == 1)
+                                    {
+                                        Func<BO.OrderForList?, bool>? optionaldel = (Order) => Order?.Status == BO.OrderStatus.Approved;
+                                        foreach (var item in bl.Order.GetOrderList(optionaldel))
+                                        {
+                                            if (item?.ID != null)
+                                            {
+                                                Console.WriteLine(item.ToString());
+                                            }
+                                        }
+                                    }
+                                    if (choice2 == 2)
+                                    {
+                                        Func<BO.OrderForList?, bool>? optionaldel = (Order) => Order?.Status == BO.OrderStatus.Expedited;
+                                        foreach (var item in bl.Order.GetOrderList(optionaldel))
+                                        {
+                                            if (item?.ID != null)
+                                            {
+                                                Console.WriteLine(item.ToString());
+                                            }
+                                        }
+                                    }
+                                    if (choice2 == 3)
+                                    {
+                                        Func<BO.OrderForList?, bool>? optionaldel = (Order) => Order?.Status == BO.OrderStatus.Received;
+                                        foreach (var item in bl.Order.GetOrderList(optionaldel))
+                                        {
+                                            if (item?.ID != null)
+                                            {
+                                                Console.WriteLine(item.ToString());
+                                            }
+                                        }
+                                    }
+                                    break;
+                                default:
+                                    break;
                             }
                             break;
                         case 2:
@@ -242,7 +402,7 @@ internal class Program
                     break;
 
                     case 3:
-                            Console.WriteLine("Enter your name:");
+                            Console.Write("Enter your name:");
                             string customerName1 = Console.ReadLine();
                             Console.Write("Enter the Customer Email: ");
                             string customerEmail1 = Console.ReadLine();

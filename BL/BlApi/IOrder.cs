@@ -1,4 +1,6 @@
 ﻿
+using BO;
+
 namespace BlApi;
 
 /// <summary>
@@ -6,7 +8,7 @@ namespace BlApi;
 /// </summary>
 public interface IOrder
 {
-    public IEnumerable<BO.OrderForList?> GetOrderList();
+    public IEnumerable<BO.OrderForList?> GetOrderList(Func<OrderForList?, bool>? func = null);
     public BO.Order GetOrderItem(int OrderId);
     public BO.Order UpdateOrderShipping(int OrderId);
     public BO.Order UpdadteOrderReceived(int OrderId);
