@@ -12,21 +12,26 @@
             <RowDefinition Height="500*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Grid Name="UpGrid" HorizontalAlignment="Stretch" Height="auto" Grid.Row="0" VerticalAlignment="Stretch" Width="auto">
+        <Grid Name="UpGrid" Height="auto" Grid.Row="0" HorizontalAlignment="Left" Width="800">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions >
-            <ComboBox x:Name="CategorySelector" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" SelectionChanged="CategorySelector_SelectionChanged">
+            <ComboBox x:Name="CategorySelector" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top" SelectionChanged="CategorySelector_SelectionChanged" Margin="0,0,372,0">
+                <!--<ComboBoxItem Content=""></ComboBoxItem>
+                <ComboBoxItem Content="Men"></ComboBoxItem>
+                <ComboBoxItem Content="Women"></ComboBoxItem>
+                <ComboBoxItem Content="Cildren"></ComboBoxItem>-->
             </ComboBox>
             <Label x:Name="Category" Content="Category:" HorizontalAlignment="Left" Margin="123,10,0,0" VerticalAlignment="Top"/>
         </Grid>
-        <ListView x:Name="ProductListView" Grid.Row="1" d:ItemsSource="{d:SampleData ItemCount=5}">
+        <ListView x:Name="ProductListView" d:ItemsSource="{d:SampleData ItemCount=5}" SelectionChanged="ProductListView_SelectionChanged" Margin="0,43,0,0" Grid.RowSpan="2" HorizontalAlignment="Left" Width="800">
             <ListView.View>
                 <GridView>
                     <GridViewColumn/>
                 </GridView>
             </ListView.View>
         </ListView>
+        <Button Content="Add new Product" Grid.Row="2" HorizontalAlignment="Right" Margin="5" Padding="5" Click="AddProductButton_Click"/>
     </Grid>
 </Window>

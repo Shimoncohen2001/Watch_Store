@@ -25,21 +25,18 @@ namespace PL
     public partial class MainWindow : Window
     {
         private IBl bl = new Bl();
-        ProductListWindow productListWindow = new ProductListWindow();  
+        //ProductListWindow productListWindow = new ProductListWindow();  
 
         public MainWindow()
         {
             InitializeComponent();
-
-
         }
 
-        private void AdminButton_Click(object sender, RoutedEventArgs e)
-        {
-            productListWindow.Show();
-            
-        }
+        //private void AdminButton_Click(object sender, RoutedEventArgs e)
+        //{
+        //    productListWindow.Show();
+        //}
 
-        
+        private void AdminButton_Click(object sender, RoutedEventArgs e) => new ProductListWindow().Show();
     }
 }
