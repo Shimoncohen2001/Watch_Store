@@ -27,14 +27,13 @@ namespace PL.Product
         public ProductWindow()
         {
             InitializeComponent();
-            CategorySelector.ItemsSource = Enum.GetValues(typeof(BO.Category));
-            
+            CategorySelector.ItemsSource = Enum.GetValues(typeof(BO.Category1));
         }
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Object selecteditems = CategorySelector.SelectedItem;
-            product.Category = (BO.Category)selecteditems;
+            product.Category = (BO.Category?)(BO.Category1)selecteditems; // Categories without All
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

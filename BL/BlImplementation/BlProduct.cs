@@ -119,7 +119,7 @@ internal class BlProduct : BlApi.IProduct
             Id = product.ID,
             Name = product.Name,
             Price = product.Price,
-            Category = (DO.Category)product.Category,
+            Category = (DO.Category)product.Category!,
             InStock = product.InStock
         };
         Dal.Product.Add(products);
@@ -161,7 +161,7 @@ internal class BlProduct : BlApi.IProduct
     {
         if (product.ID < 0)
             throw new BO.IdNotValidExcpetion("Invalid ID!");
-        if (product.Name.Length == 0)
+        if (product.Name!.Length == 0)
             throw new BO.NameNotValidExcpetion("Invalid name!");
         if (product.Price < 0)
             throw new BO.PriceNotValidExcpetion("Invalid Price!");
@@ -178,7 +178,7 @@ internal class BlProduct : BlApi.IProduct
                     Id = product.ID,
                     Name = product.Name,
                     Price = product.Price,
-                    Category = (DO.Category)product.Category,
+                    Category = (DO.Category)product.Category!,
                     InStock = product.InStock
                 };
                 Dal.Product.Add(products);
