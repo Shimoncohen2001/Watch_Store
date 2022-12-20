@@ -1,5 +1,4 @@
-﻿using BlApi;
-using BlImplementation;
+﻿
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +20,7 @@ namespace PL.Product
     /// </summary>
     public partial class ProductWindow : Window
     {
-        private IBl bl = new Bl();
+        BlApi.IBl? bl = BlApi.Factory.Get();
         BO.Product product = new BO.Product();
 
         public ProductWindow()
@@ -38,7 +37,7 @@ namespace PL.Product
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            bl.Product.Add(product);
+            bl?.Product.Add(product);
             this.Close();
             new ProductListWindow().Show();
 
@@ -73,7 +72,7 @@ namespace PL.Product
 
         private void Button1_Click(object sender, RoutedEventArgs e)
         {
-            bl.Product.Update(product);
+            bl?.Product.Update(product);
             this.Close();
             new ProductListWindow().Show();
         }

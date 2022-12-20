@@ -1,12 +1,9 @@
-﻿using Dal;
-using DalApi;
-using DO;
-using System;
+﻿using DalApi;
 
 namespace BlImplementation;
 internal class BlProduct : BlApi.IProduct
 {
-    private IDal Dal = new DalList();
+    DalApi.IDal? dal = DalApi.Factory.Get();
     /// <summary>
     /// Copy the list of Products from DataSource to a list of BO.ProductForList and return the list
     /// </summary>
@@ -15,7 +12,7 @@ internal class BlProduct : BlApi.IProduct
     {
         List<BO.ProductForList?> productsForList = new List<BO.ProductForList?>();
 
-        foreach (var item in Dal.Product.GetList())
+        foreach (var item in dal?.Product.GetList())
         {
             BO.ProductForList p = new BO.ProductForList()
             {
@@ -44,12 +41,12 @@ internal class BlProduct : BlApi.IProduct
     {
         if (productId < 0)
             throw new BO.IdNotValidExcpetion(" Impossible negative Id! ");
-        List<DO.Products?> productsForLists = (List<DO.Products?>)Dal.Product.GetList();
+        List<DO.Products?> productsForLists = (List<DO.Products?>)dal?.Product.GetList();
         foreach (var item in productsForLists)
         {
             if (item?.Id == productId)
             {
-                DO.Products products = Dal.Product.Get(productId, 0);
+                DO.Products products = (DO.Products)dal?.Product.Get(productId, 0);
                 BO.Product product = new BO.Product()
                 {
                     ID = products.Id,
@@ -73,12 +70,12 @@ internal class BlProduct : BlApi.IProduct
     {
         if (productId < 0)
             throw new BO.IdNotValidExcpetion("Invalid ID!");
-        List<DO.Products?> productsForLists = (List<DO.Products?>)Dal.Product.GetList();
+        List<DO.Products?> productsForLists = (List<DO.Products?>)dal?.Product.GetList();
         foreach (var item in productsForLists)
         {
             if (item?.Id == productId)
             {
-                DO.Products products = Dal.Product.Get(productId, 0);
+                DO.Products products = (DO.Products)dal?.Product.Get(productId, 0);
                 int index = cart.orderItems.FindIndex(OrderItems => OrderItems.ProductID == productId);
                 BO.ProductItem productItem = new BO.ProductItem()
                 {
@@ -112,7 +109,7 @@ internal class BlProduct : BlApi.IProduct
             throw new BO.PriceNotValidExcpetion("Invalid Price!");
         if (product.InStock <= 0)
             throw new BO.StockNotValidExcpetion("Invalid stock!");
-        if (Dal.Product.GetList().ToList().Exists(Product => Product?.Id == product.ID))
+        if ((bool)dal?.Product.GetList().ToList().Exists(Product => Product?.Id == product.ID))
             throw new BO.ItemAlreadyExistException("this product already exist");
         DO.Products products = new DO.Products()
         {
@@ -122,7 +119,7 @@ internal class BlProduct : BlApi.IProduct
             Category = (DO.Category)product.Category!,
             InStock = product.InStock
         };
-        Dal.Product.Add(products);
+        dal?.Product.Add(products);
     }
 
     /// <summary>
@@ -132,11 +129,11 @@ internal class BlProduct : BlApi.IProduct
     public void Delete(int productId)
     {
         
-        if (Dal.OrderItem.GetList().ToList().Exists(OrderItem=> OrderItem?.ProductId==productId))
+        if ((bool)dal?.OrderItem.GetList().ToList().Exists(OrderItem=> OrderItem?.ProductId==productId))
         {
             throw new BO.DeleteItemNotValidExcpetion("Impossible to delete product!");
         }
-        if (!Dal.Product.GetList().ToList().Exists(Product => Product?.Id == productId))
+        if ((bool)!dal?.Product.GetList().ToList().Exists(Product => Product?.Id == productId))
         {
             throw new BO.NoExistingItemException("Product mot exist");
         }
@@ -147,7 +144,7 @@ internal class BlProduct : BlApi.IProduct
             {
                 DO.Products products = new DO.Products();
                 products.Id = item.ID;
-                Dal.Product.Delete(productId, 0);
+                dal?.Product.Delete(productId, 0);
             }
         }
 
@@ -167,7 +164,7 @@ internal class BlProduct : BlApi.IProduct
             throw new BO.PriceNotValidExcpetion("Invalid Price!");
         if (product.InStock < 0)
             throw new BO.StockNotValidExcpetion("Invalid stock!");
-        List<DO.Products?> productsForLists = (List<DO.Products?>)Dal.Product.GetList();
+        List<DO.Products?> productsForLists = (List<DO.Products?>)dal?.Product.GetList();
         foreach (var item in productsForLists)
         {
             if (item?.Id == product.ID)
@@ -181,8 +178,8 @@ internal class BlProduct : BlApi.IProduct
                     Category = (DO.Category)product.Category!,
                     InStock = product.InStock
                 };
-                Dal.Product.Add(products);
-                Dal.Product.Update(products.Id, 0);
+                dal?.Product.Add(products);
+                dal?.Product.Update(products.Id, 0);
                 return;
             }
         }

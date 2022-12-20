@@ -7,7 +7,7 @@ internal class Program
 {
     public static void Display()
     {
-        IBl bl = new Bl();
+        BlApi.IBl? bl = BlApi.Factory.Get();
         BO.OrderItem orderItem = new BO.OrderItem();
         BO.Order order = new BO.Order();
         int flag = 1;
@@ -59,7 +59,7 @@ internal class Program
                             product.Category = category;
                             try
                             {
-                            bl.Product.Add(product);
+                            bl?.Product.Add(product);
                             }
                             catch (Exception ex)
                             {
@@ -72,7 +72,7 @@ internal class Program
                             int.TryParse(Console.ReadLine(), out Newid);
                             try
                             {
-                            Console.WriteLine(bl.Product.GetDirector(Newid).ToString());
+                            Console.WriteLine(bl?.Product.GetDirector(Newid).ToString());
                             }
                             catch(Exception ex)
                             {
@@ -92,7 +92,7 @@ internal class Program
                             switch (chosen5)
                             {
                                 case 1:
-                                    foreach (var item in bl.Product.GetProductForLists())
+                                    foreach (var item in bl?.Product.GetProductForLists())
                                     {
                                         Console.WriteLine(item.ToString());
                                     }
@@ -104,7 +104,7 @@ internal class Program
                                     if (choice2 == 1)
                                     {
                                         Func<BO.ProductForList?, bool>? optionaldel1 = (Prod) => Prod?.Category == BO.Category.Men;
-                                        foreach (var item in bl.Product.GetProductForLists(optionaldel1))
+                                        foreach (var item in bl?.Product.GetProductForLists(optionaldel1))
                                         {
                                             if (item?.ID != 0)
                                             {
@@ -115,7 +115,7 @@ internal class Program
                                     if (choice2 == 2)
                                     {
                                         Func<BO.ProductForList?, bool>? optionaldel2 = (Prod) => Prod?.Category == BO.Category.Women;
-                                        foreach (var item in bl.Product.GetProductForLists(optionaldel2))
+                                        foreach (var item in bl?.Product.GetProductForLists(optionaldel2))
                                         {
                                             if (item?.ID != 0)
                                             {
@@ -126,7 +126,7 @@ internal class Program
                                     if (choice2 == 3)
                                     {
                                         Func<BO.ProductForList?, bool>? optionaldel3 = (Prod) => Prod?.Category == BO.Category.Children;
-                                        foreach (var item in bl.Product.GetProductForLists(optionaldel3))
+                                        foreach (var item in bl?.Product.GetProductForLists(optionaldel3))
                                         {
                                             if (item?.ID != 0)
                                             {
@@ -139,7 +139,7 @@ internal class Program
                                     string prodName;
                                     prodName = Console.ReadLine();
                                     Func<BO.ProductForList?, bool>? optionaldel = (Prod) => Prod?.Name == prodName;
-                                    foreach (var item in bl.Product.GetProductForLists(optionaldel))
+                                    foreach (var item in bl?.Product.GetProductForLists(optionaldel))
                                     {
                                         if (item?.ID != 0)
                                         {
@@ -148,7 +148,7 @@ internal class Program
                                     }
                                     break;
                                 case 4:
-                                    foreach (var item in bl.Product.GetProductForLists().OrderByDescending(product => product?.Price).ToList())
+                                    foreach (var item in bl?.Product.GetProductForLists().OrderByDescending(product => product?.Price).ToList())
                                     {
                                         if (item?.ID != 0)
                                         {
@@ -157,7 +157,7 @@ internal class Program
                                     }
                                     break;
                                 case 5:
-                                    foreach (var item in bl.Product.GetProductForLists().OrderBy(product => product?.Price).ToList())
+                                    foreach (var item in bl?.Product.GetProductForLists().OrderBy(product => product?.Price).ToList())
                                     {
                                         if (item?.ID != 0)
                                         {
@@ -192,7 +192,7 @@ internal class Program
                             product1.InStock = stock1;
                             try
                             {
-                            bl.Product.Update(product1);
+                            bl?.Product.Update(product1);
                             }
                             catch (Exception ex)
                             {
@@ -205,7 +205,7 @@ internal class Program
                             int.TryParse(Console.ReadLine(), out id2);
                             try
                             {
-                            bl.Product.Delete(id2);
+                            bl?.Product.Delete(id2);
                             }
                             catch (Exception ex)
                             {
@@ -223,16 +223,16 @@ internal class Program
                             {
                                 BO.Cart cart1 = new BO.Cart()
                                 {
-                                    CustomerAddress = bl.Order.GetOrderItem(id4).CustomerAdress,
-                                    CustomerEmail = bl.Order.GetOrderItem(id4).CustomerEmail,
-                                    CustomerName = bl.Order.GetOrderItem(id4).CustomerName,
-                                    orderItems = bl.Order.GetOrderItem(id4).orderItems,
-                                    TotalPrice = bl.Order.GetOrderItem(id4).TotalPrice
+                                    CustomerAddress = bl?.Order.GetOrderItem(id4).CustomerAdress,
+                                    CustomerEmail = bl?.Order.GetOrderItem(id4).CustomerEmail,
+                                    CustomerName = bl?.Order.GetOrderItem(id4).CustomerName,
+                                    orderItems = bl?.Order.GetOrderItem(id4).orderItems,
+                                    TotalPrice = (double)bl?.Order.GetOrderItem(id4).TotalPrice
                                 };
 
                                 try
                                 {
-                                    Console.WriteLine(bl.Product.GetClient(id3, cart1).ToString());
+                                    Console.WriteLine(bl?.Product.GetClient(id3, cart1).ToString());
                                 }
                                 catch (Exception ex)
                                 {
@@ -272,7 +272,7 @@ internal class Program
                             switch (chosen5)
                             {
                                 case 1:
-                                    foreach (var item in bl.Order.GetOrderList())
+                                    foreach (var item in bl?.Order.GetOrderList())
                                     {
                                         Console.WriteLine(item.ToString());
                                     }
@@ -283,7 +283,7 @@ internal class Program
                                     int.TryParse(Console.ReadLine(), out choice1);
                                     if (choice1 == 1)
                                     {
-                                        foreach (var item in bl.Order.GetOrderList().OrderBy(order => order?.CustomerName).ToList())
+                                        foreach (var item in bl?.Order.GetOrderList().OrderBy(order => order?.CustomerName).ToList())
                                         {
                                             if (item?.ID != null)
                                             {
@@ -293,7 +293,7 @@ internal class Program
                                     }
                                     if (choice1 == 2)
                                     {
-                                        foreach (var item in bl.Order.GetOrderList().OrderByDescending(order => order?.CustomerName).ToList())
+                                        foreach (var item in bl?.Order.GetOrderList().OrderByDescending(order => order?.CustomerName).ToList())
                                         {
                                             if (item?.ID != null)
                                             {
@@ -309,7 +309,7 @@ internal class Program
                                     if (choice2 == 1)
                                     {
                                         Func<BO.OrderForList?, bool>? optionaldel = (Order) => Order?.Status == BO.OrderStatus.Approved;
-                                        foreach (var item in bl.Order.GetOrderList(optionaldel))
+                                        foreach (var item in bl?.Order.GetOrderList(optionaldel))
                                         {
                                             if (item?.ID != null)
                                             {
@@ -320,7 +320,7 @@ internal class Program
                                     if (choice2 == 2)
                                     {
                                         Func<BO.OrderForList?, bool>? optionaldel = (Order) => Order?.Status == BO.OrderStatus.Expedited;
-                                        foreach (var item in bl.Order.GetOrderList(optionaldel))
+                                        foreach (var item in bl?.Order.GetOrderList(optionaldel))
                                         {
                                             if (item?.ID != null)
                                             {
@@ -331,7 +331,7 @@ internal class Program
                                     if (choice2 == 3)
                                     {
                                         Func<BO.OrderForList?, bool>? optionaldel = (Order) => Order?.Status == BO.OrderStatus.Received;
-                                        foreach (var item in bl.Order.GetOrderList(optionaldel))
+                                        foreach (var item in bl?.Order.GetOrderList(optionaldel))
                                         {
                                             if (item?.ID != null)
                                             {
@@ -350,7 +350,7 @@ internal class Program
                             int.TryParse(Console.ReadLine(), out orderid);
                             try
                             {
-                            Console.WriteLine(bl.Order.GetOrderItem(orderid).ToString());
+                            Console.WriteLine(bl?.Order.GetOrderItem(orderid).ToString());
                             }
                             catch (Exception ex)
                             {
@@ -363,7 +363,7 @@ internal class Program
                             int.TryParse(Console.ReadLine(), out orderid1);
                             try
                             {
-                            Console.WriteLine(bl.Order.UpdateOrderShipping(orderid1).ToString());
+                            Console.WriteLine(bl?.Order.UpdateOrderShipping(orderid1).ToString());
                             }
                             catch (Exception ex)
                             {
@@ -376,7 +376,7 @@ internal class Program
                             int.TryParse(Console.ReadLine(), out orderid2);
                             try
                             {
-                            Console.WriteLine(bl.Order.UpdadteOrderReceived(orderid2).ToString());
+                            Console.WriteLine(bl?.Order.UpdadteOrderReceived(orderid2).ToString());
                             }
                             catch (Exception ex)
                             {
@@ -389,7 +389,7 @@ internal class Program
                             int.TryParse(Console.ReadLine(), out orderid3);
                             try
                             {
-                            Console.WriteLine(bl.Order.TrackingOrder(orderid3).ToString());
+                            Console.WriteLine(bl?.Order.TrackingOrder(orderid3).ToString());
                             }
                             catch (Exception ex)
                             {
@@ -431,7 +431,7 @@ internal class Program
                             cart.TotalPrice =0;
                                 try
                                 {
-                                  bl.Cart.Add(cart, id);
+                                  bl?.Cart.Add(cart, id);
                                 }
                                 catch (Exception ex)
                                 {
@@ -449,7 +449,7 @@ internal class Program
                                 int.TryParse(Console.ReadLine(),out newAmount);
                                 try
                                 {
-                                     bl.Cart.Update(cart, id1, newAmount);
+                                     bl?.Cart.Update(cart, id1, newAmount);
 
                                 }
                                 catch (Exception ex)
@@ -461,7 +461,7 @@ internal class Program
                         case 3:
                                 try
                                 {
-                                    bl.Cart.Confirmation(cart);
+                                    bl?.Cart.Confirmation(cart);
                                     Console.WriteLine("Your Order was confirmed");
                                 }
                                 catch (Exception ex)

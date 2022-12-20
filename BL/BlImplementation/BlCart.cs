@@ -1,5 +1,4 @@
 ﻿using BlApi;
-using Dal;
 using DalApi;
 
 namespace BlImplementation;
@@ -8,7 +7,7 @@ internal class BlCart : ICart
 {
     static Random rand = new Random();
     int automaticOrderId = rand.Next(321, 400);
-    private IDal Dal = new DalList();
+    DalApi.IDal? dal = DalApi.Factory.Get();
 
     /// <summary>
     /// Add a product to cart or add amount of the product
@@ -23,7 +22,7 @@ internal class BlCart : ICart
         BO.OrderItem orderItem= new BO.OrderItem();    
         BO.Product product = new BO.Product();
         DO.Products products = new DO.Products();
-        products = Dal.Product.Get(productId, 0);
+        products = (DO.Products)dal?.Product.Get(productId, 0);
         if (String.IsNullOrEmpty(cart.CustomerName) || String.IsNullOrEmpty(cart.CustomerAddress) || !cart.CustomerEmail!.Contains("@gmail.com"))
         {
             throw new BO.InvalidStringFormatException("Invalid details format");
@@ -31,7 +30,7 @@ internal class BlCart : ICart
         if (!cart.orderItems!.Exists(OrderItem => OrderItem!.ProductID == productId))// test if the product not exist in the Cart
         {
 
-            if (Dal.Product.GetList().Contains(products))
+            if ((bool)dal?.Product.GetList().Contains(products))
             {
 
                 if (products.InStock == 0)
@@ -84,7 +83,7 @@ internal class BlCart : ICart
     {
         foreach (var item in cart.orderItems!)
         {
-            if ((Dal.Product.Get(item!.ProductID,0).InStock-item.Amount)<0)
+            if ((dal?.Product.Get(item!.ProductID,0).InStock-item.Amount)<0)
             {
                 throw new BO.NotEnoughInStockException("There is not enough stock of the product "+ item.Name);
             }
@@ -105,20 +104,20 @@ internal class BlCart : ICart
         order.OrderDate=DateTime.Now;
         order.ShipDate = null;  // stage3 update
         order.DeliveryDate = null;  // stage3 update
-        Dal.Order.Add(order);
+        dal?.Order.Add(order);
         foreach (var item in cart.orderItems)
         {
             DO.OrderItems orderItems= new DO.OrderItems();
-            orderItems.OrderId = (int)Dal.Order.GetList().Last()?.Id!;// return the id of the last element that was added one the list
+            orderItems.OrderId = (int)dal?.Order.GetList().Last()?.Id!;// return the id of the last element that was added one the list
             orderItems.ProductId=item!.ProductID;
             orderItems.Amount = item.Amount;    
             orderItems.Price=item.TotalPrice;
-            Dal.OrderItem.Add(orderItems);
+            dal?.OrderItem.Add(orderItems);
             DO.Products products = new DO.Products();
-            products = Dal.Product.Get(item.ProductID, 0);
+            products = (DO.Products)dal?.Product.Get(item.ProductID, 0);
             products.InStock-=item.Amount;
-            Dal.Product.Delete(products.Id, 0);
-            Dal.Product.Add(products);
+            dal?.Product.Delete(products.Id, 0);
+            dal?.Product.Add(products);
         }
         return cart;
     }
@@ -137,7 +136,7 @@ internal class BlCart : ICart
         {
             throw new BO.NegativeAmountException("Cannot choose a negative amount");
         }
-        if (!Dal.Product.GetList().ToList().Exists(Product=> Product?.Id==productId))
+        if ((bool)!dal?.Product.GetList().ToList().Exists(Product=> Product?.Id==productId))
         {
             throw new BO.NoExistingItemException("Product Not Exist");
         }
@@ -155,7 +154,7 @@ internal class BlCart : ICart
                 }
                 if (cart.orderItems[index]!.Amount>newAmount && cart.orderItems[index]!.Amount!=0)
                 {
-                    double price = Dal.Product.Get(productId, 0).Price;
+                    double price = (double)dal?.Product.Get(productId, 0).Price;
                     int dif = cart.orderItems[index]!.Amount - newAmount;
                     cart.orderItems[index]!.Amount = newAmount;
                     cart.orderItems[index]!.TotalPrice = newAmount * price;

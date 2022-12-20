@@ -12,7 +12,7 @@ static class Program
 {
     public static void Display()
     {
-        IDal dal = new DalList();
+        DalApi.IDal? dal = DalApi.Factory.Get();
         int flag = 1;
         while (flag != 0)
         {
@@ -62,14 +62,14 @@ static class Program
                             p.Price = price;
                             p.InStock = stock;
                             p.Category = category;
-                            dal.Product.Add(p);
+                            dal?.Product.Add(p);
                             break;
 
                         case 2:
                             Console.WriteLine("Enter the id of the product that you want: ");
                             int Newid = 0;
                             int.TryParse(Console.ReadLine(), out Newid);
-                            Console.WriteLine(dal.Product.Get(Newid, 0).ToString());
+                            Console.WriteLine(dal?.Product.Get(Newid, 0).ToString());
                             break;
 
                         case 3:
@@ -84,7 +84,7 @@ static class Program
                             switch (chosen5)
                             {
                                 case 1:
-                                    foreach (var item in dal.Product.GetList())
+                                    foreach (var item in dal?.Product.GetList())
                                     {
                                         if (item?.Id != 0)
                                         {
@@ -99,7 +99,7 @@ static class Program
                                     if (choice1 == 1)
                                     {
                                         Func<Products?, bool>? optionaldel = (Prod) => Prod?.Category == Category.Men;
-                                        foreach (var item in dal.Product.GetList(optionaldel))
+                                        foreach (var item in dal?.Product.GetList(optionaldel))
                                         {
                                             if (item?.Id != 0)
                                             {
@@ -110,7 +110,7 @@ static class Program
                                     if (choice1 == 2)
                                     {
                                         Func<Products?, bool>? predicate = (Prod) => Prod?.Category == Category.Women;
-                                        foreach (var item in dal.Product.GetList(predicate))
+                                        foreach (var item in dal?.Product.GetList(predicate))
                                         {
                                             if (item?.Id != 0)
                                             {
@@ -121,7 +121,7 @@ static class Program
                                     if (choice1 == 3)
                                     {
                                         Func<Products?, bool>? predicate1 = (Prod) => Prod?.Category == Category.Children;
-                                        foreach (var item in dal.Product.GetList(predicate1))
+                                        foreach (var item in dal?.Product.GetList(predicate1))
                                         {
                                             if (item?.Id != 0)
                                             {
@@ -134,7 +134,7 @@ static class Program
                                     string prodName;
                                     prodName = Console.ReadLine()!;
                                     Func<Products?, bool>? predicate2 = (Prod) => Prod?.Name == prodName;
-                                    foreach (var item in dal.Product.GetList(predicate2))
+                                    foreach (var item in dal?.Product.GetList(predicate2))
                                     {
                                         if (item?.Id != 0)
                                         {
@@ -143,7 +143,7 @@ static class Program
                                     }
                                     break;
                                 case 4:
-                                    foreach (var item in dal.Product.GetList().OrderByDescending(product => product?.Price).ToList())
+                                    foreach (var item in dal?.Product.GetList().OrderByDescending(product => product?.Price).ToList())
                                     {
                                         if (item?.Id != 0)
                                         {
@@ -152,7 +152,7 @@ static class Program
                                     }
                                     break;
                                 case 5:
-                                    foreach (var item in dal.Product.GetList().OrderBy(product => product?.Price).ToList())
+                                    foreach (var item in dal?.Product.GetList().OrderBy(product => product?.Price).ToList())
                                     {
                                         if (item?.Id != 0)
                                         {
@@ -170,14 +170,14 @@ static class Program
                             int id2 = 0;
                             int.TryParse(Console.ReadLine(), out id2);
                             // toute les saisis du update doivent etre dans le main
-                            dal.Product.Update(id2, 0);
+                            dal?.Product.Update(id2, 0);
                             break;
 
                         case 5:
                             Console.WriteLine("Enter the id of the product that you want to delete");
                             int id3 = 0;
                             int.TryParse(Console.ReadLine(), out id3);
-                            dal.Product.Delete(id3, 0);
+                            dal?.Product.Delete(id3, 0);
                             break;
                         case 6:
                             Console.WriteLine("Enter the id of your product");
@@ -201,7 +201,7 @@ static class Program
                             p1.Category = pCategory;
                             p1.InStock = pStock;
                             Func<Products?, bool>? func = p => (p?.Id == p1.Id && p?.Name == p1.Name && p?.Price == p1.Price && p?.Category == p1.Category && p?.InStock == p1.InStock);
-                            Console.WriteLine(dal.Product.GetItem(func).ToString());
+                            Console.WriteLine(dal?.Product.GetItem(func).ToString());
                             break;
                         default:
                             break;
@@ -244,14 +244,14 @@ static class Program
                             ord.CustomerName = name;
                             ord.CustomerEmail = Email;
                             ord.CustomerAdress = Adress;
-                            dal.Order.Add(ord);
+                            dal?.Order.Add(ord);
                             break;
 
                         case 2:
                             Console.WriteLine("Enter the id of the order that you want: ");
                             int orderid = 0;
                             int.TryParse(Console.ReadLine(), out orderid);
-                            Console.WriteLine(dal.Order.Get(orderid, 0));
+                            Console.WriteLine(dal?.Order.Get(orderid, 0));
                             break;
 
                         case 3:
@@ -264,7 +264,7 @@ static class Program
                             switch (chosen5)
                             {
                                 case 1:
-                                    foreach (var item in dal.Order.GetList())
+                                    foreach (var item in dal?.Order.GetList())
                                     {
                                         if (item?.Id != 0)
                                         {
@@ -278,7 +278,7 @@ static class Program
                                     int.TryParse(Console.ReadLine(), out choice1);
                                     if (choice1 == 1)
                                     {
-                                        foreach (var item in dal.Order.GetList().OrderBy(order => order?.CustomerName).ToList())
+                                        foreach (var item in dal?.Order.GetList().OrderBy(order => order?.CustomerName).ToList())
                                         {
                                             if (item?.Id != null)
                                             {
@@ -288,7 +288,7 @@ static class Program
                                     }
                                     if (choice1 == 2)
                                     {
-                                        foreach (var item in dal.Order.GetList().OrderByDescending(order => order?.CustomerName).ToList())
+                                        foreach (var item in dal?.Order.GetList().OrderByDescending(order => order?.CustomerName).ToList())
                                         {
                                             if (item?.Id != null)
                                             {
@@ -303,7 +303,7 @@ static class Program
                                     int.TryParse(Console.ReadLine(), out choice2);
                                     if (choice2 == 1)
                                     {
-                                        foreach (var item in dal.Order.GetList().OrderBy(order => order?.OrderDate).ToList())
+                                        foreach (var item in dal?.Order.GetList().OrderBy(order => order?.OrderDate).ToList())
                                         {
                                             if (item?.Id != null)
                                             {
@@ -313,7 +313,7 @@ static class Program
                                     }
                                     if (choice2 == 2)
                                     {
-                                        foreach (var item in dal.Order.GetList().OrderByDescending(order => order?.ShipDate).ToList())
+                                        foreach (var item in dal?.Order.GetList().OrderByDescending(order => order?.ShipDate).ToList())
                                         {
                                             if (item?.Id != null)
                                             {
@@ -323,7 +323,7 @@ static class Program
                                     }
                                     if (choice2 == 3)
                                     {
-                                        foreach (var item in dal.Order.GetList().OrderByDescending(order => order?.DeliveryDate).ToList())
+                                        foreach (var item in dal?.Order.GetList().OrderByDescending(order => order?.DeliveryDate).ToList())
                                         {
                                             if (item?.Id != null)
                                             {
@@ -367,7 +367,7 @@ static class Program
                             order.CustomerEmail = orderEmail;
                             order.CustomerAdress = orderAdress;
                             Func<Order?, bool>? func = o => (o?.Id == order.Id && o?.CustomerName == order.CustomerName && o?.CustomerEmail == order.CustomerEmail && o?.CustomerAdress == order.CustomerAdress);
-                            Console.WriteLine(dal.Order.GetItem(func).ToString());
+                            Console.WriteLine(dal?.Order.GetItem(func).ToString());
                             break;
                         default:
                             break;
@@ -399,7 +399,7 @@ static class Program
                             orderitems.OrderId = ordId;
                             orderitems.ProductId = productId;
                             orderitems.Amount = Amount;
-                            orderitems.Price = (dal.Product.Get(productId, 0).Price) * Amount;
+                            orderitems.Price = ((double)dal?.Product.Get(productId, 0).Price) * Amount;
                             dal.OrderItem.Add(orderitems);
                             break;
 
@@ -410,7 +410,7 @@ static class Program
                             Console.WriteLine("Enter the product id of the orderitem that you want: ");
                             int prodId = 0;
                             int.TryParse(Console.ReadLine(), out prodId);
-                            Console.WriteLine(dal.OrderItem.Get(orderid, prodId));
+                            Console.WriteLine(dal?.OrderItem.Get(orderid, prodId));
                             break;
 
                         case 3:
@@ -423,7 +423,7 @@ static class Program
                             switch (chosen5)
                             {
                                 case 1:
-                                    foreach (var item in dal.OrderItem.GetList())
+                                    foreach (var item in dal?.OrderItem.GetList())
                                     {
                                         if (item?.ProductId != 0 && item?.OrderId != 0)
                                         {
@@ -437,7 +437,7 @@ static class Program
                                     int.TryParse(Console.ReadLine(), out choice1);
                                     if (choice1 == 1)
                                     {
-                                        foreach (var item in dal.OrderItem.GetList().OrderBy(orderItem => orderItem?.Price).ToList())
+                                        foreach (var item in dal?.OrderItem.GetList().OrderBy(orderItem => orderItem?.Price).ToList())
                                         {
                                             if (item?.Id != null)
                                             {
@@ -447,7 +447,7 @@ static class Program
                                     }
                                     if (choice1 == 2)
                                     {
-                                        foreach (var item in dal.OrderItem.GetList().OrderByDescending(orderItem => orderItem?.Price).ToList())
+                                        foreach (var item in dal?.OrderItem.GetList().OrderByDescending(orderItem => orderItem?.Price).ToList())
                                         {
                                             if (item?.Id != null)
                                             {
@@ -462,7 +462,7 @@ static class Program
                                     int.TryParse(Console.ReadLine(), out choice2);
                                     if (choice2 == 1)
                                     {
-                                        foreach (var item in dal.OrderItem.GetList().OrderBy(orderItem => orderItem?.Amount).ToList())
+                                        foreach (var item in dal?.OrderItem.GetList().OrderBy(orderItem => orderItem?.Amount).ToList())
                                         {
                                             if (item?.Id != null)
                                             {
@@ -472,7 +472,7 @@ static class Program
                                     }
                                     if (choice2 == 2)
                                     {
-                                        foreach (var item in dal.OrderItem.GetList().OrderByDescending(orderItem => orderItem?.Amount).ToList())
+                                        foreach (var item in dal?.OrderItem.GetList().OrderByDescending(orderItem => orderItem?.Amount).ToList())
                                         {
                                             if (item?.Id != null)
                                             {
@@ -494,7 +494,7 @@ static class Program
                             Console.WriteLine("Enter the productId of the orderitem that you want: ");
                             int prodId2 = 0;
                             int.TryParse(Console.ReadLine(), out prodId2);
-                            dal.OrderItem.Update(orderid2, prodId2);
+                            dal?.OrderItem.Update(orderid2, prodId2);
                             break;
 
                         case 5:
@@ -504,7 +504,7 @@ static class Program
                             Console.WriteLine("Enter the productId of the orderitem that you want to delete: ");
                             int prodId3 = 0;
                             int.TryParse(Console.ReadLine(), out prodId3);
-                            dal.OrderItem.Delete(prodId3, orderid3);
+                            dal?.OrderItem.Delete(prodId3, orderid3);
                             break;
                         case 6:
                             Console.WriteLine("enter the OrderId: ");
@@ -520,7 +520,7 @@ static class Program
                             orderItem.OrderId = ordItemId;
                             orderItem.ProductId = productItemId;
                             orderItem.Amount = ordItemAmount;
-                            orderItem.Price = (dal.Product.Get(productItemId, 0).Price) * ordItemAmount;
+                            orderItem.Price = ((double)dal?.Product.Get(productItemId, 0).Price) * ordItemAmount;
                             Func<OrderItems?, bool>? func = oI => (oI?.OrderId == orderItem.OrderId && oI?.ProductId == orderItem.ProductId && oI?.Amount == orderItem.Amount && oI?.Price == orderItem.Price);
                             Console.WriteLine(dal.OrderItem.GetItem(func).ToString());
                             break;

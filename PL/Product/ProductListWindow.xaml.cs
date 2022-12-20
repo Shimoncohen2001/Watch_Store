@@ -1,8 +1,6 @@
-﻿using BlApi;
-using BlImplementation;
+﻿
 using DalApi;
 using BO;
-using Dal;
 using DO;
 using System;
 using System.Collections.Generic;
@@ -27,12 +25,12 @@ namespace PL.Product
     /// </summary>
     public partial class ProductListWindow : Window
     {
-        private IBl bl = new Bl();
+        BlApi.IBl? bl = BlApi.Factory.Get();
         public ProductListWindow()
         {
             InitializeComponent();
             // Each column of all rows get the property of the good product
-            foreach (var item in bl.Product.GetProductForLists())
+            foreach (var item in bl?.Product.GetProductForLists())
             {
                 ProductIDListView.Items.Add(item?.ID);
                 ProductNameListView.Items.Add(item?.Name);
@@ -53,7 +51,7 @@ namespace PL.Product
             Object selectedItem = CategorySelector.SelectedItem;
             if (BO.Category.All == (BO.Category)selectedItem)
             {
-                foreach (var item in bl.Product.GetProductForLists())
+                foreach (var item in bl?.Product.GetProductForLists())
                 {
                     ProductIDListView.Items.Add(item?.ID);
                     ProductNameListView.Items.Add(item?.Name);
@@ -63,7 +61,7 @@ namespace PL.Product
             }
             else
             {
-                foreach (var item in bl.Product.GetProductForLists(P => P?.Category == (BO.Category)selectedItem))
+                foreach (var item in bl?.Product.GetProductForLists(P => P?.Category == (BO.Category)selectedItem))
                 {
                     ProductIDListView.Items.Add(item?.ID);
                     ProductNameListView.Items.Add(item?.Name);

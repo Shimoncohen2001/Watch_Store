@@ -3,11 +3,36 @@
 
 namespace Dal;
 
-sealed public class DalList : IDal
+sealed internal class DalList : IDal
 {
-    public IProduct Product =>  new DalProducts();
+    //internal static DalList? inst = null;
 
-    public IOrder Order =>  new DalOrder();
+    //private static readonly object padlock = new object();
+
+    //internal static DalList Inst
+    //{
+    //    get
+    //    {
+    //        lock(padlock)
+    //        {
+    //            if (inst==null)
+    //            {
+    //                inst = new DalList();
+    //            }
+    //            return inst;
+    //        }
+    //    }
+    //}
+
+
+    private DalList() { }
+    public IProduct Product => new DalProducts();
+
+    public IOrder Order => new DalOrder();
 
     public IOrderItem OrderItem => new DalOrderItems();
+
+    public static IDal Instance { get; } = new DalList();
 }
+
+
