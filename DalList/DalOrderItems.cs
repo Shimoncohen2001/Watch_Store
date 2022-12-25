@@ -21,13 +21,20 @@ internal class DalOrderItems : IOrderItem
     /// <returns></returns>
     public OrderItems Get(int OrderId, int ProductId)
     {
-        OrderItems orderItems = new OrderItems();
-        foreach (var item in DataSource._orderItems)
+        //foreach (var item in DataSource._orderItems)
+        //{
+        //    if (item?.OrderId == OrderId && item?.ProductId == ProductId)
+        //        orderItems = (OrderItems)item;
+        //}
+        OrderItems? orderItems = new OrderItems();
+        var orderItems1 = from item in DataSource._orderItems
+                          where item?.OrderId == OrderId && item?.ProductId == ProductId
+                          select item;
+        foreach (var item in orderItems1)
         {
-            if (item?.OrderId == OrderId && item?.ProductId == ProductId)
-                orderItems = (OrderItems)item;
+            orderItems = item;
         }
-        return orderItems;
+        return (OrderItems)orderItems;
     }
 
     /// <summary>
@@ -38,8 +45,8 @@ internal class DalOrderItems : IOrderItem
     {
         if (func != null)
         {
-            Predicate<OrderItems?> predicate1 = (ordI) => func(ordI);
-            var newList = DataSource._orderItems.FindAll(predicate1);
+            //Predicate<OrderItems?> predicate1 = (ordI) => func(ordI);
+            var newList = DataSource._orderItems.Where(func);
             return newList;
         }
         return DataSource._orderItems;

@@ -22,15 +22,16 @@ internal class DalOrder:IOrder
     /// <returns></returns>
     public Order Get(int OrderId, int val=0)
     {
-        Order order = new Order();
-        foreach (var item in    DataSource._orders)
+
+        Order? order = new Order();
+        var order1 = from item in DataSource._orders
+                     where item?.Id == OrderId
+                     select item;
+        foreach (var item in order1)
         {
-            if (item?.Id == OrderId)
-            {
-                order = (Order)item;
-            }
+            order = item;
         }
-        return order;
+        return (Order)order;
     }
 
     /// <summary>
@@ -41,8 +42,8 @@ internal class DalOrder:IOrder
     {
         if (func != null)
         {
-            Predicate<Order?> predicate1 = (ord) => func(ord);
-            var newList = DataSource._orders.FindAll(predicate1);
+            //Predicate<Order?> predicate1 = (ord) => func(ord);
+            var newList = DataSource._orders.Where(func);
             return newList;
         }
         return DataSource._orders;
@@ -65,7 +66,10 @@ internal class DalOrder:IOrder
     public void Update(int orderId,int v=0)
     {
         int count = 0;
-        foreach (var item in GetList())
+        var newOrder = from item in DataSource._orders
+                       where item?.Id == orderId
+                       select item;
+        foreach (var item in newOrder)
         {
             if (item?.Id == orderId)
             {

@@ -23,13 +23,20 @@ internal class DalProducts : IProduct
     /// <returns></returns>
     public Products Get(int ProductId,int v=0)
     {
-        Products products = new Products();
-        foreach (var item in DataSource._products)
+        //foreach (var item in DataSource._products)
+        //{
+        //    if (item?.Id == ProductId)
+        //         products = (Products)item;
+        //}
+        Products? products = new Products();
+        var products1 = from item in DataSource._products
+                        where item?.Id == ProductId
+                        select item;
+        foreach (var item in products1)
         {
-            if (item?.Id == ProductId)
-                 products = (Products)item;
+            products = item;
         }
-        return products;
+        return (Products)products;
     }
 
     /// <summary>
@@ -40,8 +47,8 @@ internal class DalProducts : IProduct
     {
         if (predicate!=null)
         {
-            Predicate<Products?> predicate1=(Prod)=> predicate(Prod);
-            var newList = DataSource._products.FindAll(predicate1);
+            //Predicate<Products?> predicate1=(Prod)=> predicate(Prod);
+            var newList = DataSource._products.Where(predicate);
             return newList;
         }
         return DataSource._products;
@@ -64,61 +71,65 @@ internal class DalProducts : IProduct
     public void Update(int productId, int v = 0)
     {
         int count = 0;
-        foreach (var item in GetList())
+        var products = from item in DataSource._products
+                       where item?.Id == productId
+                       select item;
+        foreach (var item in products)
         {
-            if (item?.Id == productId)
-            {
-                //Products NewProduct = new Products();
-                //NewProduct = (Products)Get(productId);
-                //bool finish = false;
-                //while (!finish)
-                //{
+            //if (item?.Id == productId)
+            //{
+            //Products NewProduct = new Products();
+            //NewProduct = (Products)Get(productId);
+            //bool finish = false;
+            //while (!finish)
+            //{
 
-                //    Console.WriteLine(@"choose option: 
-                //                           1. Update the name Product
-                //                           2. update the Price Product
-                //                           3. update the Category Product
-                //                           4. update the amount in the stock
-                //                           5. EXIT ");
-                //    int choice = 0;
-                //    int.TryParse(Console.ReadLine(), out choice);
-                //    if (choice == 1)// update the name
-                //    {
-                //        Console.WriteLine("Enter the new Name: ");
-                //        string NewName = Console.ReadLine();
-                //        NewProduct.Name = NewName;
-                //    }
-                //    else if (choice == 2)// update the Email
-                //    {
-                //        Console.WriteLine("Enter the new Price: ");
-                //        int NewPrice = 0;
-                //        int.TryParse(Console.ReadLine(), out NewPrice);
-                //        NewProduct.Price = NewPrice;
-                //    }
-                //    else if (choice == 3)// uodate the adress
-                //    {
-                //        Console.WriteLine("Choose the new category 0. Men 1. Women 2. Children");
-                //        int NewCategorie = 0;
-                //        int.TryParse(Console.ReadLine(), out NewCategorie);
-                //        NewProduct.Category = (Category)NewCategorie;
-                //    }
-                //    else if (choice == 4)
-                //    {
-                //        Console.WriteLine("Enter the new Amount in the stock: ");
-                //        int NewInStock = 0;
-                //        int.TryParse(Console.ReadLine(), out NewInStock);
-                //        NewProduct.InStock = NewInStock;
-                //    }
-                //    else// exit 
-                //    {
-                        //Console.WriteLine("Product updated.");
-                        DataSource._products[count] = DataSource._products.Last();
-                        DataSource._products.RemoveAt(DataSource._products.Count()-1);
-                        return;
+            //    Console.WriteLine(@"choose option: 
+            //                           1. Update the name Product
+            //                           2. update the Price Product
+            //                           3. update the Category Product
+            //                           4. update the amount in the stock
+            //                           5. EXIT ");
+            //    int choice = 0;
+            //    int.TryParse(Console.ReadLine(), out choice);
+            //    if (choice == 1)// update the name
+            //    {
+            //        Console.WriteLine("Enter the new Name: ");
+            //        string NewName = Console.ReadLine();
+            //        NewProduct.Name = NewName;
+            //    }
+            //    else if (choice == 2)// update the Email
+            //    {
+            //        Console.WriteLine("Enter the new Price: ");
+            //        int NewPrice = 0;
+            //        int.TryParse(Console.ReadLine(), out NewPrice);
+            //        NewProduct.Price = NewPrice;
+            //    }
+            //    else if (choice == 3)// uodate the adress
+            //    {
+            //        Console.WriteLine("Choose the new category 0. Men 1. Women 2. Children");
+            //        int NewCategorie = 0;
+            //        int.TryParse(Console.ReadLine(), out NewCategorie);
+            //        NewProduct.Category = (Category)NewCategorie;
+            //    }
+            //    else if (choice == 4)
+            //    {
+            //        Console.WriteLine("Enter the new Amount in the stock: ");
+            //        int NewInStock = 0;
+            //        int.TryParse(Console.ReadLine(), out NewInStock);
+            //        NewProduct.InStock = NewInStock;
+            //    }
+            //    else// exit 
+            //    {
+            //Console.WriteLine("Product updated.");
+            count = DataSource._products.FindIndex(p => p.Equals(item));
+            DataSource._products[count] = DataSource._products.Last();
+            DataSource._products.RemoveAt(DataSource._products.Count()-1);
+            return;
                 //    }
                 //}
-            }
-            count++;
+            //}
+            //count++;
         }
         throw new Exception("Product cannot be found!");
 
