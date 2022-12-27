@@ -23,20 +23,14 @@ internal class DalProducts : IProduct
     /// <returns></returns>
     public Products Get(int ProductId,int v=0)
     {
-        //foreach (var item in DataSource._products)
-        //{
-        //    if (item?.Id == ProductId)
-        //         products = (Products)item;
-        //}
-        Products? products = new Products();
+        Products products = new Products();
         var products1 = from item in DataSource._products
                         where item?.Id == ProductId
                         select item;
-        foreach (var item in products1)
-        {
-            products = item;
-        }
-        return (Products)products;
+
+
+        products = (Products)products1.First()!; // products1 is an enumerable that contains just one product
+        return products!;
     }
 
     /// <summary>
@@ -48,7 +42,7 @@ internal class DalProducts : IProduct
         if (predicate!=null)
         {
             //Predicate<Products?> predicate1=(Prod)=> predicate(Prod);
-            var newList = DataSource._products.Where(predicate);
+            var newList = DataSource._products.Where(predicate); // newList selects just the products that who pass the condition
             return newList;
         }
         return DataSource._products;
@@ -73,7 +67,7 @@ internal class DalProducts : IProduct
         int count = 0;
         var products = from item in DataSource._products
                        where item?.Id == productId
-                       select item;
+                       select item;  // products is an enumarable that contains the old product and the updated product
         foreach (var item in products)
         {
             //if (item?.Id == productId)
@@ -122,19 +116,25 @@ internal class DalProducts : IProduct
             //    else// exit 
             //    {
             //Console.WriteLine("Product updated.");
-            count = DataSource._products.FindIndex(p => p.Equals(item));
-            DataSource._products[count] = DataSource._products.Last();
-            DataSource._products.RemoveAt(DataSource._products.Count()-1);
-            return;
                 //    }
                 //}
             //}
             //count++;
+
+            count = DataSource._products.FindIndex(p => p.Equals(item));
+            DataSource._products[count] = DataSource._products.Last();
+            DataSource._products.RemoveAt(DataSource._products.Count()-1);
+            return;
         }
         throw new Exception("Product cannot be found!");
 
     }
 
+    /// <summary>
+    /// Return a specific product
+    /// </summary>
+    /// <param name="predicate"></param>
+    /// <returns></returns>
     public Products? GetItem(Func<Products?, bool>? predicate)
     {
         Predicate<Products?> predicate1 = prod => predicate!(prod);

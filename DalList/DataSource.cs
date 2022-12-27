@@ -68,7 +68,7 @@ internal static class DataSource
             {
                 if(_products[c]?.Id == orderItems.ProductId)
                 {
-                    orderItems.Price = (orderItems.Amount) * ((int)_products[c]?.Price);
+                    orderItems.Price = (orderItems.Amount) * ((int)_products[c]?.Price!);
                 }
             }
             _orderItems.Add(orderItems);
@@ -87,7 +87,7 @@ internal static class DataSource
     private static void AddOrderToList(Order o)  // add an order into the list of orders
     {
         Order order = new Order();  // create a new object to add a new element on the list of Orders
-            order.Id = o.Id;
+        order.Id = o.Id;
         order.CustomerName = o.CustomerName;
         order.CustomerEmail = o.CustomerEmail;
         order.CustomerAdress = o.CustomerAdress;
@@ -125,7 +125,7 @@ internal static class DataSource
             Oitems.ProductId = ordIt.ProductId;
             Oitems.OrderId = ordIt.OrderId;
             Oitems.Price = ordIt.Price;
-            Oitems.Amount=ordIt.Amount;
+            Oitems.Amount = ordIt.Amount;
             _orderItems.Add(Oitems);  // Add product into array in the first free place
     }
     public static void GetAddOrderItemToList(OrderItems ordIt)
