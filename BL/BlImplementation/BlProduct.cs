@@ -41,22 +41,21 @@ internal class BlProduct : BlApi.IProduct
     {
         if (productId < 0)
             throw new BO.IdNotValidExcpetion(" Impossible negative Id! ");
-        List<DO.Products?> productsForLists = (List<DO.Products?>)dal?.Product.GetList();
-        foreach (var item in productsForLists)
+        var prod=from item in (List<DO.Products?>)dal?.Product.GetList()
+                 where item?.Id == productId
+                 select item;
+        //DO.Products products = (DO.Products)prod.First();
+        if (prod.Count()!=0)
         {
-            if (item?.Id == productId)
-            {
-                DO.Products products = (DO.Products)dal?.Product.Get(productId, 0);
                 BO.Product product = new BO.Product()
                 {
-                    ID = products.Id,
-                    Name = products.Name,
-                    Price = products.Price,
-                    Category = (BO.Category)products.Category,
-                    InStock = products.InStock
+                    ID = (int)prod.First()?.Id,
+                    Name = prod.First()?.Name,
+                    Price = (double)prod.First()?.Price,
+                    Category = (BO.Category)prod.First()?.Category,
+                    InStock = (int)prod.First()?.InStock
                 };
                 return product;
-            }
         }
         throw new BO.NoExistingItemException("Product doesn't exist!"); // Positive ID but not exist in the list of Products
     }
@@ -70,27 +69,25 @@ internal class BlProduct : BlApi.IProduct
     {
         if (productId < 0)
             throw new BO.IdNotValidExcpetion("Invalid ID!");
-        List<DO.Products?> productsForLists = (List<DO.Products?>)dal?.Product.GetList();
-        foreach (var item in productsForLists)
+        var prod = from item in (List<DO.Products?>)dal?.Product.GetList()
+                   where item?.Id == productId
+                   select item;
+        if (prod.Count()!=0)
         {
-            if (item?.Id == productId)
-            {
-                DO.Products products = (DO.Products)dal?.Product.Get(productId, 0);
                 int index = cart.orderItems.FindIndex(OrderItems => OrderItems.ProductID == productId);
                 BO.ProductItem productItem = new BO.ProductItem()
                 {
                     ID = productId,
-                    Name = products.Name,
-                    Price = products.Price,
-                    Category = (BO.Category)products.Category,
+                    Name = prod.First()?.Name,
+                    Price = (double)prod.First()?.Price,
+                    Category = (BO.Category)prod.First()?.Category,
                     Amount = cart.orderItems[index].Amount,
                 };
-                if (products.InStock > 0)
+                if (prod.First()?.InStock > 0)
                     productItem.InStock = true;
                 else
                     productItem.InStock = false;
                 return productItem;
-            }
         }
         throw new BO.NoExistingItemException("Product doesn't exist!"); // Positive ID but not exist in the list of Products
     }
@@ -137,17 +134,13 @@ internal class BlProduct : BlApi.IProduct
         {
             throw new BO.NoExistingItemException("Product mot exist");
         }
-        List<BO.ProductForList?> listOfProduct = (List<BO.ProductForList?>)GetProductForLists();
-        foreach (var item in listOfProduct)
+        var listOfProduct = from item in (List<BO.ProductForList?>)GetProductForLists()
+                            where item?.ID == productId
+                            select item;
+        if (listOfProduct.Count()!=0)
         {
-            if (item?.ID == productId)
-            {
-                DO.Products products = new DO.Products();
-                products.Id = item.ID;
                 dal?.Product.Delete(productId, 0);
-            }
         }
-
     }
 
     /// <summary>
@@ -164,12 +157,11 @@ internal class BlProduct : BlApi.IProduct
             throw new BO.PriceNotValidExcpetion("Invalid Price!");
         if (product.InStock < 0)
             throw new BO.StockNotValidExcpetion("Invalid stock!");
-        List<DO.Products?> productsForLists = (List<DO.Products?>)dal?.Product.GetList();
-        foreach (var item in productsForLists)
+        var prod = from item in (List<DO.Products?>)dal?.Product.GetList()
+                   where item?.Id == product.ID
+                   select item;
+        if (prod.Count()!=0)
         {
-            if (item?.Id == product.ID)
-            {
-                
                 DO.Products products = new DO.Products()
                 {
                     Id = product.ID,
@@ -181,7 +173,6 @@ internal class BlProduct : BlApi.IProduct
                 dal?.Product.Add(products);
                 dal?.Product.Update(products.Id, 0);
                 return;
-            }
         }
                 throw new BO.NoExistingItemException("Product doesn't exist");
     }

@@ -1,5 +1,6 @@
 ﻿using BlApi;
 using DalApi;
+using System.Security.Cryptography;
 
 namespace BlImplementation;
 
@@ -81,13 +82,20 @@ internal class BlCart : ICart
     /// <returns></returns>
     public BO.Cart Confirmation(BO.Cart cart)
     {
-        foreach (var item in cart.orderItems!)
+        var cart1=from item in cart.orderItems
+                  where (dal?.Product.Get(item!.ProductID, 0).InStock - item.Amount) < 0
+                  select item;
+        if (cart1.Count()!=0)
         {
-            if ((dal?.Product.Get(item!.ProductID,0).InStock-item.Amount)<0)
-            {
-                throw new BO.NotEnoughInStockException("There is not enough stock of the product "+ item.Name);
-            }
+            throw new BO.NotEnoughInStockException("There is not enough stock of the product " + cart1.First().Name);
         }
+        //foreach (var item in cart.orderItems!)
+        //{
+        //    if ((dal?.Product.Get(item!.ProductID,0).InStock-item.Amount)<0)
+        //    {
+        //        throw new BO.NotEnoughInStockException("There is not enough stock of the product "+ item.Name);
+        //    }
+        //}
         if (String.IsNullOrEmpty(cart.CustomerName) || String.IsNullOrEmpty(cart.CustomerAddress) || !cart.CustomerEmail!.Contains("@gmail.com"))
         {
             throw new BO.InvalidStringFormatException("Invalid details format");
@@ -112,12 +120,12 @@ internal class BlCart : ICart
             orderItems.ProductId=item!.ProductID;
             orderItems.Amount = item.Amount;    
             orderItems.Price=item.TotalPrice;
-            dal?.OrderItem.Add(orderItems);
+            dal?.OrderItem.Add(orderItems);// add the new orderitem in the list of the data layer
             DO.Products products = new DO.Products();
             products = (DO.Products)dal?.Product.Get(item.ProductID, 0);
             products.InStock-=item.Amount;
-            dal?.Product.Delete(products.Id, 0);
-            dal?.Product.Add(products);
+            dal?.Product.Delete(products.Id, 0);// update the new amount of the prod after the confirmation of the order
+            dal?.Product.Add(products);//////////
         }
         return cart;
     }

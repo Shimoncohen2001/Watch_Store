@@ -73,8 +73,6 @@ internal class DalOrderItems : IOrderItem
         var orderItems1 = from item in DataSource._orderItems
                           where item?.OrderId == orderId && item?.ProductId == productId
                           select item;
-        foreach (var item in orderItems1)
-        {
             //if (item?.OrderId == orderId && item?.ProductId == productId)
             //{
             //    OrderItems NewOrderItem = new OrderItems();
@@ -105,7 +103,7 @@ internal class DalOrderItems : IOrderItem
             //    }
             //}
             //count++;
-            count = DataSource._orderItems.FindIndex(oI => oI?.OrderId == item?.OrderId && oI?.ProductId == item?.ProductId);
+            count = DataSource._orderItems.FindIndex(oI => oI?.OrderId == orderItems1.First()?.OrderId && oI?.ProductId == orderItems1.First()?.ProductId);
             int id = (int)orderItems1.First()?.Id!;
             DataSource._orderItems[count] = DataSource._orderItems.Last();
             OrderItems oi = (OrderItems)DataSource._orderItems[count]!; // Keep the same orderItem Id after the swap
@@ -113,7 +111,6 @@ internal class DalOrderItems : IOrderItem
             DataSource._orderItems[count] = oi; // Keep the same orderItem Id after the swap
             DataSource._orderItems.RemoveAt(DataSource._orderItems.Count() - 1); 
             return;
-        }
         throw new Exception("OrderItem cannot be found!");
 
     }

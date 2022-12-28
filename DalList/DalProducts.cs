@@ -27,8 +27,6 @@ internal class DalProducts : IProduct
         var products1 = from item in DataSource._products
                         where item?.Id == ProductId
                         select item;
-
-
         products = (Products)products1.First()!; // products1 is an enumerable that contains just one product
         return products!;
     }
@@ -68,8 +66,6 @@ internal class DalProducts : IProduct
         var products = from item in DataSource._products
                        where item?.Id == productId
                        select item;  // products is an enumarable that contains the old product and the updated product
-        foreach (var item in products)
-        {
             //if (item?.Id == productId)
             //{
             //Products NewProduct = new Products();
@@ -121,11 +117,10 @@ internal class DalProducts : IProduct
             //}
             //count++;
 
-            count = DataSource._products.FindIndex(p => p.Equals(item));
+            count = DataSource._products.FindIndex(p => p.Equals(products.First()));
             DataSource._products[count] = DataSource._products.Last();
             DataSource._products.RemoveAt(DataSource._products.Count()-1);
             return;
-        }
         throw new Exception("Product cannot be found!");
 
     }

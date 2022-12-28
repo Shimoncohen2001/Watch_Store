@@ -70,8 +70,6 @@ internal class DalOrder:IOrder
         var newOrder = from item in DataSource._orders
                        where item?.Id == orderId
                        select item;
-        foreach (var item in newOrder)
-        {
             //if (item?.Id == orderId)
             //{
             //    Order NewOrder = new Order();
@@ -115,11 +113,10 @@ internal class DalOrder:IOrder
             //}
             //        count++;
 
-            count = DataSource._orders.FindIndex(o => o?.CustomerName == item?.CustomerName && o?.CustomerEmail == item?.CustomerEmail && o?.CustomerAdress == item?.CustomerAdress);
+            count = DataSource._orders.FindIndex(o => o?.CustomerName == newOrder.First()?.CustomerName && o?.CustomerEmail == newOrder.First()?.CustomerEmail && o?.CustomerAdress == newOrder.First()?.CustomerAdress);
             DataSource._orders[count] = DataSource._orders.Last();
             DataSource._orders.RemoveAt(DataSource._orders.Count() - 1);
             return;
-        }
         throw new Exception("Order cannot be found!");
     }
 
