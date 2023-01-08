@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,16 +30,16 @@ namespace PL.Product
             CategorySelector.ItemsSource = Enum.GetValues(typeof(BO.Category1));
         }
 
-        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            Object selecteditems = CategorySelector.SelectedItem;
-            product.Category = (BO.Category?)(BO.Category1)selecteditems; // Categories without All
-        }
-
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             try
             {
+                product.ID = int.Parse(this.IdTextBox.Text);
+                Object selecteditems = CategorySelector.SelectedItem;
+                product.Category = (BO.Category?)(BO.Category1)selecteditems; // Categories without All
+                product.Name = NameTextBox.Text;
+                product.Price = double.Parse(this.PriceTextBox.Text);
+                product.InStock = int.Parse(this.AmountTextBox.Text);
                 bl?.Product.Add(product);
             }
             catch(Exception ex)
@@ -52,34 +53,6 @@ namespace PL.Product
             }
 
         }
-
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            //int Id;
-            //Id=IdTextBox.Text;
-            product.ID = int.Parse(this.IdTextBox.Text);
-           
-        }
-
-        private void TextBox_TextChanged_1(object sender, TextChangedEventArgs e)
-        {
-            product.Name=NameTextBox.Text;
-        }
-
-        private void TextBox_TextChanged_2(object sender, TextChangedEventArgs e)
-        {
-            string Price;
-            Price = PriceTextBox.Text;
-            product.Price = Convert.ToDouble(Price);
-        }
-
-        private void TextBox_TextChanged_3(object sender, TextChangedEventArgs e)
-        {
-            string Amount;
-            Amount = AmountTextBox.Text;
-            product.InStock = Convert.ToInt32(Amount);
-        }
-
 
         private void Button1_Click(object sender, RoutedEventArgs e)
         {
