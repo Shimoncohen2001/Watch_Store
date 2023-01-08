@@ -1,4 +1,5 @@
 ﻿
+using PL.Order;
 using PL.Product;
 using System;
 using System.Collections.Generic;
@@ -37,6 +38,16 @@ namespace PL
         //    productListWindow.Show();
         //}
 
-        private void AdminButton_Click(object sender, RoutedEventArgs e) => new ProductListWindow().Show();
+        private void AdminButton_Click(object sender, RoutedEventArgs e)
+        { 
+            new ProductListWindow().Show();
+            new OrderListWindow().Show();
+        
+        }
+
+        private void TrackOrderButton_Click(object sender, RoutedEventArgs e)=>new OrderTrackingWindow().Show();    
+        
+        private void NewOrderButton_Click(object sender, RoutedEventArgs e) => new ProductItemWindow().Show();
+       
     }
 }

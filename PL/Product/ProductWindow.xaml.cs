@@ -37,17 +37,28 @@ namespace PL.Product
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            bl?.Product.Add(product);
-            this.Close();
-            new ProductListWindow().Show();
+            try
+            {
+                bl?.Product.Add(product);
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                this.Close();
+                new ProductListWindow().Show();
+            }
 
         }
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            string Id;
-            Id=IdTextBox.Text;
-            product.ID = Convert.ToInt32(Id);
+            //int Id;
+            //Id=IdTextBox.Text;
+            product.ID = int.Parse(this.IdTextBox.Text);
+           
         }
 
         private void TextBox_TextChanged_1(object sender, TextChangedEventArgs e)

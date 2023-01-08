@@ -63,7 +63,7 @@ internal static class DataSource
             orderItems.Id = Config._automaticOrderItemsId++;
             orderItems.OrderId = rand.Next(300, 320);
             orderItems.ProductId = rand.Next(100000, 100010);
-            orderItems.Amount = rand.Next(10);
+            orderItems.Amount = rand.Next(1,10);
             for(int c = 0; c < 10; c++)
             {
                 if(_products[c]?.Id == orderItems.ProductId)

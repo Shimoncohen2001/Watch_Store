@@ -7,16 +7,20 @@
         mc:Ignorable="d"
         Title="ProductWindow" Height="450" Width="800">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="295*"/>
+            <ColumnDefinition Width="506*"/>
+        </Grid.ColumnDefinitions>
         <Label Content="Id:" HorizontalAlignment="Left" Margin="10,20,0,0" VerticalAlignment="Top" RenderTransformOrigin="-2.097,0.324" Width="54"/>
         <Label Content="Category:" HorizontalAlignment="Left" Margin="10,80,0,0" VerticalAlignment="Top" RenderTransformOrigin="3.254,0.599"/>
         <Label Content="Name" HorizontalAlignment="Left" Margin="10,140,0,0" VerticalAlignment="Top" RenderTransformOrigin="-2.722,0.211"/>
         <Label Content="Price" HorizontalAlignment="Left" Margin="10,200,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.523,1.363"/>
         <Label Content="Instock" HorizontalAlignment="Left" Margin="10,260,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name= "IdTextBox" HorizontalAlignment="Left" Margin="370,20,0,0" TextWrapping="Wrap"  Text="{Binding IdContent}" VerticalAlignment="Top" Width="120" TextChanged="TextBox_TextChanged"/>
-        <TextBox x:Name= "NameTextBox" HorizontalAlignment="Left" Margin="370,140,0,0" TextWrapping="Wrap" Text="{Binding TextBox}" VerticalAlignment="Top" Width="120" TextChanged="TextBox_TextChanged_1"/>
-        <TextBox x:Name= "PriceTextBox" HorizontalAlignment="Left" Margin="370,200,0,0" TextWrapping="Wrap" Text="{Binding TextBox}" VerticalAlignment="Top" Width="120" TextChanged="TextBox_TextChanged_2"/>
-        <TextBox x:Name= "AmountTextBox" HorizontalAlignment="Left" Margin="370,260,0,0" TextWrapping="Wrap" Text="{Binding TextBox}" VerticalAlignment="Top" Width="120" TextChanged="TextBox_TextChanged_3"/>
-        <ComboBox x:Name="CategorySelector" HorizontalAlignment="Left" Margin="370,80,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="ComboBox_SelectionChanged"/>
+        <TextBox x:Name= "IdTextBox" HorizontalAlignment="Left" Margin="76,20,0,0" TextWrapping="Wrap"  Text="{Binding IdContent}" VerticalAlignment="Top" Width="120" TextChanged="TextBox_TextChanged" Grid.Column="1"/>
+        <TextBox x:Name= "NameTextBox" HorizontalAlignment="Left" Margin="76,140,0,0" TextWrapping="Wrap" Text="{Binding TextBox}" VerticalAlignment="Top" Width="120" TextChanged="TextBox_TextChanged_1" Grid.Column="1"/>
+        <TextBox x:Name= "PriceTextBox" HorizontalAlignment="Left" Margin="76,200,0,0" TextWrapping="Wrap" Text="{Binding TextBox}" VerticalAlignment="Top" Width="120" TextChanged="TextBox_TextChanged_2" Grid.Column="1"/>
+        <TextBox x:Name= "AmountTextBox" HorizontalAlignment="Left" Margin="76,260,0,0" TextWrapping="Wrap" Text="{Binding TextBox}" VerticalAlignment="Top" Width="120" TextChanged="TextBox_TextChanged_3" Grid.Column="1"/>
+        <ComboBox x:Name="CategorySelector" HorizontalAlignment="Left" Margin="76,80,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="ComboBox_SelectionChanged" Grid.Column="1"/>
         <Button x:Name="AddBtn" Content="Add" HorizontalAlignment="Left" Margin="20,358,0,0" VerticalAlignment="Top" Click="Button_Click" RenderTransformOrigin="0.505,0.603"/>
         <Button x:Name="UpdateBtn" Content="Update" HorizontalAlignment="Left" Margin="70,358,0,0" VerticalAlignment="Top" Click="Button1_Click" RenderTransformOrigin="0.505,0.603"/>
     </Grid>

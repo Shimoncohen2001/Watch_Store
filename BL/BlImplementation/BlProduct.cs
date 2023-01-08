@@ -1,4 +1,5 @@
 ﻿using DalApi;
+using System.Security.Cryptography;
 
 namespace BlImplementation;
 internal class BlProduct : BlApi.IProduct
@@ -10,26 +11,35 @@ internal class BlProduct : BlApi.IProduct
     /// <returns></returns>
     public IEnumerable<BO.ProductForList?> GetProductForLists(Func<BO.ProductForList?, bool>? func = null)
     {
-        List<BO.ProductForList?> productsForList = new List<BO.ProductForList?>();
-
-        foreach (var item in dal?.Product.GetList())
-        {
-            BO.ProductForList p = new BO.ProductForList()
+        IEnumerable<BO.ProductForList?> productsForList = dal?.Product.GetList().Select(
+            p=> new BO.ProductForList
             {
-                ID = (int)item?.Id,
-                Name = item?.Name,
-                Price = (double)item?.Price,
-                Category = (BO.Category)item?.Category
-            };
-            productsForList.Add(p);
-        }
+            ID = (int)p?.Id,
+            Name = p?.Name,
+            Price = (double)p?.Price,
+            Category = (BO.Category)p?.Category
+            }
+        );
+
+        //foreach (var item in dal?.Product.GetList())// dont necessery to transform with Linq to Object beacause theire is for this functon any waist of time
+        //{
+        //    BO.ProductForList p = new BO.ProductForList()
+        //    {
+        //        ID = (int)item?.Id,
+        //        Name = item?.Name,
+        //        Price = (double)item?.Price,
+        //        Category = (BO.Category)item?.Category
+        //    };
+        //    productsForList.Add(p);
+        //}
         if (func != null)
         {
-            Predicate<BO.ProductForList?> predicate1 = (Prod) => func(Prod);
-            var newList = productsForList.FindAll(predicate1);
-            return newList;
+            //Predicate<BO.ProductForList?> predicate1 = (Prod) => func(Prod);
+            //var newList = productsForList.FindAll(predicate1);
+            return productsForList.Where(p=>func(p));
+            //return newList;
         }
-        return productsForList;
+        return productsForList.OrderBy(p=>p?.ID);
     }
 
     /// <summary>
@@ -100,7 +110,7 @@ internal class BlProduct : BlApi.IProduct
     {
         if (product.ID < 0)
             throw new BO.IdNotValidExcpetion("Invalid ID!");
-        if (product.Name!.Length == 0)
+        if (product.Name == null)
             throw new BO.NameNotValidExcpetion("Invalid name!");
         if (product.Price < 0)
             throw new BO.PriceNotValidExcpetion("Invalid Price!");
