@@ -6,7 +6,28 @@
         xmlns:local="clr-namespace:PL.Order"
         mc:Ignorable="d"
         Title="OrderListWindow" Height="450" Width="800">
-    <Grid>
-        
+    <Grid Name="MainGrid" HorizontalAlignment="Right" Width="800">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40*"/>
+            <RowDefinition Height="500*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid Name="UpGrid" Height="auto" Grid.Row="0" HorizontalAlignment="Left" Width="800">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions >
+        </Grid>
+        <ListView Grid.Row="1" d:ItemsSource="{d:SampleData ItemCount=5}" Name="lstView">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn x:Name="OrderId" Header="Id" DisplayMemberBinding="{Binding ID}"/>
+                    <GridViewColumn x:Name="CustomerName" Header="Name"  DisplayMemberBinding="{Binding CustomerName}"/>
+                    <GridViewColumn x:Name="OrderStatus" Header="Status"  DisplayMemberBinding="{Binding Status}"/>
+                    <GridViewColumn x:Name="AmountOfItems" Header="Amount"  DisplayMemberBinding="{Binding AmountOfItems}"/>
+                    <GridViewColumn x:Name="TotalPrice" Header="Price"  DisplayMemberBinding="{Binding TotalPrice}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
     </Grid>
 </Window>

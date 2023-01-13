@@ -20,31 +20,13 @@
             <ComboBox x:Name="CategorySelector" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" SelectionChanged="CategorySelector_SelectionChanged" Height="43" Width="400"/>
             <Label x:Name="Categories" Content="Category:" HorizontalAlignment="Left" Margin="123,10,0,0" VerticalAlignment="Top"/>
         </Grid>
-        <ListView x:Name="ProductIDListView" SelectionChanged="ProductListView_SelectionChanged" Margin="4,43,0,0" Grid.RowSpan="2" HorizontalAlignment="Left" Width="60">
+        <ListView Grid.Row="1" d:ItemsSource="{d:SampleData ItemCount=5}" Name="lstView"  MouseDoubleClick="ProductListWindow_MouseDoubleClick" >
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="ID" x:Name="Id" Width="60"/>
-                </GridView>
-            </ListView.View>
-        </ListView>
-        <ListView x:Name="ProductNameListView" SelectionChanged="ProductListView_SelectionChanged" Margin="61,43,0,0" Grid.RowSpan="2" HorizontalAlignment="Left" Width="120">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="Name" x:Name="Name" Width="120"/>
-                </GridView>
-            </ListView.View>
-        </ListView>
-        <ListView x:Name="ProductCategoryListView" SelectionChanged="ProductListView_SelectionChanged" Margin="180,43,0,0" Grid.RowSpan="2" HorizontalAlignment="Left" Width="100" Foreground="Black">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="Category" x:Name="Category" Width="100"/>
-                </GridView>
-            </ListView.View>
-        </ListView>
-        <ListView x:Name="ProductPriceListView" SelectionChanged="ProductListView_SelectionChanged" Margin="279,43,0,0" Grid.RowSpan="2" HorizontalAlignment="Left" Width="80" Foreground="Black">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="Price" x:Name="Price" Width="80"/>
+                    <GridViewColumn x:Name="ProductId" Header="Id" DisplayMemberBinding="{Binding ID}"/>
+                    <GridViewColumn x:Name="ProductName" Header="Name"  DisplayMemberBinding="{Binding Name}"/>
+                    <GridViewColumn x:Name="ProductPrice" Header="Price"  DisplayMemberBinding="{Binding Price}"/>
+                    <GridViewColumn x:Name="ProductCategry" Header="Category"  DisplayMemberBinding="{Binding Category}"/>
                 </GridView>
             </ListView.View>
         </ListView>

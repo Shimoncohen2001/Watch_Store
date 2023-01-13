@@ -56,9 +56,27 @@ namespace PL.Product
 
         private void Button1_Click(object sender, RoutedEventArgs e)
         {
-            bl?.Product.Update(product);
-            this.Close();
-            new ProductListWindow().Show();
+            try
+            {
+                product.ID = int.Parse(this.IdTextBox.Text);
+                Object selecteditems = CategorySelector.SelectedItem;
+                product.Category = (BO.Category?)(BO.Category1)selecteditems; // Categories without All
+                product.Name = NameTextBox.Text;
+                product.Price = double.Parse(this.PriceTextBox.Text);
+                product.InStock = int.Parse(this.AmountTextBox.Text);
+                bl?.Product.Update(product);
+                
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                this.Close();
+                new ProductListWindow().Show();
+            }
+            
         }
     }
 }

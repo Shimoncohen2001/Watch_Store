@@ -19,9 +19,14 @@ namespace PL.Order
     /// </summary>
     public partial class OrderListWindow : Window
     {
+        BlApi.IBl? bl = BlApi.Factory.Get();
         public OrderListWindow()
         {
             InitializeComponent();
+            List<BO.OrderForList> orderForLists = new List<BO.OrderForList>();
+            orderForLists = bl?.Order.GetOrderList().ToList();
+            lstView.ItemsSource = orderForLists;
         }
+
     }
 }
