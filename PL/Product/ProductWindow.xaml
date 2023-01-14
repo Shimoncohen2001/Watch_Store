@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:PL.Product"
         mc:Ignorable="d"
         Title="ProductWindow" Height="450" Width="800">
-    <Grid>
+    <Grid x:Name="Grid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="295*"/>
             <ColumnDefinition Width="506*"/>
@@ -16,11 +16,11 @@
         <Label Content="Name" HorizontalAlignment="Left" Margin="10,140,0,0" VerticalAlignment="Top" RenderTransformOrigin="-2.722,0.211"/>
         <Label Content="Price" HorizontalAlignment="Left" Margin="10,200,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.523,1.363"/>
         <Label Content="Instock" HorizontalAlignment="Left" Margin="10,260,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name= "IdTextBox" HorizontalAlignment="Left" Margin="76,20,0,0" TextWrapping="Wrap"  Text="{Binding ID}" VerticalAlignment="Top" Width="120" Grid.Column="1"/>
-        <TextBox x:Name= "NameTextBox" HorizontalAlignment="Left" Margin="76,140,0,0" TextWrapping="Wrap" Text="{Binding Name}" VerticalAlignment="Top" Width="120" Grid.Column="1"/>
-        <TextBox x:Name= "PriceTextBox" HorizontalAlignment="Left" Margin="76,200,0,0" TextWrapping="Wrap" Text="{Binding Price}" VerticalAlignment="Top" Width="120" Grid.Column="1"/>
-        <TextBox x:Name= "AmountTextBox" HorizontalAlignment="Left" Margin="76,260,0,0" TextWrapping="Wrap" Text="{Binding Amount}" VerticalAlignment="Top" Width="120" Grid.Column="1"/>
-        <ComboBox x:Name="CategorySelector" HorizontalAlignment="Left" Margin="76,80,0,0" VerticalAlignment="Top" Width="120" Grid.Column="1" Text="{Binding Category}"/>
+        <TextBox x:Name= "IdTextBox" HorizontalAlignment="Left" Margin="76,20,0,0" TextWrapping="Wrap"  Text="{Binding ID, Mode=TwoWay}" VerticalAlignment="Top" Width="120" Grid.Column="1"/>
+        <TextBox x:Name= "NameTextBox" HorizontalAlignment="Left" Margin="76,140,0,0" TextWrapping="Wrap" Text="{Binding Name, Mode=TwoWay}" VerticalAlignment="Top" Width="120" Grid.Column="1"/>
+        <TextBox x:Name= "PriceTextBox" HorizontalAlignment="Left" Margin="76,200,0,0" TextWrapping="Wrap" Text="{Binding Price, Mode=TwoWay}" VerticalAlignment="Top" Width="120" Grid.Column="1"/>
+        <TextBox x:Name= "InStockTextBox" HorizontalAlignment="Left" Margin="76,260,0,0" TextWrapping="Wrap" Text="{Binding InStock, Mode=TwoWay}" VerticalAlignment="Top" Width="120" Grid.Column="1"/>
+        <ComboBox x:Name="CategorySelector" HorizontalAlignment="Left" Margin="76,80,0,0" VerticalAlignment="Top" Width="120" Grid.Column="1" Text="{Binding Category, Mode=TwoWay}"/>
         <Button x:Name="AddBtn" Content="Add" HorizontalAlignment="Left" Margin="20,358,0,0" VerticalAlignment="Top" Click="Button_Click" RenderTransformOrigin="0.505,0.603"/>
         <Button x:Name="UpdateBtn" Content="Update" HorizontalAlignment="Left" Margin="70,358,0,0" VerticalAlignment="Top" Click="Button1_Click" RenderTransformOrigin="0.505,0.603"/>
     </Grid>

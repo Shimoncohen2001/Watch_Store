@@ -161,7 +161,7 @@ internal class BlProduct : BlApi.IProduct
     {
         if (product.ID < 0)
             throw new BO.IdNotValidExcpetion("Invalid ID!");
-        if (product.Name!.Length == 0)
+        if (product.Name == "")
             throw new BO.NameNotValidExcpetion("Invalid name!");
         if (product.Price < 0)
             throw new BO.PriceNotValidExcpetion("Invalid Price!");

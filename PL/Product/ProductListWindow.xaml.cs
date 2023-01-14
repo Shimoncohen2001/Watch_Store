@@ -17,30 +17,27 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Collections.ObjectModel;
 
+/// <summary>
+/// Logique of interaction for ProductListWindow.xaml
+/// </summary>
 namespace PL.Product
 {
-    /// <summary>
-    /// Logique d'interaction pour ProductListWindow.xaml
-    /// </summary>
     public partial class ProductListWindow : Window
     {
-        BlApi.IBl? bl = BlApi.Factory.Get();
+        BlApi.IBl? bl;
+
         public ProductListWindow()
         {
             InitializeComponent();
-            List<BO.ProductForList>productForLists = new List<BO.ProductForList>();
-            productForLists = bl?.Product.GetProductForLists().ToList();
-            lstView.ItemsSource = productForLists;
+            bl = BlApi.Factory.Get();
+            List<ProductForList>productForLists = new List<ProductForList>();
+            productForLists = bl?.Product.GetProductForLists().ToList()!;
+            lstView.DataContext = productForLists;
             CategorySelector.ItemsSource = Enum.GetValues(typeof(BO.Category));
         }
 
-        private void ProductListWindow_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            ProductWindow product = new ProductWindow();
-            product.AddBtn.Visibility = Visibility.Collapsed; // The add button doesn't appear if the admin need update operation
-            product.Show();
-        }
 
         private void CategorySelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -55,15 +52,32 @@ namespace PL.Product
             }
         }
 
+        /// <summary>
+        /// Button for to add a product and open productWindow for this
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void AddProductButton_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            //this.Close();
             ProductWindow product = new ProductWindow();
             product.UpdateBtn.Visibility = Visibility.Collapsed; // The update button doesn't appear if the admin need add operation
-            product.Show();
+            product.ShowDialog();
+            lstView.DataContext = bl?.Product.GetProductForLists()!;
         }
 
-        
-        
+        /// <summary>
+        /// Button for to update a product and open productWindow for this
+        /// For this we need to click two times on a product
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ProductListWindow_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            ProductWindow product = new ProductWindow();
+            product.AddBtn.Visibility = Visibility.Collapsed; // The add button doesn't appear if the admin need update operation
+            product.ShowDialog();
+            lstView.DataContext = bl?.Product.GetProductForLists()!;
+        }
     }
 }

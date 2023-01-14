@@ -21,12 +21,15 @@ namespace PL.Product
     /// </summary>
     public partial class ProductWindow : Window
     {
-        BlApi.IBl? bl = BlApi.Factory.Get();
-        BO.Product product = new BO.Product();
+        BlApi.IBl? bl;
+        BO.Product product;
 
         public ProductWindow()
         {
             InitializeComponent();
+            bl = BlApi.Factory.Get();
+            product = new BO.Product();
+            this.Grid.DataContext = product;
             CategorySelector.ItemsSource = Enum.GetValues(typeof(BO.Category1));
         }
 
@@ -34,13 +37,17 @@ namespace PL.Product
         {
             try
             {
-                product.ID = int.Parse(this.IdTextBox.Text);
-                Object selecteditems = CategorySelector.SelectedItem;
-                product.Category = (BO.Category?)(BO.Category1)selecteditems; // Categories without All
-                product.Name = NameTextBox.Text;
-                product.Price = double.Parse(this.PriceTextBox.Text);
-                product.InStock = int.Parse(this.AmountTextBox.Text);
+                //product.ID = int.Parse(this.IdTextBox.Text);
+                //Object selecteditems = CategorySelector.SelectedItem;
+                //product.Category = (BO.Category?)(BO.Category1)selecteditems; // Categories without All
+                //product.Name = NameTextBox.Text;
+                //product.Price = double.Parse(this.PriceTextBox.Text);
+                //product.InStock = int.Parse(this.AmountTextBox.Text);
                 bl?.Product.Add(product);
+                product = new BO.Product();
+                this.Grid.DataContext = product;
+                //this.Close();
+                //new ProductListWindow().Show();
             }
             catch(Exception ex)
             {
@@ -48,8 +55,7 @@ namespace PL.Product
             }
             finally
             {
-                this.Close();
-                new ProductListWindow().Show();
+                Close();
             }
 
         }
@@ -58,14 +64,16 @@ namespace PL.Product
         {
             try
             {
-                product.ID = int.Parse(this.IdTextBox.Text);
-                Object selecteditems = CategorySelector.SelectedItem;
-                product.Category = (BO.Category?)(BO.Category1)selecteditems; // Categories without All
-                product.Name = NameTextBox.Text;
-                product.Price = double.Parse(this.PriceTextBox.Text);
-                product.InStock = int.Parse(this.AmountTextBox.Text);
+                //product.ID = int.Parse(this.IdTextBox.Text);
+                //Object selecteditems = CategorySelector.SelectedItem;
+                //product.Category = (BO.Category?)(BO.Category1)selecteditems; // Categories without All
+                //product.Name = NameTextBox.Text;
+                //product.Price = double.Parse(this.PriceTextBox.Text);
+                //product.InStock = int.Parse(this.AmountTextBox.Text);
+                this.Grid.DataContext = product;
                 bl?.Product.Update(product);
-                
+                Close();
+                //new ProductListWindow().Show();
             }
             catch (Exception ex)
             {
@@ -73,10 +81,8 @@ namespace PL.Product
             }
             finally
             {
-                this.Close();
-                new ProductListWindow().Show();
+                Close();
             }
-            
         }
     }
 }
