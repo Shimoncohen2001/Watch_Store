@@ -25,13 +25,14 @@ namespace PL.Product
     public partial class ProductWindow : Window
     {
         BlApi.IBl? bl;
-        BO.Product product1;
+        BO.Product product { get; set; }
 
-        public ProductWindow(BO.Product product)
+        public ProductWindow(BO.Product product1)
         {
             InitializeComponent();
             bl = BlApi.Factory.Get();
-            product1=product;
+            product=new BO.Product();
+            product=product1;
             //this.Grid.DataContext = product;
             CategorySelector.ItemsSource = Enum.GetValues(typeof(BO.Category1));
         }
@@ -40,11 +41,11 @@ namespace PL.Product
         {
             try
             {
-               
-                //bl?.Product.Add(product);
-                //product = new BO.Product();
-                //this.Grid.DataContext = product;
-               
+
+                bl?.Product.Add(product);
+                product = new BO.Product();
+                this.Grid.DataContext = product;
+
             }
             catch(Exception ex)
             {
@@ -61,7 +62,7 @@ namespace PL.Product
         {
             try
             {
-                bl?.Product.Update(product1);
+                bl?.Product.Update(product);
                 Close();
             }
             catch (Exception ex)

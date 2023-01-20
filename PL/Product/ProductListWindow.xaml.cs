@@ -29,6 +29,7 @@ namespace PL.Product
     public partial class ProductListWindow : Window, INotifyPropertyChanged
     {
         BlApi.IBl? bl;
+        BO.Product Productupdated { get; set; }
         public event PropertyChangedEventHandler PropertyChanged;
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
@@ -89,14 +90,14 @@ namespace PL.Product
         /// <param name="e"></param>
         private void ProductListWindow_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            ProductForList productForList1=lstView.SelectedItem as ProductForList;
-            BO.Product product1 = new BO.Product();
-            product1 = bl?.Product.GetDirector(productForList1.ID);
-            ProductWindow product = new ProductWindow(product1);
+            ProductForList productForList1 = lstView.SelectedItem as ProductForList;
+            Productupdated = new BO.Product();
+            Productupdated = bl?.Product.GetDirector(productForList1.ID);
+            //////
+            ProductWindow product = new ProductWindow(Productupdated);
             product.AddBtn.Visibility = Visibility.Collapsed; // The add button doesn't appear if the admin need update operation
             product.Show();
             ProductForLists = bl?.Product.GetProductForLists().ToList();
-            lstView.Items.Refresh();
             lstView.ItemsSource = ProductForLists;
         }
 

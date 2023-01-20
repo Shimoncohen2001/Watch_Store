@@ -21,7 +21,7 @@
             <ComboBox x:Name="CategorySelector" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" SelectionChanged="CategorySelector_SelectionChanged" Height="43" Width="400"/>
             <Label x:Name="Categories" Content="Category:" HorizontalAlignment="Left" Margin="123,10,0,0" VerticalAlignment="Top"/>
         </Grid>
-        <ListView Grid.Row="1" ItemsSource="{Binding ProductForLists, UpdateSourceTrigger=PropertyChanged}" Name="lstView"  MouseDoubleClick="ProductListWindow_MouseDoubleClick" DataContext="{Binding ProductForLists}">
+        <ListView Grid.Row="1" ItemsSource="{Binding}" Name="lstView"  MouseDoubleClick="ProductListWindow_MouseDoubleClick">
             <ListView.View>
                 <GridView>
                     <GridViewColumn x:Name="ProductId" Header="Id" DisplayMemberBinding="{Binding ID}" />
