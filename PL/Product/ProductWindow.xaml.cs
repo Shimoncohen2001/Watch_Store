@@ -1,8 +1,11 @@
 ﻿
+using BO;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -22,14 +25,14 @@ namespace PL.Product
     public partial class ProductWindow : Window
     {
         BlApi.IBl? bl;
-        BO.Product product;
+        BO.Product product1;
 
-        public ProductWindow()
+        public ProductWindow(BO.Product product)
         {
             InitializeComponent();
             bl = BlApi.Factory.Get();
-            product = new BO.Product();
-            this.Grid.DataContext = product;
+            product1=product;
+            //this.Grid.DataContext = product;
             CategorySelector.ItemsSource = Enum.GetValues(typeof(BO.Category1));
         }
 
@@ -37,17 +40,11 @@ namespace PL.Product
         {
             try
             {
-                //product.ID = int.Parse(this.IdTextBox.Text);
-                //Object selecteditems = CategorySelector.SelectedItem;
-                //product.Category = (BO.Category?)(BO.Category1)selecteditems; // Categories without All
-                //product.Name = NameTextBox.Text;
-                //product.Price = double.Parse(this.PriceTextBox.Text);
-                //product.InStock = int.Parse(this.AmountTextBox.Text);
-                bl?.Product.Add(product);
-                product = new BO.Product();
-                this.Grid.DataContext = product;
-                //this.Close();
-                //new ProductListWindow().Show();
+               
+                //bl?.Product.Add(product);
+                //product = new BO.Product();
+                //this.Grid.DataContext = product;
+               
             }
             catch(Exception ex)
             {
@@ -64,16 +61,8 @@ namespace PL.Product
         {
             try
             {
-                //product.ID = int.Parse(this.IdTextBox.Text);
-                //Object selecteditems = CategorySelector.SelectedItem;
-                //product.Category = (BO.Category?)(BO.Category1)selecteditems; // Categories without All
-                //product.Name = NameTextBox.Text;
-                //product.Price = double.Parse(this.PriceTextBox.Text);
-                //product.InStock = int.Parse(this.AmountTextBox.Text);
-                this.Grid.DataContext = product;
-                bl?.Product.Update(product);
+                bl?.Product.Update(product1);
                 Close();
-                //new ProductListWindow().Show();
             }
             catch (Exception ex)
             {
@@ -84,5 +73,6 @@ namespace PL.Product
                 Close();
             }
         }
+       
     }
 }

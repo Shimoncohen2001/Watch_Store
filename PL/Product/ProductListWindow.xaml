@@ -6,13 +6,14 @@
         xmlns:local="clr-namespace:PL.Product"
         mc:Ignorable="d"
         Title="ProductListWindow" Height="640" Width="800">
-    <Grid Name="MainGrid" HorizontalAlignment="Right" Width="800">
+
+    <Grid x:Name="MainGrid" HorizontalAlignment="Right" Width="800">
         <Grid.RowDefinitions>
             <RowDefinition Height="40*"/>
             <RowDefinition Height="500*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Grid Name="UpGrid" Height="auto" Grid.Row="0" HorizontalAlignment="Left" Width="800">
+        <Grid x:Name="UpGrid" Height="auto" Grid.Row="0" HorizontalAlignment="Left" Width="800">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
@@ -20,10 +21,10 @@
             <ComboBox x:Name="CategorySelector" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" SelectionChanged="CategorySelector_SelectionChanged" Height="43" Width="400"/>
             <Label x:Name="Categories" Content="Category:" HorizontalAlignment="Left" Margin="123,10,0,0" VerticalAlignment="Top"/>
         </Grid>
-        <ListView Grid.Row="1" ItemsSource="{Binding}" Name="lstView"  MouseDoubleClick="ProductListWindow_MouseDoubleClick" >
+        <ListView Grid.Row="1" ItemsSource="{Binding ProductForLists, UpdateSourceTrigger=PropertyChanged}" Name="lstView"  MouseDoubleClick="ProductListWindow_MouseDoubleClick" DataContext="{Binding ProductForLists}">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn x:Name="ProductId" Header="Id" DisplayMemberBinding="{Binding ID}"/>
+                    <GridViewColumn x:Name="ProductId" Header="Id" DisplayMemberBinding="{Binding ID}" />
                     <GridViewColumn x:Name="ProductName" Header="Name"  DisplayMemberBinding="{Binding Name}"/>
                     <GridViewColumn x:Name="ProductPrice" Header="Price"  DisplayMemberBinding="{Binding Price}"/>
                     <GridViewColumn x:Name="ProductCategry" Header="Category"  DisplayMemberBinding="{Binding Category}"/>
