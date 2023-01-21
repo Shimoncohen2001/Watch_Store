@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:PL.Product"
         mc:Ignorable="d"
         Title="ProductWindow" Height="450" Width="800">
-    <Grid x:Name="Grid" DataContext="{Binding Product, ElementName=window, UpdateSourceTrigger=PropertyChanged}">
+    <Grid x:Name="Grid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="295*"/>
             <ColumnDefinition Width="506*"/>

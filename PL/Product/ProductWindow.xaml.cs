@@ -33,7 +33,7 @@ namespace PL.Product
             bl = BlApi.Factory.Get();
             product=new BO.Product();
             product=product1;
-            //this.Grid.DataContext = product;
+            this.Grid.DataContext = product;
             CategorySelector.ItemsSource = Enum.GetValues(typeof(BO.Category1));
         }
 
