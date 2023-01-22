@@ -64,6 +64,8 @@ namespace PL.Product
             {
                 bl?.Product.Update(product);
                 Close();
+                //le soucis que je constate est lorseque j'appuis sur le boutton update il est cense retourner a l,endroit qui la envoyer ici pour faire sa modification las bas sauf qu'il ne le fait pas
+                
             }
             catch (Exception ex)
             {

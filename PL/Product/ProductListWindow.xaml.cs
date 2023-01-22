@@ -27,71 +27,46 @@ using System.Collections.Specialized;
 /// </summary>
 namespace PL.Product
 {
-    public partial class ProductListWindow : Window, INotifyPropertyChanged
+    public partial class ProductListWindow : Window
     {
         BlApi.IBl? bl;
         BO.Product Productupdated { get; set; }
-        private ObservableCollection<BO.ProductForList?> _ProductForLists;
+        private ObservableCollection<BO.ProductForList?> _ProductForLists=new ObservableCollection<ProductForList?>();
         public ObservableCollection<BO.ProductForList?> ProductForLists
         {
             get { return _ProductForLists; }
 
             set
             {
-                _ProductForLists = new ObservableCollection<ProductForList?>(bl?.Product.GetProductForLists());
+                _ProductForLists = value;
             }
         }
-        public event PropertyChangedEventHandler? PropertyChanged;
+        
 
-        //public event EventHandler? updateProductForLists;
-
-        //private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
-        //{
-        //    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        //}
-
-        //public List<ProductForList> ProductForListss
-        //{
-        //    get { return _ProductForLists; }
-        //    set
-        //    {
-        //        _ProductForLists = bl?.Product?.GetProductForLists().ToList()!;
-        //        NotifyPropertyChanged();
-        //    }
-        //}
         public ProductListWindow()
         {
             InitializeComponent();
             bl = BlApi.Factory.Get();
             ProductForLists= new ObservableCollection<BO.ProductForList?>(bl?.Product?.GetProductForLists()!);
-            //lstView.ItemsSource = ProductForLists;// sans definir le dataconxte de la fennetre comme etant elle meme le items source ne peux pas marcher
+            lstView.ItemsSource = ProductForLists;// sans definir le dataconxte de la fennetre comme etant elle meme le items source ne peux pas marcher
             //DataContext = this;// le but est de definir le datacontexte a une source de donne sauf que la source de donne d'une fennetre est la fennetre elle meme
             CategorySelector.ItemsSource = Enum.GetValues(typeof(BO.Category));
         }
-
-
 
         private void CategorySelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Object selectedItem = CategorySelector.SelectedItem;
             if (BO.Category.All == (BO.Category)selectedItem)
             {
-                //ProductForLists = new List<ProductForList>(bl?.Product.GetProductForLists()!);
-                //updateProductForLists += ProductListWindow_updateProductForLists;
                 ProductForLists = new ObservableCollection<BO.ProductForList?>(bl?.Product?.GetProductForLists()!);
-                //lstView.ItemsSource= ProductForLists;
+                lstView.ItemsSource= ProductForLists;
             }
             else
             {
-                lstView.ItemsSource = bl?.Product.GetProductForLists(P => P?.Category == (BO.Category)selectedItem);
+                ProductForLists = new ObservableCollection<BO.ProductForList?>(bl?.Product.GetProductForLists(P => P?.Category == (BO.Category)selectedItem)!);
+                lstView.ItemsSource = ProductForLists;
             }
         }
-
-        private void ProductListWindow_updateProductForLists(object? sender, EventArgs e)
-        {
-            lstView.ItemsSource = bl?.Product?.GetProductForLists().ToList();
-        }
-
 
 
         /// <summary>
@@ -118,15 +93,11 @@ namespace PL.Product
             ProductForList productForList1 = lstView.SelectedItem as ProductForList;
             Productupdated = new BO.Product();
             Productupdated = bl?.Product.GetDirector(productForList1.ID);
-            //////
             ProductWindow product = new ProductWindow(Productupdated);
             product.AddBtn.Visibility = Visibility.Collapsed; // The add button doesn't appear if the admin need update operation
-            product.Show();
-            lstView.ItemsSource = bl?.Product.GetProductForLists();
-            //lstView.DataContext=ProductForLists;
+            product.ShowDialog();
+            ProductForLists = new ObservableCollection<BO.ProductForList?>(bl?.Product?.GetProductForLists()!);
+            lstView.ItemsSource = ProductForLists;
         }
-
-
-
     }
 }
