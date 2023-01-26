@@ -3,6 +3,7 @@ using BO;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
@@ -22,10 +23,22 @@ namespace PL.Product
     /// <summary>
     /// Logique d'interaction pour ProductWindow.xaml
     /// </summary>
-    public partial class ProductWindow : Window
+    public partial class ProductWindow : Window, INotifyPropertyChanged
     {
         BlApi.IBl? bl;
-        BO.Product product { get; set; }
+        private BO.Product _product=new BO.Product();
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        public BO.Product product 
+        {
+            get { return _product; }
+            set 
+            { 
+                _product = value; 
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs (nameof(product)));
+            }
+        }
 
         public ProductWindow(BO.Product product1)
         {
@@ -33,7 +46,7 @@ namespace PL.Product
             bl = BlApi.Factory.Get();
             product=new BO.Product();
             product=product1;
-            this.Grid.DataContext = product;
+            //this.Grid.DataContext = product;
             CategorySelector.ItemsSource = Enum.GetValues(typeof(BO.Category1));
         }
 
@@ -44,7 +57,7 @@ namespace PL.Product
 
                 bl?.Product.Add(product);
                 product = new BO.Product();
-                this.Grid.DataContext = product;
+                //this.Grid.DataContext = product;
 
             }
             catch(Exception ex)
@@ -76,6 +89,7 @@ namespace PL.Product
                 Close();
             }
         }
-       
+
+      
     }
 }

@@ -76,10 +76,10 @@ namespace PL.Product
         /// <param name="e"></param>
         private void AddProductButton_Click(object sender, RoutedEventArgs e)
         {
-            ////this.Close();
-            //ProductWindow product = new ProductWindow();
-            //product.UpdateBtn.Visibility = Visibility.Collapsed; // The update button doesn't appear if the admin need add operation
-            //product.ShowDialog();
+            //this.Close();
+            ProductWindow product = new ProductWindow(null);
+            product.UpdateBtn.Visibility = Visibility.Collapsed; // The update button doesn't appear if the admin need add operation
+            product.ShowDialog();
         }
 
         /// <summary>
