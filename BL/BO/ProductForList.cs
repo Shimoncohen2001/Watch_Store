@@ -14,4 +14,9 @@ public class ProductForList
          Price: {Price}
          category - {Category}
         ";
+
+    public static implicit operator ProductForList?(List<ProductForList?>? v)
+    {
+        throw new NotImplementedException();
+    }
 }

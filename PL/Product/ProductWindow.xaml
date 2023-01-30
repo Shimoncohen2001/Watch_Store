@@ -3,10 +3,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:PL.Product"
+        xmlns:local="clr-namespace:PL.Product" xmlns:sys="clr-namespace:System;assembly=mscorlib"
         DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}"
         mc:Ignorable="d"
         Title="ProductWindow" Height="450" Width="800">
+
+
     <Grid x:Name="Grid" DataContext="{Binding product}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="295*"/>
@@ -21,7 +23,7 @@
         <TextBox x:Name= "NameTextBox" HorizontalAlignment="Left" Margin="76,140,0,0" TextWrapping="Wrap" Text="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="120" Grid.Column="1"/>
         <TextBox x:Name= "PriceTextBox" HorizontalAlignment="Left" Margin="76,200,0,0" TextWrapping="Wrap" Text="{Binding Path=Price, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="120" Grid.Column="1"/>
         <TextBox x:Name= "InStockTextBox" HorizontalAlignment="Left" Margin="76,260,0,0" TextWrapping="Wrap"  Text="{Binding Path=InStock, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="120" Grid.Column="1"/>
-        <ComboBox x:Name="CategorySelector" HorizontalAlignment="Left" Margin="76,80,0,0" VerticalAlignment="Top" Width="120" Grid.Column="1" SelectedValue="{Binding Path= Category, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        <ComboBox x:Name="CategorySelector" HorizontalAlignment="Left" Margin="76,80,0,0" VerticalAlignment="Top" Width="120" Grid.Column="1" Text="{Binding Path=Category, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         <Button x:Name="AddBtn" Content="Add" HorizontalAlignment="Left" Margin="20,358,0,0" VerticalAlignment="Top" Click="Button_Click" RenderTransformOrigin="0.505,0.603"/>
         <Button x:Name="UpdateBtn" Content="Update" HorizontalAlignment="Left" Margin="70,358,0,0" VerticalAlignment="Top" Click="Button1_Click" RenderTransformOrigin="0.505,0.603"/>
     </Grid>

@@ -24,30 +24,21 @@ namespace PL
     /// </summary>
     public partial class MainWindow : Window
     {
-        BlApi.IBl? bl = BlApi.Factory.Get();
-
-        //ProductListWindow productListWindow = new ProductListWindow();  
+        BlApi.IBl? bl;
 
         public MainWindow()
         {
             InitializeComponent();
+            bl = BlApi.Factory.Get();
         }
 
-        //private void AdminButton_Click(object sender, RoutedEventArgs e)
-        //{
-        //    productListWindow.Show();
-        //}
-
-        private void AdminButton_Click(object sender, RoutedEventArgs e)
-        { 
-            new ProductListWindow().Show();
-            new OrderListWindow().Show();
-        
-        }
-
-        private void TrackOrderButton_Click(object sender, RoutedEventArgs e)=>new OrderTrackingWindow().Show();    
+        private void AdminButton_Click(object sender, RoutedEventArgs e) => new ProductListWindow().Show();
         
         private void NewOrderButton_Click(object sender, RoutedEventArgs e) => new ProductItemWindow().Show();
-       
+
+        private void TrackOrderButton_Click(object sender, RoutedEventArgs e) 
+        {
+            new OrderTrackingWindow(OrderToTrack.Text).Show();
+        }     
     }
 }

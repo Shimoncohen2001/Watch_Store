@@ -4,10 +4,35 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL.Product"
+        DataContext="{Binding RelativeSource={RelativeSource self}}"
         mc:Ignorable="d"
-        Title="ProductItemWindow" Height="450" Width="800">
-    <Grid>
-        <Button Content="Show Cart" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.577,0.605" Click="ShowCartButton_Click"/>
-
+        Title="ProductItemWindow" Height="473" Width="800">
+    <Grid x:Name="MainGrid" HorizontalAlignment="Right" Width="800">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40*"/>
+            <RowDefinition Height="500*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid x:Name="UpGrid" Height="auto" Grid.Row="0" HorizontalAlignment="Left" Width="800">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions >
+            <ComboBox x:Name="CategorySelector" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" SelectionChanged="CategorySelector_SelectionChanged" Height="43" Width="400"/>
+            <Label x:Name="Categories" Content="Category:" HorizontalAlignment="Left" Margin="123,10,0,0" VerticalAlignment="Top"/>
+        </Grid>
+        <ListView Grid.Row="1" ItemsSource="{Binding ProductItems}" Name="lstView" SelectionChanged="lstView_SelectionChanged">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn x:Name="ProductItemId" Header="Id" DisplayMemberBinding="{Binding ID}" />
+                    <GridViewColumn x:Name="ProductItemName" Header="Name"  DisplayMemberBinding="{Binding Name}"/>
+                    <GridViewColumn x:Name="ProductItemPrice" Header="Price"  DisplayMemberBinding="{Binding Price}"/>
+                    <GridViewColumn x:Name="ProductItemCategry" Header="Category"  DisplayMemberBinding="{Binding Category}"/>
+                    <GridViewColumn x:Name="ProductItemAmount" Header="Amount"  DisplayMemberBinding="{Binding Amount}"/>
+                    <GridViewColumn x:Name="ProductItemInStock" Header="InStock"  DisplayMemberBinding="{Binding InStock}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Button Content="Show Cart" Grid.Row="2" HorizontalAlignment="Right" Margin="5" Padding="5" Click="ShowCartButton_Click"/>
     </Grid>
 </Window>

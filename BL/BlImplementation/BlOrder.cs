@@ -183,13 +183,13 @@ internal class BlOrder : BlApi.IOrder
             throw new BO.IdNotValidExcpetion("Invalid Id!");
         }
 
-        var orderItems = dal.OrderItem.GetList();
-        var orders = dal.Order.GetList().Where(o => orderItems.Any(i => o?.Id == i?.OrderId));// select only the orders that they have an orderItem
-        var products = dal.Product.GetList();
+        var orderItems = dal?.OrderItem.GetList();
+        var orders = dal?.Order.GetList().Where(o => orderItems!.Any(i => o?.Id == i?.OrderId));// select only the orders that they have an orderItem
+        var products = dal?.Product.GetList();
 
         var query = from order1 in orders
-                    join orderItem in orderItems on order1?.Id equals orderItem?.OrderId
-                    join product in products on orderItem?.ProductId equals product?.Id
+                    join orderItem in orderItems! on order1?.Id equals orderItem?.OrderId
+                    join product in products! on orderItem?.ProductId equals product?.Id
                     where order1?.Id == OrderId
                     select new
                     {

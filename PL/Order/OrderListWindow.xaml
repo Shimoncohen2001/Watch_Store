@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        DataContext="{Binding RelativeSource={RelativeSource self}}"
         xmlns:local="clr-namespace:PL.Order"
         mc:Ignorable="d"
         Title="OrderListWindow" Height="450" Width="800">
@@ -18,7 +19,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions >
         </Grid>
-        <ListView Grid.Row="1" d:ItemsSource="{d:SampleData ItemCount=5}" Name="lstView">
+        <ListView Grid.Row="1" Name="lstView" MouseDoubleClick="OrderListWindow_MouseDoubleClick">
             <ListView.View>
                 <GridView>
                     <GridViewColumn x:Name="OrderId" Header="Id" DisplayMemberBinding="{Binding ID}"/>

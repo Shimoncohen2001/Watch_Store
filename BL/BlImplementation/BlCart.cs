@@ -24,10 +24,10 @@ internal class BlCart : ICart
         BO.Product product = new BO.Product();
         DO.Products products = new DO.Products();
         products = (DO.Products)dal?.Product.Get(productId, 0);
-        if (String.IsNullOrEmpty(cart.CustomerName) || String.IsNullOrEmpty(cart.CustomerAddress) || !cart.CustomerEmail!.Contains("@gmail.com"))
-        {
-            throw new BO.InvalidStringFormatException("Invalid details format");
-        }
+        //if (String.IsNullOrEmpty(cart.CustomerName) || String.IsNullOrEmpty(cart.CustomerAddress) || !cart.CustomerEmail!.Contains("@gmail.com"))
+        //{
+        //    throw new BO.InvalidStringFormatException("Invalid details format");
+        //}
         if (!cart.orderItems!.Exists(OrderItem => OrderItem!.ProductID == productId))// test if the product not exist in the Cart
         {
 

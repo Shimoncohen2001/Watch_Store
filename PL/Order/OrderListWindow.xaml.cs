@@ -1,5 +1,7 @@
-﻿using System;
+﻿using BO;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,14 +21,26 @@ namespace PL.Order
     /// </summary>
     public partial class OrderListWindow : Window
     {
-        BlApi.IBl? bl = BlApi.Factory.Get();
+        BlApi.IBl? bl; 
+        public ObservableCollection<OrderForList?> orderForLists { get; set; } = new ObservableCollection<OrderForList>()!;
         public OrderListWindow()
         {
             InitializeComponent();
-            List<BO.OrderForList> orderForLists = new List<BO.OrderForList>();
-            orderForLists = bl?.Order.GetOrderList().ToList();
+            bl = BlApi.Factory.Get();
+            orderForLists = new ObservableCollection<OrderForList?>(from item in bl?.Order.GetOrderList()
+                                                                    select item);
             lstView.ItemsSource = orderForLists;
         }
 
+        private void OrderListWindow_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            OrderForList orderForList = (OrderForList)lstView.SelectedItem;
+            BO.Order order = new BO.Order();
+            order = bl?.Order.GetOrderItem(orderForList.ID)!;
+            OrderWindow orderWindow = new OrderWindow(order!);
+            orderWindow.ShowDialog();
+            orderForLists = new ObservableCollection<OrderForList?>(bl?.Order.GetOrderList()!);
+            lstView.ItemsSource = orderForLists;
+        }
     }
 }

@@ -14,12 +14,12 @@ internal class BlProduct : BlApi.IProduct
         IEnumerable<BO.ProductForList?> productsForList = dal?.Product.GetList().Select(
             p=> new BO.ProductForList
             {
-            ID = (int)p?.Id,
+            ID = (int)p?.Id!,
             Name = p?.Name,
-            Price = (double)p?.Price,
-            Category = (BO.Category)p?.Category
+            Price = (double)p?.Price!,
+            Category = (BO.Category)p?.Category!
             }
-        );
+        )!;
 
         //foreach (var item in dal?.Product.GetList())// dont necessery to transform with Linq to Object beacause theire is for this functon any waist of time
         //{

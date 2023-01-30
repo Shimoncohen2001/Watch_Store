@@ -225,7 +225,7 @@ internal class Program
                                     CustomerEmail = bl?.Order.GetOrderItem(id4).CustomerEmail,
                                     CustomerName = bl?.Order.GetOrderItem(id4).CustomerName,
                                     orderItems = bl?.Order.GetOrderItem(id4).orderItems,
-                                    TotalPrice = (double)bl?.Order.GetOrderItem(id4).TotalPrice
+                                    TotalPrice = (double)bl?.Order.GetOrderItem(id4).TotalPrice!
                                 };
 
                                 try

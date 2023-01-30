@@ -1,5 +1,4 @@
-﻿
-using BO;
+﻿using BO;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -40,14 +39,21 @@ namespace PL.Product
             }
         }
 
+        public ProductWindow()
+        {
+            InitializeComponent();
+            CategorySelector.ItemsSource = Enum.GetValues(typeof(Category1));
+        }
+
         public ProductWindow(BO.Product product1)
         {
             InitializeComponent();
             bl = BlApi.Factory.Get();
             product=new BO.Product();
             product=product1;
-            //this.Grid.DataContext = product;
-            CategorySelector.ItemsSource = Enum.GetValues(typeof(BO.Category1));
+            int cat = (int)product1.Category!;
+            CategorySelector.ItemsSource = Enum.GetValues(typeof(Category1));
+            CategorySelector.SelectedIndex = cat;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -57,8 +63,6 @@ namespace PL.Product
 
                 bl?.Product.Add(product);
                 product = new BO.Product();
-                //this.Grid.DataContext = product;
-
             }
             catch(Exception ex)
             {
@@ -77,8 +81,6 @@ namespace PL.Product
             {
                 bl?.Product.Update(product);
                 Close();
-                //le soucis que je constate est lorseque j'appuis sur le boutton update il est cense retourner a l,endroit qui la envoyer ici pour faire sa modification las bas sauf qu'il ne le fait pas
-                
             }
             catch (Exception ex)
             {

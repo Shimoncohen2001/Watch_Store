@@ -8,12 +8,16 @@
         mc:Ignorable="d"
         Title="ProductListWindow" Height="640" Width="800">
     <Grid x:Name="MainGrid" HorizontalAlignment="Right" Width="800">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="47*"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="40*"/>
             <RowDefinition Height="500*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Grid x:Name="UpGrid" Height="auto" Grid.Row="0" HorizontalAlignment="Left" Width="800">
+        <Grid x:Name="UpGrid" Height="auto" Grid.Row="0" HorizontalAlignment="Left" Width="800" Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
@@ -21,7 +25,7 @@
             <ComboBox x:Name="CategorySelector" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" SelectionChanged="CategorySelector_SelectionChanged" Height="43" Width="400"/>
             <Label x:Name="Categories" Content="Category:" HorizontalAlignment="Left" Margin="123,10,0,0" VerticalAlignment="Top"/>
         </Grid>
-        <ListView Grid.Row="1" ItemsSource="{Binding ProductForLists}" Name="lstView"  MouseDoubleClick="ProductListWindow_MouseDoubleClick">
+        <ListView ItemsSource="{Binding ProductForLists}" Name="lstView"  MouseDoubleClick="ProductListWindow_MouseDoubleClick" Grid.ColumnSpan="2" Margin="0,43,0,0" Grid.RowSpan="2" Foreground="#FF333F5D" Background="#FFBCE8ED">
             <ListView.View>
                 <GridView>
                     <GridViewColumn x:Name="ProductId" Header="Id" DisplayMemberBinding="{Binding ID}" />
@@ -31,6 +35,7 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <Button Content="Add new Product" Grid.Row="2" HorizontalAlignment="Right" Margin="5" Padding="5" Click="AddProductButton_Click"/>
+        <Button Content="Add new Product" Grid.Row="2" HorizontalAlignment="Left" Margin="691,5,0,5" Padding="5" Click="AddProductButton_Click" Grid.ColumnSpan="2"/>
+        <Button Content="List of orders" HorizontalAlignment="Left" Margin="23,0,0,0" Grid.Row="2" VerticalAlignment="Center" RenderTransformOrigin="-0.52,0.729" Height="28" Width="118" Click="Button_Click"/>
     </Grid>
 </Window>
