@@ -23,6 +23,7 @@ namespace PL.Cart
     {
         private BO.Cart? Cart = new BO.Cart();
         public ObservableCollection<OrderItem?> OrderItems { get; set; } = new ObservableCollection<OrderItem>()!;
+        //public ObservableCollection<OrderItem?> OrderItems1 { get; set; } = new ObservableCollection<OrderItem>()!;
         BlApi.IBl? bl;
         public CartWindow(BO.Cart cart)
         {

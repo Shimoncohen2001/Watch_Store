@@ -27,8 +27,7 @@ namespace PL.Order
         {
             InitializeComponent();
             bl = BlApi.Factory.Get();
-            orderForLists = new ObservableCollection<OrderForList?>(from item in bl?.Order.GetOrderList()
-                                                                    select item);
+            orderForLists = new ObservableCollection<OrderForList?>(bl?.Order.GetOrderList()!);
             lstView.ItemsSource = orderForLists;
         }
 

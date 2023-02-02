@@ -22,20 +22,20 @@ namespace PL.Product
     /// <summary>
     /// Logique d'interaction pour ProductWindow.xaml
     /// </summary>
-    public partial class ProductWindow : Window
+    public partial class ProductWindow : Window, INotifyPropertyChanged
     {
         BlApi.IBl? bl;
-        private BO.Product _product  =new BO.Product();
+        private BO.Product _product = new BO.Product();
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        public BO.Product product 
+        public BO.Product Product 
         {
             get { return _product; }
             set 
             { 
                 _product = value; 
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs (nameof(product)));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs (nameof(Product)));
             }
         }
 
@@ -50,8 +50,8 @@ namespace PL.Product
         {
             InitializeComponent();
             bl = BlApi.Factory.Get();
-            product=new BO.Product();
-            product=product1;
+            Product=new BO.Product();
+            Product=product1;
             int cat = (int)product1.Category!;
             CategorySelector.ItemsSource = Enum.GetValues(typeof(Category1));
             CategorySelector.SelectedIndex = cat;
@@ -61,7 +61,7 @@ namespace PL.Product
         {
             try
             { 
-                bl?.Product.Add(product);
+                bl?.Product.Add(Product);
                 Close();
             }
             catch (Exception ex)
@@ -78,7 +78,7 @@ namespace PL.Product
         {
             try
             {
-                bl?.Product.Update(product);
+                bl?.Product.Update(Product);
                 Close();
             }
             catch (Exception ex)

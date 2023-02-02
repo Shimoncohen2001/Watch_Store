@@ -4,6 +4,7 @@ using PL.Cart;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -64,18 +65,37 @@ namespace PL.Product
             if (BO.Category.All == (BO.Category)selectedItem)
             {
                 ProductForLists = new ObservableCollection<ProductForList?>(bl?.Product?.GetProductForLists()!);
-                lstView.ItemsSource = ProductForLists;
+                lstView.ItemsSource = ProductItems;
             }
             else
             {
                 ProductForLists = new ObservableCollection<ProductForList?>(bl?.Product.GetProductForLists(P => P?.Category == (BO.Category)selectedItem)!);
-                lstView.ItemsSource = ProductForLists;
+                lstView.ItemsSource = ProductItems;
             }
         }
 
-        private void ShowCartButton_Click(object sender, RoutedEventArgs e) => new CartWindow(cart!).Show();
+        private void ShowCartButton_Click(object sender, RoutedEventArgs e)
+        {
+            new CartWindow(cart!).ShowDialog();
 
-        private void lstView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+            ProductForLists = new ObservableCollection<ProductForList?>(bl?.Product?.GetProductForLists()!);
+            Products = new ObservableCollection<BO.Product>(from item in ProductForLists
+                                                            select bl?.Product.GetDirector(item.ID))!;
+            ProductItems = new ObservableCollection<ProductItem>(Products.Select(
+                pi => new ProductItem
+                {
+                    ID = pi!.ID,
+                    Name = pi?.Name,
+                    Price = pi!.Price,
+                    Category = pi.Category,
+                    Amount = pi.InStock,
+                    InStock = pi.InStock > 0
+                }))!;
+            cart = new BO.Cart();
+            lstView.ItemsSource = ProductItems;
+        }
+
+        private void AddProductItem_DoubleClick(object sender, MouseButtonEventArgs e)
         {
             ProductItem productItem = (lstView.SelectedItem as ProductItem)!;
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PL.Product;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -37,7 +38,7 @@ namespace PL.Cart
                 Cart!.CustomerEmail = EmailTextBox.Text;
                 bl?.Cart.Confirmation(Cart!);
                 MessageBox.Show("Your cart is confirmed!");
-                Cart = null; // Censé supprimer le cart ici avant de revenir dans ProductItemWindow 
+                
                 Close();
             }
             catch (Exception ex)
@@ -46,7 +47,7 @@ namespace PL.Cart
             }
             finally
             {
-                
+                Close();
             }
         }
     }
