@@ -21,7 +21,7 @@ namespace PL.Cart
     /// </summary>
     public partial class CartWindow : Window
     {
-        public BO.Cart? Cart = new BO.Cart();
+        private BO.Cart? Cart = new BO.Cart();
         public ObservableCollection<OrderItem?> OrderItems { get; set; } = new ObservableCollection<OrderItem>()!;
         BlApi.IBl? bl;
         public CartWindow(BO.Cart cart)
@@ -39,6 +39,9 @@ namespace PL.Cart
             try
             {
                 bl?.Cart.Update(Cart!, Convert.ToInt32(ProductID.Text), Convert.ToInt32(QuantityChoice.Text));
+                OrderItems = new ObservableCollection<OrderItem?>(from item in Cart.orderItems
+                                                                  select item)!;
+                lstView.ItemsSource = OrderItems;
                 MessageBox.Show("Updated with success!");
             }
             catch (Exception ex)
@@ -53,7 +56,7 @@ namespace PL.Cart
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            new CartConfirmationWindow(Cart!).Show();
+            new CartConfirmationWindow(Cart!).ShowDialog();
             Close();
         }
     }

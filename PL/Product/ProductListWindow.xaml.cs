@@ -79,7 +79,7 @@ namespace PL.Product
             //this.Close();
             ProductWindow product = new ProductWindow();
             product.UpdateBtn.Visibility = Visibility.Collapsed; // The update button doesn't appear if the admin need add operation
-            product.Show();
+            product.ShowDialog();
             ProductForLists = new ObservableCollection<ProductForList?>(bl?.Product?.GetProductForLists()!);
             lstView.ItemsSource = ProductForLists;
         }
@@ -97,7 +97,7 @@ namespace PL.Product
             Productupdated = bl?.Product.GetDirector(productForList1.ID)!;
             ProductWindow product = new ProductWindow(Productupdated);
             product.AddBtn.Visibility = Visibility.Collapsed; // The add button doesn't appear if the admin need update operation
-            product.Show();
+            product.ShowDialog();
             ProductForLists = new ObservableCollection<ProductForList?>(bl?.Product?.GetProductForLists()!);
             lstView.ItemsSource = ProductForLists;
         }
