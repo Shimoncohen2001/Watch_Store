@@ -39,6 +39,7 @@ namespace PL
         private void TrackOrderButton_Click(object sender, RoutedEventArgs e) 
         {
             new OrderTrackingWindow(OrderToTrack.Text).Show();
+            OrderToTrack.Text = "";
         }     
     }
 }

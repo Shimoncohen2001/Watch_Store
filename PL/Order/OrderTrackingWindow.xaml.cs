@@ -1,6 +1,8 @@
 ﻿using BO;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,19 +20,46 @@ namespace PL.Order
     /// <summary>
     /// Interaction logic for OrderTrackingWindow.xaml
     /// </summary>
-    public partial class OrderTrackingWindow : Window
+    public partial class OrderTrackingWindow : Window, INotifyPropertyChanged
     {
-        public OrderTracking OrderTracking = new();
+        private ObservableCollection<DateTime?> _ordersTrackingList = new ObservableCollection<DateTime?>();
+        public ObservableCollection<DateTime?> OrderTrackingList 
+        {
+            get { return _ordersTrackingList; }
+            set { _ordersTrackingList = value; }
+        } 
+
+        private OrderTracking _OrderTracking = new OrderTracking();  
+        public OrderTracking orderTracking
+        {
+            get { return _OrderTracking; }
+            set 
+            {
+                _OrderTracking = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(orderTracking)));
+            }
+        }
+
 
         BlApi.IBl? bl;
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
         public OrderTrackingWindow(string text)
         {
             InitializeComponent();
             bl = BlApi.Factory.Get();
-            OrderTracking = bl?.Order.TrackingOrder(Convert.ToInt32(text))!;
+            orderTracking = bl?.Order.TrackingOrder(Convert.ToInt32(text))!;
+
+            DateTime? dateTime = (orderTracking.OrderTrackingList[0]?.Item1);
+            DateTime? dateTime1=(orderTracking.OrderTrackingList[1].Item1);
+            DateTime? dateTime2=(orderTracking.OrderTrackingList[2].Item1);
+            OrderTrackingList = new ObservableCollection<DateTime?>();
+            OrderTrackingList.Add(dateTime);
+            OrderTrackingList.Add(dateTime1);
+            OrderTrackingList.Add(dateTime2);
+            lstview1.ItemsSource=OrderTrackingList;
         }
 
-        private void OrderDetailsButton_Click(object sender, RoutedEventArgs e) { } //=> new OrderWindow().Show();
-        
     }
 }
