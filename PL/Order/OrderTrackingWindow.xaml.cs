@@ -49,16 +49,25 @@ namespace PL.Order
         {
             InitializeComponent();
             bl = BlApi.Factory.Get();
-            orderTracking = bl?.Order.TrackingOrder(Convert.ToInt32(text))!;
+            try
+            {
+                orderTracking = bl?.Order.TrackingOrder(Convert.ToInt32(text))!;
 
-            DateTime? dateTime = (orderTracking.OrderTrackingList[0]?.Item1);
-            DateTime? dateTime1=(orderTracking.OrderTrackingList[1].Item1);
-            DateTime? dateTime2=(orderTracking.OrderTrackingList[2].Item1);
-            OrderTrackingList = new ObservableCollection<DateTime?>();
-            OrderTrackingList.Add(dateTime);
-            OrderTrackingList.Add(dateTime1);
-            OrderTrackingList.Add(dateTime2);
-            lstview1.ItemsSource=OrderTrackingList;
+                DateTime? dateTime = (orderTracking.OrderTrackingList[0].Item1);
+                DateTime? dateTime1 = (orderTracking.OrderTrackingList[1].Item1);
+                DateTime? dateTime2 = (orderTracking.OrderTrackingList[2].Item1);
+                OrderTrackingList = new ObservableCollection<DateTime?>
+                {
+                    dateTime,
+                    dateTime1,
+                    dateTime2
+                };
+                lstview1.ItemsSource = OrderTrackingList;
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
     }

@@ -73,36 +73,7 @@ internal class DalOrderItems : IOrderItem
         var orderItems1 = from item in DataSource._orderItems
                           where item?.OrderId == orderId && item?.ProductId == productId
                           select item;
-            //if (item?.OrderId == orderId && item?.ProductId == productId)
-            //{
-            //    OrderItems NewOrderItem = new OrderItems();
-            //    NewOrderItem = Get(orderId, productId);
-            //    bool finish = false;
-            //    while (!finish)
-            //    {
-            //        Console.WriteLine(@"choose option:
-            //                               1. Update the Amount of your product:
-            //                               2. EXIT ");
-            //        int choice = 0;
-            //        int.TryParse(Console.ReadLine(), out choice);
-            //        if (choice == 1)
-            //        {
-            //            DalProducts dalProducts = new DalProducts();
-            //            Console.WriteLine("Enter the new Amount: ");
-            //            int NewAmount = 0;
-            //            int.TryParse(Console.ReadLine(), out NewAmount);
-            //            NewOrderItem.Amount = NewAmount;
-            //            NewOrderItem.Price = NewAmount * (double)(dalProducts.Get(productId).Price);
-            //        }
-            //        else // exit 
-            //        {
-            //            Console.WriteLine("Amount updated.");
-            //            GetList().ToList()[count] = NewOrderItem;
-            //            return;
-            //        }
-            //    }
-            //}
-            //count++;
+            
             count = DataSource._orderItems.FindIndex(oI => oI?.OrderId == orderItems1.First()?.OrderId && oI?.ProductId == orderItems1.First()?.ProductId);
             int id = (int)orderItems1.First()?.Id!;
             DataSource._orderItems[count] = DataSource._orderItems.Last();

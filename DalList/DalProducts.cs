@@ -66,61 +66,11 @@ internal class DalProducts : IProduct
         var products = from item in DataSource._products
                        where item?.Id == productId
                        select item;  // products is an enumarable that contains the old product and the updated product
-            //if (item?.Id == productId)
-            //{
-            //Products NewProduct = new Products();
-            //NewProduct = (Products)Get(productId);
-            //bool finish = false;
-            //while (!finish)
-            //{
-
-            //    Console.WriteLine(@"choose option: 
-            //                           1. Update the name Product
-            //                           2. update the Price Product
-            //                           3. update the Category Product
-            //                           4. update the amount in the stock
-            //                           5. EXIT ");
-            //    int choice = 0;
-            //    int.TryParse(Console.ReadLine(), out choice);
-            //    if (choice == 1)// update the name
-            //    {
-            //        Console.WriteLine("Enter the new Name: ");
-            //        string NewName = Console.ReadLine();
-            //        NewProduct.Name = NewName;
-            //    }
-            //    else if (choice == 2)// update the Email
-            //    {
-            //        Console.WriteLine("Enter the new Price: ");
-            //        int NewPrice = 0;
-            //        int.TryParse(Console.ReadLine(), out NewPrice);
-            //        NewProduct.Price = NewPrice;
-            //    }
-            //    else if (choice == 3)// uodate the adress
-            //    {
-            //        Console.WriteLine("Choose the new category 0. Men 1. Women 2. Children");
-            //        int NewCategorie = 0;
-            //        int.TryParse(Console.ReadLine(), out NewCategorie);
-            //        NewProduct.Category = (Category)NewCategorie;
-            //    }
-            //    else if (choice == 4)
-            //    {
-            //        Console.WriteLine("Enter the new Amount in the stock: ");
-            //        int NewInStock = 0;
-            //        int.TryParse(Console.ReadLine(), out NewInStock);
-            //        NewProduct.InStock = NewInStock;
-            //    }
-            //    else// exit 
-            //    {
-            //Console.WriteLine("Product updated.");
-                //    }
-                //}
-            //}
-            //count++;
-
-            count = DataSource._products.FindIndex(p => p.Equals(products.First()));
-            DataSource._products[count] = DataSource._products.Last();
-            DataSource._products.RemoveAt(DataSource._products.Count()-1);
-            return;
+            
+        count = DataSource._products.FindIndex(p => p.Equals(products.First()));
+        DataSource._products[count] = DataSource._products.Last();
+        DataSource._products.RemoveAt(DataSource._products.Count()-1);
+        return;
         throw new Exception("Product cannot be found!");
 
     }

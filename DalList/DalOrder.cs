@@ -39,11 +39,10 @@ internal class DalOrder:IOrder
     /// //////////////////////GetList/////////////////////////
     /// </summary>
     /// <returns></returns>
-    public IEnumerable<Order?> GetList(Func<Order?,bool> func=null)
+    public IEnumerable<Order?> GetList(Func<Order?,bool> func = null!)
     {
         if (func != null)
         {
-            //Predicate<Order?> predicate1 = (ord) => func(ord);
             var newList = DataSource._orders.Where(func); // newList selects just the orders who pass the condition
             return newList;
         }
@@ -70,53 +69,10 @@ internal class DalOrder:IOrder
         var newOrder = from item in DataSource._orders
                        where item?.Id == orderId
                        select item;
-            //if (item?.Id == orderId)
-            //{
-            //    Order NewOrder = new Order();
-            //    NewOrder = Get(orderId);
-            //    bool finish=false;
-            //    while (!finish)
-            //    {
-            //        Console.WriteLine(@"choose option: 
-            //                               1. Update the name Customer
-            //                               2. Update the Email Customner
-            //                               3. Update the adress customer
-            //                               4. EXIT");
-            //        int choice = 0;
-            //        int.TryParse(Console.ReadLine(), out choice);
-            //        if (choice == 1)// update the name
-            //        {
-            //            Console.WriteLine("Enter the new Name: ");
-            //            string NewName = Console.ReadLine();
-            //            NewOrder.CustomerName = NewName;
-            //        }
-            //        else if (choice == 2)// update the Email
-            //        {
-            //            Console.WriteLine("Enter the new Email: ");
-            //            string NewEmail = Console.ReadLine();
-            //            NewOrder.CustomerEmail = NewEmail;
-            //        }
-            //        else if (choice == 3)// update the adress
-            //        {
-            //            Console.WriteLine("Enter the new Adress: ");
-            //            string NewAdress = Console.ReadLine();
-            //            NewOrder.CustomerAdress = NewAdress;
-            //        }
-            //        else// exit 
-            //        {
-            //            Console.WriteLine("Order updated.");
-            //            GetList().ToList()[count] = NewOrder;// yoel propose modifff a revoir et tester
-            //            return;
-            //        }
-
-            //    }
-            //}
-            //        count++;
-
-            count = DataSource._orders.FindIndex(o => o?.CustomerName == newOrder.First()?.CustomerName && o?.CustomerEmail == newOrder.First()?.CustomerEmail && o?.CustomerAdress == newOrder.First()?.CustomerAdress);
-            DataSource._orders[count] = DataSource._orders.Last();
-            DataSource._orders.RemoveAt(DataSource._orders.Count() - 1);
-            return;
+        count = DataSource._orders.FindIndex(o => o?.CustomerName == newOrder.First()?.CustomerName && o?.CustomerEmail == newOrder.First()?.CustomerEmail && o?.CustomerAdress == newOrder.First()?.CustomerAdress);
+        DataSource._orders[count] = DataSource._orders.Last();
+        DataSource._orders.RemoveAt(DataSource._orders.Count() - 1);
+        return;
         throw new Exception("Order cannot be found!");
     }
 

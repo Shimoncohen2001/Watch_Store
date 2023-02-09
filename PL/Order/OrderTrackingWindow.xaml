@@ -9,16 +9,16 @@
         DataContext="{Binding RelativeSource={RelativeSource self}}">
     <Grid x:Name="Grid" DataContext="{Binding orderTracking}">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="279*"/>
-            <ColumnDefinition Width="121*"/>
+            <ColumnDefinition Width="63*"/>
+            <ColumnDefinition Width="337*"/>
         </Grid.ColumnDefinitions>
         <Label Content="Id:" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" RenderTransformOrigin="-2.097,0.324" Width="54" Height="26"/>
-        <Label Content="Status" HorizontalAlignment="Left" Margin="10,120,0,0" VerticalAlignment="Top" Height="26" Width="42" />
-        <Label Content="OrderDates" HorizontalAlignment="Left" Margin="10,200,0,0" VerticalAlignment="Top" Height="26" Width="42" />
+        <Label Content="Status:" HorizontalAlignment="Left" Margin="10,100,0,0" VerticalAlignment="Top" Height="26" Width="54" />
+        <Label Content="OrderDates:" HorizontalAlignment="Left" Margin="10,200,0,0" VerticalAlignment="Top" Height="26" Width="74" />
 
         <TextBlock x:Name= "IdTextBox" HorizontalAlignment="Left" Margin="76,0,0,0" TextWrapping="Wrap" Text="{Binding Path=ID, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="130" Grid.Column="1" Height="16"/>
-        <TextBlock x:Name="StatutTextBox" HorizontalAlignment="Left" Margin="76,120,0,0" VerticalAlignment="Top" Width="130" Grid.Column="1" Text="{Binding Path=Status, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="16"/>
-        <ListView ItemsSource="{Binding OrderTrackingList}" Name="lstview1" Margin="0,205,0,0" Grid.Column="1">
+        <TextBlock x:Name="StatutTextBox" HorizontalAlignment="Left" Margin="76,100,0,0" VerticalAlignment="Top" Width="130" Grid.Column="1" Text="{Binding Path=Status, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="16"/>
+        <ListView ItemsSource="{Binding OrderTrackingList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Name="lstview1" Margin="0,200,468,118" Grid.Column="1">
             <ListView.View>
                 <GridView>
                     <GridViewColumn/>
