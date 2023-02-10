@@ -164,17 +164,18 @@ internal class Product : IProduct
     /// Saving when used with LINQ
     /// </summary>
     /// <param name="products"></param>
-    public void SaveStudentList(IEnumerable<DO.Products?> products)
+    public void SaveProductList(IEnumerable<DO.Products?> products)
     {
-        ProductRoot = new XElement("students",
+        ProductRoot = new XElement("products",
             from item in products
-            select new XElement("student",
+            select new XElement("product",
             new XElement("id", item?.Id),
             new XElement("name", item?.Name),
             new XElement("price", item?.Price),
             new XElement("category", item?.Category),
             new XElement("inStock", item?.InStock)
             )
+            
         );
         ProductRoot.Save(ProductPath);
     }

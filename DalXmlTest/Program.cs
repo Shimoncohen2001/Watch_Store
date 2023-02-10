@@ -7,13 +7,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace Dal;
+namespace DalFacade;
 
 static class Program
 {
     public static void Main(string[] args)
     {
-        //DalApi.IDal? dal = DalApi.Factory.Get(); // genere exception dans factory.cs
+        //DalApi.IDal? dal = DalApi.Factory.Get(); 
         //Products products = new();
         //for (int i = 1; i <= 10; i++)
         //{
