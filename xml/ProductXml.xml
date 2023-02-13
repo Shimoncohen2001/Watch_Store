@@ -29,13 +29,6 @@
     <InStock>5</InStock>
   </Products>
   <Products>
-    <Id>11</Id>
-    <Name>s</Name>
-    <Price>1</Price>
-    <Category>Men</Category>
-    <InStock>11</InStock>
-  </Products>
-  <Products>
     <Id>100004</Id>
     <Name>Casio_GSHOK</Name>
     <Price>1</Price>
@@ -48,20 +41,6 @@
     <Price>3905</Price>
     <Category>Men</Category>
     <InStock>4</InStock>
-  </Products>
-  <Products>
-    <Id>100009</Id>
-    <Name>Rolex_DateDate</Name>
-    <Price>4072</Price>
-    <Category>Men</Category>
-    <InStock>7</InStock>
-  </Products>
-  <Products>
-    <Id>100002</Id>
-    <Name>Rolex</Name>
-    <Price>1111</Price>
-    <Category>Women</Category>
-    <InStock>1109</InStock>
   </Products>
   <Products>
     <Id>100005</Id>
@@ -83,5 +62,26 @@
     <Price>3654</Price>
     <Category>Men</Category>
     <InStock>3</InStock>
+  </Products>
+  <Products>
+    <Id>100009</Id>
+    <Name>Rolex_DateDate</Name>
+    <Price>4072</Price>
+    <Category>Men</Category>
+    <InStock>5</InStock>
+  </Products>
+  <Products>
+    <Id>11</Id>
+    <Name>s</Name>
+    <Price>1</Price>
+    <Category>Men</Category>
+    <InStock>10</InStock>
+  </Products>
+  <Products>
+    <Id>100002</Id>
+    <Name>Rolex</Name>
+    <Price>1111</Price>
+    <Category>Women</Category>
+    <InStock>909</InStock>
   </Products>
 </ArrayOfProducts>

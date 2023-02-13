@@ -71,15 +71,15 @@ internal class BlOrder : BlApi.IOrder
         foreach (var item in query)
         {
             int status=0;
-            if (item.Order?.OrderDate <= DateTime.Now && (item.Order?.ShipDate > DateTime.Now || item.Order?.ShipDate == DateTime.MinValue))
+            if (item.Order?.OrderDate <= DateTime.Now && (item.Order?.ShipDate > DateTime.Now || item.Order?.ShipDate == null))
             {
                 status = 0;
             }
-            else if ((item.Order?.ShipDate <= DateTime.Now && item.Order?.DeliveryDate > DateTime.Now) || (item.Order?.ShipDate != DateTime.MinValue && item.Order?.DeliveryDate == DateTime.MinValue))
+            else if ((item.Order?.ShipDate <= DateTime.Now && item.Order?.DeliveryDate > DateTime.Now) || (item.Order?.ShipDate != DateTime.MinValue && (item.Order?.DeliveryDate == null)))
             {
                 status = 1;
             }
-            else if (item.Order?.DeliveryDate <= DateTime.Now && item.Order?.DeliveryDate != DateTime.MinValue)
+            else if (item.Order?.DeliveryDate <= DateTime.Now && item.Order?.DeliveryDate != null)
             {
                 status = 2;
             }
