@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BlImplementation;
+using DalApi;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,7 +11,7 @@ namespace BlApi
    
     public static class Factory
     {
-        public static IBl Get() => new BlImplementation.Bl();
-
+        //public static IBl Get() => new BlImplementation.Bl();
+        public static IBl Get() => Bl.Instance;
     }
 }

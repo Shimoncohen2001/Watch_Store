@@ -2,6 +2,7 @@
 using DalApi;
 using DO;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 using System.Xml.Linq;
@@ -11,14 +12,26 @@ namespace Dal;
 
 internal class Order : IOrder
 {
-    readonly string OrderPath = @"OrderXml.xml";
-
+    public string OrderPath;
     public Order()
     {
-        if (!File.Exists(OrderPath))
-            HelpXml.CreateFiles(OrderPath);
+        string localPath;
+        string str = Assembly.GetExecutingAssembly().Location;
+        localPath = Path.GetDirectoryName(str);
+        localPath = Path.GetDirectoryName(localPath);
+        //localPath = Path.GetDirectoryName(localPath);
+
+        localPath += @"\xml";
+        string extOrderPath = localPath + @"\OrderXml.xml";
+        if (!File.Exists(extOrderPath))
+        {
+            HelpXml.CreateFiles(extOrderPath);
+        }
         else
-            HelpXml.LoadData(OrderPath);
+        {
+            HelpXml.LoadData(extOrderPath);
+        }
+        OrderPath = extOrderPath;
     }
 
     public void Add(DO.Order t)
@@ -71,8 +84,13 @@ internal class Order : IOrder
 
     public IEnumerable<DO.Order?> GetList(Func<DO.Order?, bool>? predicate = null)
     {
-        IEnumerable<DO.Order?> listOrders;
-        listOrders = HelpXml.LoadListFromXmlSerializer<DO.Order?>(OrderPath).Where(predicate!);
+        //IEnumerable<DO.Order?> listOrders;
+        var listOrders = HelpXml.LoadListFromXmlSerializer<DO.Order?>(OrderPath);
+        if (predicate!=null)
+        {
+            var listOrders1 = HelpXml.LoadListFromXmlSerializer<DO.Order?>(OrderPath).Where(predicate!);
+            return listOrders1;
+        }
         return listOrders;
     }
 

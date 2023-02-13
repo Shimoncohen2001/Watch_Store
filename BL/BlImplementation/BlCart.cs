@@ -8,7 +8,9 @@ internal class BlCart : ICart
 {
     static Random rand = new Random();
     int automaticOrderId = rand.Next(321, 400);
+    int automaticOrderItemId = rand.Next(41, 100);// mnt
     DalApi.IDal? dal = DalApi.Factory.Get();
+    
 
     /// <summary>
     /// Add a product to cart or add amount of the product
@@ -115,7 +117,9 @@ internal class BlCart : ICart
         dal?.Order.Add(order);
         foreach (var item in cart.orderItems)
         {
+            automaticOrderItemId = rand.Next(41, 100);
             DO.OrderItems orderItems= new DO.OrderItems();
+            orderItems.Id = automaticOrderItemId;
             orderItems.OrderId = (int)dal?.Order.GetList().Last()?.Id!;// return the id of the last element that was added one the list
             orderItems.ProductId=item!.ProductID;
             orderItems.Amount = item.Amount;    

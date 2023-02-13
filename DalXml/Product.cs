@@ -2,48 +2,63 @@
 using DalApi;
 using DO;
 using System.Diagnostics;
+using System.Reflection;
 using System.Security.Cryptography;
 using System.Xml.Linq;
+using System.Xml.Serialization;
+using System.Collections;
+using System.Data.Common;
+using System.Reflection.Metadata.Ecma335;
+using System.Linq;
 
 namespace Dal;
 internal class Product : IProduct
 {
     XElement ProductRoot;
-    readonly string ProductPath = @"StudentXml.xml";
 
+    public string ProductPath;
     public Product()
     {
-        if (!File.Exists(ProductPath))
+        string localPath;
+        string str = Assembly.GetExecutingAssembly().Location;
+        localPath = Path.GetDirectoryName(str);
+        localPath = Path.GetDirectoryName(localPath);
+        //localPath = Path.GetDirectoryName(localPath);
+
+        localPath += @"\xml";
+        string extProductPath = localPath + @"\ProductXml.xml";
+        if (!File.Exists(extProductPath))
         {
-            HelpXml.CreateFiles(ProductPath);
+            HelpXml.CreateFiles(extProductPath);
         }
         else
         {
-            HelpXml.LoadData(ProductPath);
+            HelpXml.LoadData(extProductPath);
         }
+        ProductPath = extProductPath;
     }
 
 
     public void Add(DO.Products t)
     {
-        _ = new XElement("id", t.Id);
-        _ = new XElement("name", t.Name);
-        _ = new XElement("price", t.Price);
-        _ = new XElement("category", t.Category);
-        _ = new XElement("inStock", t.InStock);
+        XElement id = new XElement("Id", t.Id);
+        XElement name = new XElement("Name", t.Name);
+        XElement price = new XElement("Price", t.Price);
+        XElement category = new XElement("Category", t.Category);
+        XElement instok = new XElement("InStock", t.InStock);
 
-        ProductRoot.Add(new XElement("product"));
+        ProductRoot.Add(new XElement("Products",id,name,price,category,instok));
         ProductRoot.Save(ProductPath);
     }
 
     public void Delete(int Id1, int Id2)
     {
-        XElement product;
+        ProductRoot = XElement.Load(ProductPath);
         try
         {
-            product = (from item in ProductRoot.Elements()
-                       where int.Parse(item.Element("id")!.Value) == Id1
-                       select item).FirstOrDefault()!;
+            XElement product = (from item in ProductRoot.Elements()
+                                where int.Parse(item.Element("Id")!.Value) == Id1
+                                select item).FirstOrDefault()!;
             product.Remove();
             ProductRoot.Save(ProductPath);
         }
@@ -55,21 +70,37 @@ internal class Product : IProduct
 
     public DO.Products Get(int Id1, int Id2)
     {
-        HelpXml.LoadData(ProductPath);
-        DO.Products? product;
+        ProductRoot = XElement.Load(ProductPath);
+        DO.Products product=new Products();
         try
         {
-            product = (from item in ProductRoot.Elements()
-                       where int.Parse(item.Element("id")!.Value) == Id1
-                       select new DO.Products()
-                       {
-                           Id = int.Parse(item.Element("id")!.Value),
-                           Name = item.Element("name")!.Value,
-                           Price = double.Parse(item.Element("price")!.Value),
-                           Category = (Category)int.Parse(item.Element("category")!.Value),
-                           InStock = int.Parse(item.Element("inStock")!.Value)
-                       }).FirstOrDefault();
-            return (DO.Products)product!;
+            ProductRoot = XElement.Load(ProductPath);
+
+            // LINQ to XML to get the list of products. The type of products is IEnumerable<XElement>?
+            var products = from item in ProductRoot.Elements()
+                           select item;
+
+
+            List<DO.Products?> p = new List<DO.Products?>();
+
+            // Allow us to cast from IEnumerable<XElement>? to List<Products> that is also an IEnumerable<Products?> 
+            foreach (var item1 in products)
+            {
+                product.Id = int.Parse(item1.Element("Id")!.Value);
+                product.Name = item1.Element("Name")!.Value;
+                product.Price = double.Parse(item1.Element("Price").Value);
+                product.Category = (Category)Enum.Parse(typeof(Category), item1.Element("Category").Value);
+                product.InStock = int.Parse(item1.Element("InStock").Value);
+                p.Add(product);
+                // Reinitialize the product for next iteration 
+                product = new Products();
+            }
+            var prod = from item1 in p
+                       where item1?.Id == Id1
+                       select item1;
+            DO.Products products1=new Products();
+            products1 = (DO.Products)prod.First()!;
+            return products1;
         }
         catch
         {
@@ -80,84 +111,88 @@ internal class Product : IProduct
     // A finir
     public DO.Products? GetItem(Func<DO.Products?, bool>? predicate)
     {
-        HelpXml.LoadData(ProductPath);
-        DO.Products? product;
-        Predicate<Products?> predicate1 = prod => predicate!(prod);
-        try
-        {
-            product = (from item in ProductRoot.Elements() // Voir comment utiliser le predicate
-                       select new DO.Products()
-                       {
-                           Id = int.Parse(item.Element("id")!.Value),
-                           Name = item.Element("name")!.Value,
-                           Price = double.Parse(item.Element("price")!.Value),
-                           Category = (Category)int.Parse(item.Element("category")!.Value),
-                           InStock = int.Parse(item.Element("inStock")!.Value)
-                       }).FirstOrDefault();
-            return (DO.Products)product!;
-        }
-        catch
-        {
-            throw new Exception("Product doen't exists!");
-        }
+        //HelpXml.LoadData(ProductPath);
+        //DO.Products? product;
+        //Predicate<Products?> predicate1 = prod => predicate!(prod);
+        //try
+        //{
+        //    product = (from item in ProductRoot.Elements() // Voir comment utiliser le predicate
+        //               select new DO.Products()
+        //               {
+        //                   Id = int.Parse(item.Element("id")!.Value),
+        //                   Name = item.Element("name")!.Value,
+        //                   Price = double.Parse(item.Element("price")!.Value),
+        //                   Category = (Category)int.Parse(item.Element("category")!.Value),
+        //                   InStock = int.Parse(item.Element("inStock")!.Value)
+        //               }).FirstOrDefault();
+        //    return (DO.Products)product!;
+        //}
+        //catch
+        //{
+        //    throw new Exception("Product doen't exists!");
+        //}
+        throw new Exception();
     }
 
     // Voir comment faire avec predicate
     public IEnumerable<DO.Products?> GetList(Func<DO.Products?, bool>? predicate = null)
     {
-        HelpXml.LoadData(ProductPath);
-        IEnumerable<DO.Products?> products;
-        try
+        // Load the file in the root
+        ProductRoot = XElement.Load(ProductPath);
+
+        // LINQ to XML to get the list of products. The type of products is IEnumerable<XElement>?
+        var products = from item in ProductRoot.Elements()
+                       select item;
+
+
+        List<DO.Products?> p = new List<DO.Products?>();
+        DO.Products product=new Products();
+
+        // Allow us to cast from IEnumerable<XElement>? to List<Products> that is also an IEnumerable<Products?> 
+        foreach (var item1 in products)
         {
-            products = (IEnumerable<DO.Products?>)(from item in ProductRoot.Elements()
-                        select new DO.Products()
-                        {
-                            Id = int.Parse(item.Element("id")!.Value),
-                            Name = item.Element("name")!.Value,
-                            Price = double.Parse(item.Element("price")!.Value),
-                            Category = (Category)int.Parse(item.Element("category")!.Value),
-                            InStock = int.Parse(item.Element("inStock")!.Value)
-                        }).ToList();
-            return products;
+            product.Id = int.Parse(item1.Element("Id")!.Value);
+            product.Name = item1.Element("Name")!.Value;
+            product.Price = double.Parse(item1.Element("Price").Value);
+            product.Category = (Category)Enum.Parse(typeof(Category), item1.Element("Category").Value);
+            product.InStock = int.Parse(item1.Element("InStock").Value);
+            p.Add(product);
+            // Reinitialize the product for next iteration 
+            product = new Products();
         }
-        catch 
+        if (predicate != null)
         {
-            throw new Exception("Product doesn't exists!");
+            p = (List<Products?>)p.Where(predicate);
         }
+        return p;
     }
+
 
     public void Update(int Id1, int Id2)
     {
-        try
+        // Load the file in the root
+        ProductRoot = XElement.Load(ProductPath);
+        //We get the target product
+        XElement product = (from item in ProductRoot.Elements()
+                            where int.Parse(item.Element("Id")!.Value) == Id1
+                            select item).FirstOrDefault()!;
+        // We get the new product
+        XElement product1 = (from item in ProductRoot.Elements()
+                             where int.Parse(item.Element("Id")!.Value) == Id1
+                             select item).Last();
+        // We update the target product with the values that the admin entered in the PL
+        foreach (var item in ProductRoot.Elements())
         {
-            XElement product = (from item in ProductRoot.Elements()
-                                where int.Parse(item.Element("id")!.Value) == Id1
-                                select item).FirstOrDefault()!;
-            DO.Products newProduct = new()
+            if (item == product)
             {
-                Id = Id1
-            };
-            Console.WriteLine("Enter the new  name of the product you want");
-            string name1 = Console.ReadLine()!;
-            Console.WriteLine("Enter the new  price of the product you want");
-            double price1 = 0;
-            double.TryParse(Console.ReadLine(), out price1);
-            Console.WriteLine("Enter the new cathegory of the product you want: 0.Men, 1. Women, 2. children");
-            string choice2 = Console.ReadLine()!;
-            Category category1 = (Category)Convert.ToInt32(choice2);
-            Console.WriteLine("Enter the new stock of the product you want");
-            int stock1 = 0;
-            int.TryParse(Console.ReadLine(), out stock1);
-            product.Element("name")!.Value = newProduct.Name!;
-            product.Element("price")!.Value = newProduct.Price.ToString();
-            product.Element("category")!.Value = newProduct.Category.ToString()!;
-            product.Element("stock")!.Value = newProduct.InStock.ToString();
-            ProductRoot.Save(ProductPath);
+              product.Element("Price").SetValue(double.Parse(product1.Element("Price").Value));
+              product.Element("InStock").SetValue(int.Parse(product1.Element("InStock").Value));
+              product.Element("Category").SetValue((Category)Enum.Parse(typeof(Category),product1.Element("Category").Value));
+              product.Element("Name").SetValue(product1.Element("Name").Value);
+            }
         }
-        catch
-        {
-            throw new Exception("Product doesn't exists!");
-        }
+        product1.Remove();
+        ProductRoot.Save(ProductPath);
     }
 
     /// <summary>

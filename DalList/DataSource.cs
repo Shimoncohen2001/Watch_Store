@@ -11,6 +11,7 @@ internal static class DataSource
     {
         number = rand.Next(100000, 999999);
         DataSource._Sinitialise();
+       // BuildXmlFromDs.BuildXmlFromDataSource();
     }
 
     internal static class Config
@@ -25,6 +26,7 @@ internal static class DataSource
         Config._automaticProdId = 100000;
         Config._automaticOrderId = 300;
         Config._automaticOrderItemsId = 0;
+        
         ////////////////////////////Order///////////////////////////////////
         int i = 0;
         for ( ; i <= 20 ; i++)
@@ -63,10 +65,10 @@ internal static class DataSource
             orderItems.Id = Config._automaticOrderItemsId++;
             orderItems.OrderId = rand.Next(300, 320);
             orderItems.ProductId = rand.Next(100000, 100010);
-            orderItems.Amount = rand.Next(1,10);
-            for(int c = 0; c < 10; c++)
+            orderItems.Amount = rand.Next(1, 10);
+            for (int c = 0; c < 10; c++)
             {
-                if(_products[c]?.Id == orderItems.ProductId)
+                if (_products[c]?.Id == orderItems.ProductId)
                 {
                     orderItems.Price = (orderItems.Amount) * ((int)_products[c]?.Price!);
                 }

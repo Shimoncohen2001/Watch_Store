@@ -1,6 +1,7 @@
 ﻿using DAL;
 using DalApi;
 using DO;
+using System.Reflection;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 
@@ -8,14 +9,27 @@ namespace Dal;
 
 internal class OrderItem : IOrderItem
 {
-    readonly string OrderItemPath = @"OrderItemXml.xml";
+    public string OrderItemPath;
 
     public OrderItem()
     {
-        if (!File.Exists(OrderItemPath))
-            HelpXml.CreateFiles(OrderItemPath);
+        string localPath;
+        string str = Assembly.GetExecutingAssembly().Location;
+        localPath = Path.GetDirectoryName(str);
+        localPath = Path.GetDirectoryName(localPath);
+        //localPath = Path.GetDirectoryName(localPath);
+
+        localPath += @"\xml";
+        string extOrderItemPath = localPath + @"\OrderItemXml.xml";
+        if (!File.Exists(extOrderItemPath))
+        {
+            HelpXml.CreateFiles(extOrderItemPath);
+        }
         else
-            HelpXml.LoadData(OrderItemPath);
+        {
+            HelpXml.LoadData(extOrderItemPath);
+        }
+        OrderItemPath = extOrderItemPath;
     }
     public void Add(OrderItems t)
     {
@@ -30,7 +44,7 @@ internal class OrderItem : IOrderItem
     {
         List<OrderItems> ListOrderItems = HelpXml.LoadListFromXmlSerializer<OrderItems>(OrderItemPath);
         DO.OrderItems orderItem = (from item in ListOrderItems
-                                   where item.OrderId == Id1 && item.ProductId == Id2
+                                   where item.ProductId == Id1 && item.OrderId == Id2
                                    select item).FirstOrDefault();
         ListOrderItems.Remove(orderItem);
         HelpXml.SaveListToXmlSerializer(ListOrderItems, OrderItemPath);
@@ -62,9 +76,14 @@ internal class OrderItem : IOrderItem
 
     public IEnumerable<OrderItems?> GetList(Func<OrderItems?, bool>? predicate = null)
     {
-        IEnumerable<DO.OrderItems?> ListOrderItems;
-        ListOrderItems = HelpXml.LoadListFromXmlSerializer<DO.OrderItems?>(OrderItemPath).Where(predicate!);
-        return ListOrderItems;
+        //IEnumerable<DO.OrderItems?> ListOrderItems;
+        var ListOrderItems1 = HelpXml.LoadListFromXmlSerializer<DO.OrderItems?>(OrderItemPath);
+        if (predicate!=null)
+        {
+             var ListOrderItems = HelpXml.LoadListFromXmlSerializer<DO.OrderItems?>(OrderItemPath).Where(predicate!);
+            return ListOrderItems1;
+        }
+        return ListOrderItems1;
     }
 
     public void Update(int Id1, int Id2)

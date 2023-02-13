@@ -19,7 +19,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions >
         </Grid>
-        <ListView Grid.Row="1" Name="lstView" MouseDoubleClick="OrderListWindow_MouseDoubleClick">
+        <ListView Grid.Row="1" Name="lstView" ItemsSource="{Binding orderForLists}" MouseDoubleClick="OrderListWindow_MouseDoubleClick">
             <ListView.View>
                 <GridView>
                     <GridViewColumn x:Name="OrderId" Header="Id" DisplayMemberBinding="{Binding ID}"/>

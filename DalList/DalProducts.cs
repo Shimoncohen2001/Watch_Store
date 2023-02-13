@@ -1,7 +1,14 @@
 ﻿using DO;
 using DalApi;
 using System;
+using System.IO;
+using System.Linq;
+using System.Xml.Linq;
+using System.Xml.Serialization;
+using System.Text;
+using System.Collections.Generic;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 
 namespace Dal;
 internal class DalProducts : IProduct

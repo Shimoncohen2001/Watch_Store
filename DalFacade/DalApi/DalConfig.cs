@@ -1,4 +1,6 @@
 ﻿namespace DalApi;
+
+using System.Runtime.CompilerServices;
 using System.Xml.Linq;
 
 static class DalConfig

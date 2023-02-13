@@ -34,7 +34,7 @@ class HelpXml
     {
         try
         {
-            FileStream file = new(Path + filePath, FileMode.Create);
+            FileStream file = new(filePath, FileMode.Create);
             XmlSerializer x = new(list.GetType());
             x.Serialize(file, list);
             file.Close();
@@ -55,11 +55,11 @@ class HelpXml
     {
         try
         {
-            if (File.Exists(Path + filePath))
+            if (File.Exists(filePath))
             {
                 List<T> list;
                 XmlSerializer x = new(typeof(List<T>));
-                FileStream file = new(Path + filePath, FileMode.Open);
+                FileStream file = new(filePath, FileMode.Open);
                 list = (List<T>)x.Deserialize(file)!;
                 file.Close();
                 return list;
@@ -82,7 +82,7 @@ class HelpXml
     {
         try
         {
-            return XElement.Load(Path + filePath);
+            return XElement.Load(filePath);
         }
         catch 
         { 

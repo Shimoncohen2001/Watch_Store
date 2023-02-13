@@ -5,6 +5,8 @@ namespace BlImplementation;
 internal class BlProduct : BlApi.IProduct
 {
     DalApi.IDal? dal = DalApi.Factory.Get();
+    
+    
     /// <summary>
     /// Copy the list of Products from DataSource to a list of BO.ProductForList and return the list
     /// </summary>

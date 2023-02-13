@@ -46,7 +46,9 @@ namespace PL.Order
         {
             try
             {
-                bl?.Order.UpdateOrderShipping(Order.Id);
+                Order=bl?.Order.UpdateOrderShipping(Order.Id);
+                //Order.Status = BO.OrderStatus.Expedited;
+                //PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Order)));
                 MessageBox.Show("Order updated to Shipping status with success!");
                 Close();
             }
