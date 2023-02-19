@@ -40,6 +40,11 @@ namespace PL
         {
             new OrderTrackingWindow(OrderToTrack.Text).Show();
             OrderToTrack.Text = "";
-        }     
+        }
+
+        private void SimulatorButton_Click(object sender, RoutedEventArgs e)
+        {
+            new SimulatorWindow().Show();
+        }
     }
 }

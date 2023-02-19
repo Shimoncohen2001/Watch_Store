@@ -44,6 +44,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DalXmlTest", "DalXmlTest\Da
 		{EFDD4938-51F3-45A3-91CF-807E2CAC49FD} = {EFDD4938-51F3-45A3-91CF-807E2CAC49FD}
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simulator", "Simulator\Simulator.csproj", "{604DDD85-4F3B-48AA-B871-CDED37E52162}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -86,6 +88,10 @@ Global
 		{27E87B64-AA83-4586-812F-EEE2C4928FEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{27E87B64-AA83-4586-812F-EEE2C4928FEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{27E87B64-AA83-4586-812F-EEE2C4928FEB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{604DDD85-4F3B-48AA-B871-CDED37E52162}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{604DDD85-4F3B-48AA-B871-CDED37E52162}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{604DDD85-4F3B-48AA-B871-CDED37E52162}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{604DDD85-4F3B-48AA-B871-CDED37E52162}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

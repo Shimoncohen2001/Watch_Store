@@ -15,13 +15,6 @@
     <InStock>8</InStock>
   </Products>
   <Products>
-    <Id>100003</Id>
-    <Name>AppleWatch</Name>
-    <Price>3601</Price>
-    <Category>Children</Category>
-    <InStock>2</InStock>
-  </Products>
-  <Products>
     <Id>100010</Id>
     <Name>Rolex_subMariner</Name>
     <Price>4751</Price>
@@ -40,13 +33,6 @@
     <Name>Rolex_GMTMaster</Name>
     <Price>3905</Price>
     <Category>Men</Category>
-    <InStock>4</InStock>
-  </Products>
-  <Products>
-    <Id>100005</Id>
-    <Name>Rolex_DateDate</Name>
-    <Price>3477</Price>
-    <Category>Children</Category>
     <InStock>4</InStock>
   </Products>
   <Products>
@@ -78,10 +64,24 @@
     <InStock>10</InStock>
   </Products>
   <Products>
+    <Id>100003</Id>
+    <Name>AppleWatch</Name>
+    <Price>3601</Price>
+    <Category>Children</Category>
+    <InStock>1</InStock>
+  </Products>
+  <Products>
+    <Id>100005</Id>
+    <Name>Rolex_DateDate</Name>
+    <Price>3477</Price>
+    <Category>Children</Category>
+    <InStock>3</InStock>
+  </Products>
+  <Products>
     <Id>100002</Id>
     <Name>Rolex</Name>
     <Price>1111</Price>
     <Category>Women</Category>
-    <InStock>909</InStock>
+    <InStock>908</InStock>
   </Products>
 </ArrayOfProducts>

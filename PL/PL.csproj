@@ -15,6 +15,7 @@
   <ItemGroup>
     <ProjectReference Include="..\BlTest\BlTest.csproj" />
     <ProjectReference Include="..\BL\BL.csproj" />
+    <ProjectReference Include="..\Simulator\Simulator.csproj" />
   </ItemGroup>
  
 </Project>

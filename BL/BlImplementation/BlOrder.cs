@@ -280,14 +280,25 @@ internal class BlOrder : BlApi.IOrder
             order=GetOrderItem(OrderId);
             order.DeliveryDate=DateTime.Now;
             order.Status = BO.OrderStatus.Received;
-           
-            var orderitems = dal.OrderItem.GetList().ToList().Where(o=>o?.OrderId == OrderId);
-            foreach (var item in orderitems)
+            DO.Order order1 = new DO.Order()
             {
-                dal?.OrderItem.Delete((int)item?.ProductId!, (int)item?.OrderId!);
-            }
-            
+                Id = order.Id,
+                OrderDate = order.DeliveryDate,
+                DeliveryDate = order.DeliveryDate,
+                ShipDate = order.ShipDate,
+                CustomerAdress = order.CustomerAdress,
+                CustomerEmail = order.CustomerEmail,
+                CustomerName= order.CustomerName
+            };
+
+            //var orderitems = dal.OrderItem.GetList().ToList().Where(o => o?.OrderId == OrderId);
+            //foreach (var item in orderitems)
+            //{
+            //    dal?.OrderItem.Delete((int)item?.ProductId!, (int)item?.OrderId!);
+            //}
+
             dal?.Order.Delete(OrderId,0);// the Order was delivered to the client so we nead to remove it from the orderList
+            dal?.Order.Add(order1);
             return order;
         }
         else if((bool)dal?.Order.GetList().ToList().Exists(Order => Order?.Id == OrderId && !(Order?.DeliveryDate > DateTime.Now || Order?.DeliveryDate == DateTime.MinValue)))
@@ -326,7 +337,31 @@ internal class BlOrder : BlApi.IOrder
 
     public void UpdateOrder(int orderId)
     {
-        throw new NotImplementedException();
+        UpdateOrderShipping(orderId);
+        UpdadteOrderReceived(orderId);
     }
 
+    public int GetOldestOrder()
+    {
+        BO.Order? order = null;
+        //return only the relevant orders order according the dates
+        var orders = (from item in dal?.Order.GetList()
+                      where item?.DeliveryDate == null
+                      orderby item?.ShipDate ?? item?.OrderDate
+                      select item).ToList();
+
+        if (orders.Count == 0)
+            return order.Id;
+        return (int) orders.FirstOrDefault()?.Id!;
+    }
+
+    public void DeletOrderForAdmin(int OrderId)
+    {
+        var orderitems = dal.OrderItem.GetList().ToList().Where(o => o?.OrderId == OrderId);
+        foreach (var item in orderitems)
+        {
+            dal?.OrderItem.Delete((int)item?.ProductId!, (int)item?.OrderId!);
+        }
+        dal?.Order.Delete(OrderId, 0);
+    }
 }
