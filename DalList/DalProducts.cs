@@ -18,6 +18,8 @@ internal class DalProducts : IProduct
     /// ///////////////////////////Add//////////////////////////////
     /// </summary>
     /// <param name="products"></param>
+    [MethodImpl(MethodImplOptions.Synchronized)]
+
     public void Add(Products products)
     {
         DataSource.GetAddProductToList(products);
@@ -28,6 +30,8 @@ internal class DalProducts : IProduct
     /// </summary>
     /// <param name="ProductId"></param>
     /// <returns></returns>
+    [MethodImpl(MethodImplOptions.Synchronized)]
+
     public Products Get(int ProductId,int v=0)
     {
         Products products = new Products();
@@ -42,6 +46,8 @@ internal class DalProducts : IProduct
     /// ////////////////////////////GetList////////////////////////
     /// </summary>
     /// <returns></returns>
+    [MethodImpl(MethodImplOptions.Synchronized)]
+
     public IEnumerable<Products?> GetList(Func<Products?, bool>? predicate=null)
     {
         if (predicate!=null)
@@ -57,6 +63,8 @@ internal class DalProducts : IProduct
     /// //////////////////////////Delete///////////////////////////
     /// </summary>
     /// <param name="ProductId"></param>
+    [MethodImpl(MethodImplOptions.Synchronized)]
+
     public void Delete(int ProductId, int v = 0)
     {
         DataSource._products.Remove(Get(ProductId));
@@ -67,6 +75,8 @@ internal class DalProducts : IProduct
     /// </summary>
     /// <param name="productId"></param>
     /// <exception cref="Exception"></exception>
+    [MethodImpl(MethodImplOptions.Synchronized)]
+
     public void Update(int productId, int v = 0)
     {
         int count = 0;
@@ -87,6 +97,8 @@ internal class DalProducts : IProduct
     /// </summary>
     /// <param name="predicate"></param>
     /// <returns></returns>
+    [MethodImpl(MethodImplOptions.Synchronized)]
+
     public Products? GetItem(Func<Products?, bool>? predicate)
     {
         Predicate<Products?> predicate1 = prod => predicate!(prod);

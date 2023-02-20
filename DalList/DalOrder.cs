@@ -2,6 +2,7 @@
 using DalApi;
 using System.Dynamic;
 using System;
+using System.Runtime.CompilerServices;
 
 namespace Dal;
 internal class DalOrder:IOrder
@@ -10,6 +11,7 @@ internal class DalOrder:IOrder
     /// //////////////////////////Add/////////////////////////
     /// </summary>
     /// <param name="order"></param>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public void Add(Order order) 
     {
         DataSource.GetAddOrderToList(order);
@@ -20,6 +22,8 @@ internal class DalOrder:IOrder
     /// </summary>
     /// <param name="OrderId"></param>
     /// <returns></returns>
+    [MethodImpl(MethodImplOptions.Synchronized)]
+
     public Order Get(int OrderId, int val=0)
     {
 
@@ -39,6 +43,8 @@ internal class DalOrder:IOrder
     /// //////////////////////GetList/////////////////////////
     /// </summary>
     /// <returns></returns>
+    [MethodImpl(MethodImplOptions.Synchronized)]
+
     public IEnumerable<Order?> GetList(Func<Order?,bool> func = null!)
     {
         if (func != null)
@@ -53,6 +59,8 @@ internal class DalOrder:IOrder
     /// /////////////////////Delete///////////////////////////
     /// </summary>
     /// <param name="orderId"></param>
+    [MethodImpl(MethodImplOptions.Synchronized)]
+
     public void Delete(int orderId,int v=0)
     {
         DataSource._orders.Remove(Get(orderId));
@@ -63,6 +71,8 @@ internal class DalOrder:IOrder
     /// //////////////////////////Update///////////////////////////////////
     /// </summary>
     /// <param name="orderId"></param>
+    [MethodImpl(MethodImplOptions.Synchronized)]
+
     public void Update(int orderId,int v=0)
     {
         int count = 0;
@@ -75,6 +85,8 @@ internal class DalOrder:IOrder
         return;
         throw new Exception("Order cannot be found!");
     }
+
+    [MethodImpl(MethodImplOptions.Synchronized)]
 
     public Order? GetItem(Func<Order?, bool>? predicate)
     {

@@ -1,5 +1,6 @@
 ﻿using DO;
 using DalApi;
+using System.Runtime.CompilerServices;
 
 namespace Dal;
 internal class DalOrderItems : IOrderItem
@@ -8,6 +9,8 @@ internal class DalOrderItems : IOrderItem
     /// ////////////////////////////Add//////////////////////////
     /// </summary>
     /// <param name="orderItems"></param>
+    [MethodImpl(MethodImplOptions.Synchronized)]
+
     public void Add(OrderItems orderItems)
     {
         DataSource.GetAddOrderItemToList(orderItems);
@@ -19,6 +22,8 @@ internal class DalOrderItems : IOrderItem
     /// <param name="OrderId"></param>
     /// <param name="ProductId"></param>
     /// <returns></returns>
+    [MethodImpl(MethodImplOptions.Synchronized)]
+
     public OrderItems Get(int OrderId, int ProductId)
     {
         //foreach (var item in DataSource._orderItems)
@@ -42,6 +47,8 @@ internal class DalOrderItems : IOrderItem
     /// ///////////////////////GetList/////////////////////////
     /// </summary>
     /// <returns></returns>
+    [MethodImpl(MethodImplOptions.Synchronized)]
+
     public IEnumerable<OrderItems?> GetList(Func<OrderItems?, bool> func=null!)
     {
         if (func != null)
@@ -58,6 +65,8 @@ internal class DalOrderItems : IOrderItem
     /// </summary>
     /// <param name="ProductId"></param>
     /// <param name="orderId"></param>
+    [MethodImpl(MethodImplOptions.Synchronized)]
+
     public void Delete(int ProductId, int orderId)
     {
         DataSource._orderItems.Remove(Get(orderId, ProductId));
@@ -67,6 +76,8 @@ internal class DalOrderItems : IOrderItem
     /// //////////////////////////Update///////////////////////
     /// </summary>
     /// <param name="orderId"></param>
+    [MethodImpl(MethodImplOptions.Synchronized)]
+
     public void Update(int orderId, int productId)
     {
         int count = 0;
@@ -85,6 +96,8 @@ internal class DalOrderItems : IOrderItem
         throw new Exception("OrderItem cannot be found!");
 
     }
+
+    [MethodImpl(MethodImplOptions.Synchronized)]
 
     public OrderItems? GetItem(Func<OrderItems?, bool>? predicate)
     {

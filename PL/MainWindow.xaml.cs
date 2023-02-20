@@ -17,6 +17,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+
 namespace PL
 {
     /// <summary>
@@ -32,11 +33,12 @@ namespace PL
             bl = BlApi.Factory.Get();
         }
 
+
         private void AdminButton_Click(object sender, RoutedEventArgs e) => new ProductListWindow().Show();
-        
+
         private void NewOrderButton_Click(object sender, RoutedEventArgs e) => new ProductItemWindow().Show();
 
-        private void TrackOrderButton_Click(object sender, RoutedEventArgs e) 
+        private void TrackOrderButton_Click(object sender, RoutedEventArgs e)
         {
             new OrderTrackingWindow(OrderToTrack.Text).Show();
             OrderToTrack.Text = "";

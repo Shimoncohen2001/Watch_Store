@@ -10,6 +10,7 @@ using System.Collections;
 using System.Data.Common;
 using System.Reflection.Metadata.Ecma335;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace Dal;
 internal class Product : IProduct
@@ -38,6 +39,7 @@ internal class Product : IProduct
         ProductPath = extProductPath;
     }
 
+    [MethodImpl(MethodImplOptions.Synchronized)]
 
     public void Add(DO.Products t)
     {
@@ -50,6 +52,7 @@ internal class Product : IProduct
         ProductRoot.Add(new XElement("Products",id,name,price,category,instok));
         ProductRoot.Save(ProductPath);
     }
+    [MethodImpl(MethodImplOptions.Synchronized)]
 
     public void Delete(int Id1, int Id2)
     {
@@ -67,6 +70,7 @@ internal class Product : IProduct
             throw new Exception("Impossible to delete the product");
         }
     }
+    [MethodImpl(MethodImplOptions.Synchronized)]
 
     public DO.Products Get(int Id1, int Id2)
     {
@@ -109,6 +113,8 @@ internal class Product : IProduct
     }
 
     // A finir
+    [MethodImpl(MethodImplOptions.Synchronized)]
+
     public DO.Products? GetItem(Func<DO.Products?, bool>? predicate)
     {
         //HelpXml.LoadData(ProductPath);
@@ -135,6 +141,8 @@ internal class Product : IProduct
     }
 
     // Voir comment faire avec predicate
+    [MethodImpl(MethodImplOptions.Synchronized)]
+
     public IEnumerable<DO.Products?> GetList(Func<DO.Products?, bool>? predicate = null)
     {
         // Load the file in the root
@@ -167,6 +175,7 @@ internal class Product : IProduct
         return p;
     }
 
+    [MethodImpl(MethodImplOptions.Synchronized)]
 
     public void Update(int Id1, int Id2)
     {
@@ -199,6 +208,8 @@ internal class Product : IProduct
     /// Saving when used with LINQ
     /// </summary>
     /// <param name="products"></param>
+    [MethodImpl(MethodImplOptions.Synchronized)]
+
     public void SaveProductList(IEnumerable<DO.Products?> products)
     {
         ProductRoot = new XElement("products",

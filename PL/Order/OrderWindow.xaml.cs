@@ -63,8 +63,22 @@ namespace PL.Order
             try
             {
                 bl?.Order.UpdadteOrderReceived(Order.Id);
-                MessageBox.Show("Order updated to Received status and removed from the order list with success!");
+                MessageBox.Show("Order updated to Received status");
                 Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                bl?.Order.DeletOrderForAdmin(Order.Id);
+                MessageBox.Show("Order removed from the list with success!");
+                this.Close();
             }
             catch (Exception ex)
             {

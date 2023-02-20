@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -28,18 +29,17 @@ namespace PL.Product
 
         public BO.Cart? cart = new BO.Cart();
         static Random rand = new Random();
-
+        NumericUpDownControl NumericUpDownControl;
         public ObservableCollection<ProductForList?> ProductForLists { get; set; } = new ObservableCollection<ProductForList>()!;
         public ObservableCollection<BO.Product?> Products { get; set; } = new ObservableCollection<BO.Product>()!;
         public ObservableCollection<ProductItem?> ProductItems { get; set; } = new ObservableCollection<ProductItem>()!;
-
         public ProductItemWindow()
         {
             InitializeComponent();
             bl = BlApi.Factory.Get();
             ProductForLists = new ObservableCollection<ProductForList?>(bl?.Product?.GetProductForLists()!);
             Products = new ObservableCollection<BO.Product>(from item in ProductForLists
-                           select bl?.Product.GetDirector(item.ID))!;
+                                                            select bl?.Product.GetDirector(item.ID))!;
             ProductItems = new ObservableCollection<ProductItem>(Products.Select(
                 pi => new ProductItem
                 {
@@ -57,6 +57,7 @@ namespace PL.Product
             cart.CustomerAddress = "";
             cart.orderItems = new List<OrderItem?>();
             cart.TotalPrice = 0;
+            NumericUpDownControl = new();
         }
 
         private void CategorySelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -110,7 +111,7 @@ namespace PL.Product
             }
             finally
             {
-                
+
             }
         }
     }

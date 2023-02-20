@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -21,7 +22,7 @@ namespace PL.Order
     /// </summary>
     public partial class OrderListWindow : Window
     {
-        BlApi.IBl? bl; 
+        BlApi.IBl? bl;
         public ObservableCollection<OrderForList?> orderForLists { get; set; } = new ObservableCollection<OrderForList>()!;
         public OrderListWindow()
         {
@@ -29,6 +30,7 @@ namespace PL.Order
             bl = BlApi.Factory.Get();
             orderForLists = new ObservableCollection<OrderForList?>(bl?.Order.GetOrderList()!);
             lstView.ItemsSource = orderForLists;
+            
         }
 
         private void OrderListWindow_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -41,5 +43,6 @@ namespace PL.Order
             orderForLists = new ObservableCollection<OrderForList?>(bl?.Order.GetOrderList()!);
             lstView.ItemsSource = orderForLists;
         }
+
     }
 }

@@ -3,6 +3,7 @@ using DalApi;
 using DO;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using System.Text;
 using System.Xml.Linq;
@@ -33,6 +34,7 @@ internal class Order : IOrder
         }
         OrderPath = extOrderPath;
     }
+    [MethodImpl(MethodImplOptions.Synchronized)]
 
     public void Add(DO.Order t)
     {
@@ -42,6 +44,7 @@ internal class Order : IOrder
         ListOrders.Add(t);
         HelpXml.SaveListToXmlSerializer(ListOrders, OrderPath);
     }
+    [MethodImpl(MethodImplOptions.Synchronized)]
 
     public void Delete(int Id1, int Id2)
     {
@@ -52,6 +55,7 @@ internal class Order : IOrder
         orders.Remove(order);
         HelpXml.SaveListToXmlSerializer(orders, OrderPath);
     }
+    [MethodImpl(MethodImplOptions.Synchronized)]
 
     public DO.Order Get(int Id1, int Id2)
     {
@@ -72,6 +76,8 @@ internal class Order : IOrder
     }
 
     // Voir comment faire avec le predicate
+    [MethodImpl(MethodImplOptions.Synchronized)]
+
     public DO.Order? GetItem(Func<DO.Order?, bool>? predicate)
     {
         //Predicate<DO.Order?> predicate1 = ord => predicate!(ord);
@@ -81,6 +87,7 @@ internal class Order : IOrder
         //return o;
         throw new NotImplementedException();
     }
+    [MethodImpl(MethodImplOptions.Synchronized)]
 
     public IEnumerable<DO.Order?> GetList(Func<DO.Order?, bool>? predicate = null)
     {
@@ -94,6 +101,7 @@ internal class Order : IOrder
         return listOrders;
     }
 
+    [MethodImpl(MethodImplOptions.Synchronized)]
 
     public void Update(int Id1, int Id2)
     {

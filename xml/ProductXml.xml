@@ -8,24 +8,10 @@
     <InStock>1</InStock>
   </Products>
   <Products>
-    <Id>100001</Id>
-    <Name>Rolex_GMTMaster</Name>
-    <Price>4113</Price>
-    <Category>Men</Category>
-    <InStock>8</InStock>
-  </Products>
-  <Products>
     <Id>100010</Id>
     <Name>Rolex_subMariner</Name>
     <Price>4751</Price>
     <Category>Children</Category>
-    <InStock>5</InStock>
-  </Products>
-  <Products>
-    <Id>100004</Id>
-    <Name>Casio_GSHOK</Name>
-    <Price>1</Price>
-    <Category>Men</Category>
     <InStock>5</InStock>
   </Products>
   <Products>
@@ -83,5 +69,19 @@
     <Price>1111</Price>
     <Category>Women</Category>
     <InStock>908</InStock>
+  </Products>
+  <Products>
+    <Id>100004</Id>
+    <Name>Casio_GSHOK</Name>
+    <Price>1</Price>
+    <Category>Men</Category>
+    <InStock>4</InStock>
+  </Products>
+  <Products>
+    <Id>100001</Id>
+    <Name>Rolex_GMTMaster</Name>
+    <Price>4113</Price>
+    <Category>Men</Category>
+    <InStock>7</InStock>
   </Products>
 </ArrayOfProducts>

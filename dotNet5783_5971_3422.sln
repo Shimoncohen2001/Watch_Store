@@ -44,7 +44,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DalXmlTest", "DalXmlTest\Da
 		{EFDD4938-51F3-45A3-91CF-807E2CAC49FD} = {EFDD4938-51F3-45A3-91CF-807E2CAC49FD}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simulator", "Simulator\Simulator.csproj", "{604DDD85-4F3B-48AA-B871-CDED37E52162}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Simulator", "Simulator\Simulator.csproj", "{604DDD85-4F3B-48AA-B871-CDED37E52162}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Media", "Media", "{4499DDDA-A7EE-4197-A1AD-022553913EAC}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\..\..\Downloads\photo1.jpg = ..\..\..\..\Downloads\photo1.jpg
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

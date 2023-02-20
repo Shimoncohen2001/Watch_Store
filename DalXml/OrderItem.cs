@@ -2,6 +2,7 @@
 using DalApi;
 using DO;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 
@@ -31,6 +32,8 @@ internal class OrderItem : IOrderItem
         }
         OrderItemPath = extOrderItemPath;
     }
+    [MethodImpl(MethodImplOptions.Synchronized)]
+
     public void Add(OrderItems t)
     {
         List<OrderItems> ListOrderItems = HelpXml.LoadListFromXmlSerializer<OrderItems>(OrderItemPath);
@@ -39,6 +42,7 @@ internal class OrderItem : IOrderItem
         ListOrderItems.Add(t);
         HelpXml.SaveListToXmlSerializer(ListOrderItems, OrderItemPath);
     }
+    [MethodImpl(MethodImplOptions.Synchronized)]
 
     public void Delete(int Id1, int Id2)
     {
@@ -49,6 +53,7 @@ internal class OrderItem : IOrderItem
         ListOrderItems.Remove(orderItem);
         HelpXml.SaveListToXmlSerializer(ListOrderItems, OrderItemPath);
     }
+    [MethodImpl(MethodImplOptions.Synchronized)]
 
     public OrderItems Get(int Id1, int Id2)
     {
@@ -69,10 +74,13 @@ internal class OrderItem : IOrderItem
     }
 
     // A faire (même pb que pour order, il faut trouver comment faire avec le predicate)
+    [MethodImpl(MethodImplOptions.Synchronized)]
+
     public OrderItems? GetItem(Func<OrderItems?, bool>? predicate)
     {
         throw new NotImplementedException();
     }
+    [MethodImpl(MethodImplOptions.Synchronized)]
 
     public IEnumerable<OrderItems?> GetList(Func<OrderItems?, bool>? predicate = null)
     {
@@ -85,6 +93,7 @@ internal class OrderItem : IOrderItem
         }
         return ListOrderItems1;
     }
+    [MethodImpl(MethodImplOptions.Synchronized)]
 
     public void Update(int Id1, int Id2)
     {

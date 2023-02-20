@@ -35,5 +35,6 @@
         <TextBlock x:Name= "TotalPriceTextBox" HorizontalAlignment="Left" Margin="76,270,0,0" TextWrapping="Wrap"  Text="{Binding Path=TotalPrice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="130" Grid.Column="1"/>
         <Button x:Name="UpdateShippingBtn" Content="Shipping Update" HorizontalAlignment="Left" Margin="20,358,0,0" VerticalAlignment="Top" Click="UpdateShippingButton_Click" RenderTransformOrigin="0.505,0.603"/>
         <Button x:Name="UpdateReceivedBtn" Content="Received Update" HorizontalAlignment="Left" Margin="147,358,0,0" VerticalAlignment="Top" Click="UpdateReceivedButton_Click" RenderTransformOrigin="0.505,0.603"/>
+        <Button x:Name="DeleteButton" Content="Delete" HorizontalAlignment="Left" Margin="109,333,0,0" VerticalAlignment="Top" Click="DeleteButton_Click" RenderTransformOrigin="0.256,-1.631"/>
     </Grid>
 </Window>

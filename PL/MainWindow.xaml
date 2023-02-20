@@ -7,11 +7,26 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <Button x:Name="AdminButton" Content="Admin" HorizontalAlignment="Center" VerticalAlignment="Center" Click="AdminButton_Click"/>
-        <Button x:Name="NewOrderButton" Content="New Order" HorizontalAlignment="Left" Margin="112,0,0,0" VerticalAlignment="Center" Click="NewOrderButton_Click"/>
-        <Button Content="Track Order" HorizontalAlignment="Left" Margin="591,217,0,0" VerticalAlignment="Top" Click="TrackOrderButton_Click"/>
-        <TextBox x:Name="OrderToTrack" HorizontalAlignment="Left" Margin="591,178,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="66"/>
-        <Button x:Name="SimulatorButton" Content="Simulator" HorizontalAlignment="Center" Margin="0,313,0,0" VerticalAlignment="Top" Click="SimulatorButton_Click"/>
+        <Border>
+            <Border.Background>
+                <ImageBrush Stretch="Fill" ImageSource="C:\Users\shimo\Downloads\photo1.jpg"/>
+            </Border.Background>
+        </Border>
+
+        <Button x:Name="AdminButton" Content="Admin" HorizontalAlignment="Left" VerticalAlignment="Top" Click="AdminButton_Click" Height="40" Width="109" Margin="65,43,0,0"/>
+        <Button x:Name="NewOrderButton" Content="New Order" HorizontalAlignment="Left" Margin="68,0,0,0" VerticalAlignment="Center" Click="NewOrderButton_Click" Height="40" Width="106">
+            <Button.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="Black"/>
+                    <GradientStop Color="#FFF3EFEF" Offset="1"/>
+                    <GradientStop Color="#FF8F8D8D" Offset="0"/>
+                    <GradientStop Color="#FEAFACAC" Offset="0.722"/>
+                </LinearGradientBrush>
+            </Button.Background>
+        </Button>
+        <Button Content="Track Order" HorizontalAlignment="Left" Margin="538,0,0,0" VerticalAlignment="Center" Click="TrackOrderButton_Click" Height="41" Width="118"/>
+        <TextBox x:Name="OrderToTrack" HorizontalAlignment="Left" Margin="551,259,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="92" Height="26"/>
+        <Button x:Name="SimulatorButton" Content="Simulator" HorizontalAlignment="Center" Margin="0,343,0,0" VerticalAlignment="Top" Click="SimulatorButton_Click" Height="56" Width="200"/>
 
     </Grid>
 </Window>
