@@ -1,13 +1,5 @@
 ﻿using DO;
 using DalApi;
-using System;
-using System.IO;
-using System.Linq;
-using System.Xml.Linq;
-using System.Xml.Serialization;
-using System.Text;
-using System.Collections.Generic;
-using System.Reflection;
 using System.Runtime.CompilerServices;
 
 namespace Dal;
@@ -15,23 +7,21 @@ internal class DalProducts : IProduct
 {
 
     /// <summary>
-    /// ///////////////////////////Add//////////////////////////////
+    /// Call the function Add in the DataSource to add a new product in the list of products
     /// </summary>
     /// <param name="products"></param>
     [MethodImpl(MethodImplOptions.Synchronized)]
-
     public void Add(Products products)
     {
         DataSource.GetAddProductToList(products);
     }
 
     /// <summary>
-    /// ///////////////////////////GetById///////////////////////////
+    /// Return a specified product from the list of products
     /// </summary>
     /// <param name="ProductId"></param>
     /// <returns></returns>
     [MethodImpl(MethodImplOptions.Synchronized)]
-
     public Products Get(int ProductId,int v=0)
     {
         Products products = new Products();
@@ -43,11 +33,10 @@ internal class DalProducts : IProduct
     }
 
     /// <summary>
-    /// ////////////////////////////GetList////////////////////////
+    /// Return a list of products from the DataSource
     /// </summary>
     /// <returns></returns>
     [MethodImpl(MethodImplOptions.Synchronized)]
-
     public IEnumerable<Products?> GetList(Func<Products?, bool>? predicate=null)
     {
         if (predicate!=null)
@@ -60,23 +49,21 @@ internal class DalProducts : IProduct
     }
 
     /// <summary>
-    /// //////////////////////////Delete///////////////////////////
+    /// Remove a specified product from the list of products
     /// </summary>
     /// <param name="ProductId"></param>
     [MethodImpl(MethodImplOptions.Synchronized)]
-
     public void Delete(int ProductId, int v = 0)
     {
         DataSource._products.Remove(Get(ProductId));
     }
 
     /// <summary>
-    /// //////////////////////////Update/////////////////////////
+    /// Update a specified product in the list of products
     /// </summary>
     /// <param name="productId"></param>
     /// <exception cref="Exception"></exception>
     [MethodImpl(MethodImplOptions.Synchronized)]
-
     public void Update(int productId, int v = 0)
     {
         int count = 0;
@@ -92,13 +79,7 @@ internal class DalProducts : IProduct
 
     }
 
-    /// <summary>
-    /// Return a specific product
-    /// </summary>
-    /// <param name="predicate"></param>
-    /// <returns></returns>
     [MethodImpl(MethodImplOptions.Synchronized)]
-
     public Products? GetItem(Func<Products?, bool>? predicate)
     {
         Predicate<Products?> predicate1 = prod => predicate!(prod);

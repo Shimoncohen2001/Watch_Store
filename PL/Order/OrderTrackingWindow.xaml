@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="OrderTrackingWindow" Height="450" Width="800"
         DataContext="{Binding RelativeSource={RelativeSource self}}">
-    <Grid x:Name="Grid" DataContext="{Binding orderTracking}">
+    <Grid x:Name="Grid" DataContext="{Binding orderTracking}" Background="#FFD8E5D5">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="63*"/>
             <ColumnDefinition Width="337*"/>
@@ -18,7 +18,7 @@
 
         <TextBlock x:Name= "IdTextBox" HorizontalAlignment="Left" Margin="76,0,0,0" TextWrapping="Wrap" Text="{Binding Path=ID, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="130" Grid.Column="1" Height="16"/>
         <TextBlock x:Name="StatutTextBox" HorizontalAlignment="Left" Margin="76,100,0,0" VerticalAlignment="Top" Width="130" Grid.Column="1" Text="{Binding Path=Status, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="16"/>
-        <ListView ItemsSource="{Binding OrderTrackingList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Name="lstview1" Margin="0,200,468,118" Grid.Column="1">
+        <ListView ItemsSource="{Binding OrderTrackingList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Name="lstview1" Margin="0,200,468,118" Grid.Column="1" Background="#FFD1F6D0">
             <ListView.View>
                 <GridView>
                     <GridViewColumn/>

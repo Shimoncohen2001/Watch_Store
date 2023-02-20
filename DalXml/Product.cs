@@ -1,15 +1,8 @@
 ﻿using DAL;
 using DalApi;
 using DO;
-using System.Diagnostics;
 using System.Reflection;
-using System.Security.Cryptography;
 using System.Xml.Linq;
-using System.Xml.Serialization;
-using System.Collections;
-using System.Data.Common;
-using System.Reflection.Metadata.Ecma335;
-using System.Linq;
 using System.Runtime.CompilerServices;
 
 namespace Dal;
@@ -24,10 +17,11 @@ internal class Product : IProduct
         string str = Assembly.GetExecutingAssembly().Location;
         localPath = Path.GetDirectoryName(str);
         localPath = Path.GetDirectoryName(localPath);
-        //localPath = Path.GetDirectoryName(localPath);
 
         localPath += @"\xml";
         string extProductPath = localPath + @"\ProductXml.xml";
+
+        // Verify if the file exists or not and create him if he doesn't exist
         if (!File.Exists(extProductPath))
         {
             HelpXml.CreateFiles(extProductPath);
@@ -39,8 +33,11 @@ internal class Product : IProduct
         ProductPath = extProductPath;
     }
 
+    /// <summary>
+    /// Add a product to the list of products in the xml file
+    /// </summary>
+    /// <param name="t"></param>
     [MethodImpl(MethodImplOptions.Synchronized)]
-
     public void Add(DO.Products t)
     {
         XElement id = new XElement("Id", t.Id);
@@ -52,8 +49,14 @@ internal class Product : IProduct
         ProductRoot.Add(new XElement("Products",id,name,price,category,instok));
         ProductRoot.Save(ProductPath);
     }
-    [MethodImpl(MethodImplOptions.Synchronized)]
 
+    /// <summary>
+    /// Remove a specified product from the list of pproducts in the xml file
+    /// </summary>
+    /// <param name="Id1"></param>
+    /// <param name="Id2"></param>
+    /// <exception cref="Exception"></exception>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public void Delete(int Id1, int Id2)
     {
         ProductRoot = XElement.Load(ProductPath);
@@ -70,8 +73,15 @@ internal class Product : IProduct
             throw new Exception("Impossible to delete the product");
         }
     }
-    [MethodImpl(MethodImplOptions.Synchronized)]
 
+    /// <summary>
+    /// Return a specified product from the list of products in the xml file
+    /// </summary>
+    /// <param name="Id1"></param>
+    /// <param name="Id2"></param>
+    /// <returns></returns>
+    /// <exception cref="Exception"></exception>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public DO.Products Get(int Id1, int Id2)
     {
         ProductRoot = XElement.Load(ProductPath);
@@ -112,9 +122,8 @@ internal class Product : IProduct
         }
     }
 
-    // A finir
+    
     [MethodImpl(MethodImplOptions.Synchronized)]
-
     public DO.Products? GetItem(Func<DO.Products?, bool>? predicate)
     {
         //HelpXml.LoadData(ProductPath);
@@ -140,9 +149,12 @@ internal class Product : IProduct
         throw new Exception();
     }
 
-    // Voir comment faire avec predicate
+    /// <summary>
+    /// Return the list of products in the xml file
+    /// </summary>
+    /// <param name="predicate"></param>
+    /// <returns></returns>
     [MethodImpl(MethodImplOptions.Synchronized)]
-
     public IEnumerable<DO.Products?> GetList(Func<DO.Products?, bool>? predicate = null)
     {
         // Load the file in the root
@@ -175,8 +187,12 @@ internal class Product : IProduct
         return p;
     }
 
+    /// <summary>
+    /// Update a specified product in the list of products in the xml file
+    /// </summary>
+    /// <param name="Id1"></param>
+    /// <param name="Id2"></param>
     [MethodImpl(MethodImplOptions.Synchronized)]
-
     public void Update(int Id1, int Id2)
     {
         // Load the file in the root
@@ -201,28 +217,6 @@ internal class Product : IProduct
             }
         }
         product1.Remove();
-        ProductRoot.Save(ProductPath);
-    }
-
-    /// <summary>
-    /// Saving when used with LINQ
-    /// </summary>
-    /// <param name="products"></param>
-    [MethodImpl(MethodImplOptions.Synchronized)]
-
-    public void SaveProductList(IEnumerable<DO.Products?> products)
-    {
-        ProductRoot = new XElement("products",
-            from item in products
-            select new XElement("product",
-            new XElement("id", item?.Id),
-            new XElement("name", item?.Name),
-            new XElement("price", item?.Price),
-            new XElement("category", item?.Category),
-            new XElement("inStock", item?.InStock)
-            )
-            
-        );
         ProductRoot.Save(ProductPath);
     }
 }

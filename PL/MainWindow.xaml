@@ -13,8 +13,8 @@
             </Border.Background>
         </Border>
 
-        <Button x:Name="AdminButton" Content="Admin" HorizontalAlignment="Left" VerticalAlignment="Top" Click="AdminButton_Click" Height="40" Width="109" Margin="65,43,0,0"/>
-        <Button x:Name="NewOrderButton" Content="New Order" HorizontalAlignment="Left" Margin="68,0,0,0" VerticalAlignment="Center" Click="NewOrderButton_Click" Height="40" Width="106">
+        <Button x:Name="AdminButton" Content="Admin" HorizontalAlignment="Center" VerticalAlignment="Top" Click="AdminButton_Click" Height="40" Width="108" Margin="0,36,0,0"/>
+        <Button x:Name="NewOrderButton" Content="New Order" HorizontalAlignment="Left" Margin="72,36,0,0" VerticalAlignment="Top" Click="NewOrderButton_Click" Height="40" Width="106">
             <Button.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="Black"/>
@@ -24,9 +24,9 @@
                 </LinearGradientBrush>
             </Button.Background>
         </Button>
-        <Button Content="Track Order" HorizontalAlignment="Left" Margin="538,0,0,0" VerticalAlignment="Center" Click="TrackOrderButton_Click" Height="41" Width="118"/>
-        <TextBox x:Name="OrderToTrack" HorizontalAlignment="Left" Margin="551,259,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="92" Height="26"/>
-        <Button x:Name="SimulatorButton" Content="Simulator" HorizontalAlignment="Center" Margin="0,343,0,0" VerticalAlignment="Top" Click="SimulatorButton_Click" Height="56" Width="200"/>
+        <Button Content="Track Order" HorizontalAlignment="Left" Margin="647,84,0,0" VerticalAlignment="Top" Click="TrackOrderButton_Click" Height="41" Width="118"/>
+        <TextBox x:Name="OrderToTrack" HorizontalAlignment="Left" Margin="660,36,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="92" Height="26" RenderTransformOrigin="0.637,-0.137"/>
+        <Button x:Name="SimulatorButton" Content="Simulator" HorizontalAlignment="Center" Margin="0,337,0,0" VerticalAlignment="Top" Click="SimulatorButton_Click" Height="56" Width="200"/>
 
     </Grid>
 </Window>

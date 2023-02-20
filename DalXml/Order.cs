@@ -1,13 +1,7 @@
 ﻿using DAL;
 using DalApi;
-using DO;
-using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using System.Security.Cryptography;
-using System.Text;
-using System.Xml.Linq;
-using System.Xml.Serialization;
 
 namespace Dal;
 
@@ -20,10 +14,11 @@ internal class Order : IOrder
         string str = Assembly.GetExecutingAssembly().Location;
         localPath = Path.GetDirectoryName(str);
         localPath = Path.GetDirectoryName(localPath);
-        //localPath = Path.GetDirectoryName(localPath);
 
         localPath += @"\xml";
         string extOrderPath = localPath + @"\OrderXml.xml";
+
+        // Verify if the file exists or not and create him if he doesn't exist
         if (!File.Exists(extOrderPath))
         {
             HelpXml.CreateFiles(extOrderPath);
@@ -34,8 +29,13 @@ internal class Order : IOrder
         }
         OrderPath = extOrderPath;
     }
-    [MethodImpl(MethodImplOptions.Synchronized)]
 
+    /// <summary>
+    /// Add an order to the xml file at the end of the list that already exists
+    /// </summary>
+    /// <param name="t"></param>
+    /// <exception cref="Exception"></exception>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public void Add(DO.Order t)
     {
         List<DO.Order> ListOrders = HelpXml.LoadListFromXmlSerializer<DO.Order>(OrderPath);
@@ -44,8 +44,13 @@ internal class Order : IOrder
         ListOrders.Add(t);
         HelpXml.SaveListToXmlSerializer(ListOrders, OrderPath);
     }
-    [MethodImpl(MethodImplOptions.Synchronized)]
 
+    /// <summary>
+    /// Remove a specified order in the xml file 
+    /// </summary>
+    /// <param name="Id1"></param>
+    /// <param name="Id2"></param>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public void Delete(int Id1, int Id2)
     {
         List<DO.Order> orders = HelpXml.LoadListFromXmlSerializer<DO.Order>(OrderPath);
@@ -55,8 +60,15 @@ internal class Order : IOrder
         orders.Remove(order);
         HelpXml.SaveListToXmlSerializer(orders, OrderPath);
     }
-    [MethodImpl(MethodImplOptions.Synchronized)]
 
+    /// <summary>
+    /// Return a specified oroder from the xml file
+    /// </summary>
+    /// <param name="Id1"></param>
+    /// <param name="Id2"></param>
+    /// <returns></returns>
+    /// <exception cref="Exception"></exception>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public DO.Order Get(int Id1, int Id2)
     {
         HelpXml.LoadData(OrderPath);
@@ -75,9 +87,7 @@ internal class Order : IOrder
         }
     }
 
-    // Voir comment faire avec le predicate
     [MethodImpl(MethodImplOptions.Synchronized)]
-
     public DO.Order? GetItem(Func<DO.Order?, bool>? predicate)
     {
         //Predicate<DO.Order?> predicate1 = ord => predicate!(ord);
@@ -87,8 +97,13 @@ internal class Order : IOrder
         //return o;
         throw new NotImplementedException();
     }
-    [MethodImpl(MethodImplOptions.Synchronized)]
 
+    /// <summary>
+    /// Return the list of orders in the the xml file
+    /// </summary>
+    /// <param name="predicate"></param>
+    /// <returns></returns>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public IEnumerable<DO.Order?> GetList(Func<DO.Order?, bool>? predicate = null)
     {
         //IEnumerable<DO.Order?> listOrders;
@@ -101,8 +116,12 @@ internal class Order : IOrder
         return listOrders;
     }
 
+    /// <summary>
+    /// Update a specified order in the xml file
+    /// </summary>
+    /// <param name="Id1"></param>
+    /// <param name="Id2"></param>
     [MethodImpl(MethodImplOptions.Synchronized)]
-
     public void Update(int Id1, int Id2)
     {
         List<DO.Order> listOrders = HelpXml.LoadListFromXmlSerializer<DO.Order>(OrderPath);

@@ -1,6 +1,6 @@
 ﻿namespace BlApi;
 
-public interface IBl   //Qu'on va utiliser dans le program.cs
+public interface IBl  
 {
     public IProduct Product { get; }
     public IOrder Order { get; }

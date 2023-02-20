@@ -24,7 +24,7 @@
             <TextBox x:Name="QuantityChoice" HorizontalAlignment="Center" VerticalAlignment="Top" Height="23" Width="110" Margin="30,26,0,0"/>
             <Button x:Name="Update" Content="Update" HorizontalAlignment="Right" VerticalAlignment="Top" Height="23" Width="110" Margin="0,26,22,0" Click="Update_Click"/>
         </Grid>
-        <ListView ItemsSource="{Binding Cart.orderItems}" Name="lstView" Margin="0,53,0,0" Grid.RowSpan="2" HorizontalAlignment="Left" Width="800">
+        <ListView ItemsSource="{Binding Cart.orderItems}" Name="lstView" Margin="0,53,0,0" Grid.RowSpan="2" HorizontalAlignment="Left" Width="800" BorderBrush="#FF9AA8C1" Background="#FF99DECD">
             <ListView.View>
                 <GridView>
                     <GridViewColumn x:Name="OrderItemID" Header="ID" DisplayMemberBinding="{Binding ID}" />

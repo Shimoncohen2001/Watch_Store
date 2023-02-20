@@ -29,7 +29,6 @@ namespace PL.Product
 
         public BO.Cart? cart = new BO.Cart();
         static Random rand = new Random();
-        NumericUpDownControl NumericUpDownControl;
         public ObservableCollection<ProductForList?> ProductForLists { get; set; } = new ObservableCollection<ProductForList>()!;
         public ObservableCollection<BO.Product?> Products { get; set; } = new ObservableCollection<BO.Product>()!;
         public ObservableCollection<ProductItem?> ProductItems { get; set; } = new ObservableCollection<ProductItem>()!;
@@ -57,7 +56,7 @@ namespace PL.Product
             cart.CustomerAddress = "";
             cart.orderItems = new List<OrderItem?>();
             cart.TotalPrice = 0;
-            NumericUpDownControl = new();
+            CategorySelector.ItemsSource = Enum.GetValues(typeof(BO.Category));
         }
 
         private void CategorySelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -66,12 +65,12 @@ namespace PL.Product
             if (BO.Category.All == (BO.Category)selectedItem)
             {
                 ProductForLists = new ObservableCollection<ProductForList?>(bl?.Product?.GetProductForLists()!);
-                lstView.ItemsSource = ProductItems;
+                lstView.ItemsSource = ProductForLists;
             }
             else
             {
                 ProductForLists = new ObservableCollection<ProductForList?>(bl?.Product.GetProductForLists(P => P?.Category == (BO.Category)selectedItem)!);
-                lstView.ItemsSource = ProductItems;
+                lstView.ItemsSource = ProductForLists;
             }
         }
 

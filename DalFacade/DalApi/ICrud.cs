@@ -12,7 +12,9 @@ namespace DalApi
         public  void Update(int Id1,int Id2);
         public T Get(int Id1,int Id2);
         public void Delete(int Id1, int Id2);
-        public IEnumerable<T?> GetList(Func<T?, bool>? predicate=null);// here we have defindes an optional parameter for a predicate withe the signature of the fumc<>
+
+        // here we have defindes an optional parameter for a predicate withe the signature of the fumc<>
+        public IEnumerable<T?> GetList(Func<T?, bool>? predicate=null);
         public T? GetItem(Func<T?, bool>? predicate);
     }
 }

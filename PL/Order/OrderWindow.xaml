@@ -8,6 +8,9 @@
         mc:Ignorable="d"
         Title="OrderWindow" Height="450" Width="800">
     <Grid x:Name="Grid" DataContext="{Binding Order}">
+        <Grid.Background>
+            <ImageBrush ImageSource="/Order/photo1.jpg"/>
+        </Grid.Background>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="295*"/>
             <ColumnDefinition Width="506*"/>
@@ -33,8 +36,8 @@
         <TextBlock x:Name= "ShipDateTextBox" HorizontalAlignment="Left" Margin="76,210,0,0" TextWrapping="Wrap"  Text="{Binding Path=ShipDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="130" Grid.Column="1"/>
         <TextBlock x:Name= "DeliveryDateTextBox" HorizontalAlignment="Left" Margin="76,240,0,0" TextWrapping="Wrap"  Text="{Binding Path=DeliveryDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="130" Grid.Column="1"/>
         <TextBlock x:Name= "TotalPriceTextBox" HorizontalAlignment="Left" Margin="76,270,0,0" TextWrapping="Wrap"  Text="{Binding Path=TotalPrice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="130" Grid.Column="1"/>
-        <Button x:Name="UpdateShippingBtn" Content="Shipping Update" HorizontalAlignment="Left" Margin="20,358,0,0" VerticalAlignment="Top" Click="UpdateShippingButton_Click" RenderTransformOrigin="0.505,0.603"/>
-        <Button x:Name="UpdateReceivedBtn" Content="Received Update" HorizontalAlignment="Left" Margin="147,358,0,0" VerticalAlignment="Top" Click="UpdateReceivedButton_Click" RenderTransformOrigin="0.505,0.603"/>
-        <Button x:Name="DeleteButton" Content="Delete" HorizontalAlignment="Left" Margin="109,333,0,0" VerticalAlignment="Top" Click="DeleteButton_Click" RenderTransformOrigin="0.256,-1.631"/>
+        <Button x:Name="UpdateShippingBtn" Content="Shipping Update" HorizontalAlignment="Left" Margin="20,343,0,0" VerticalAlignment="Top" Click="UpdateShippingButton_Click" RenderTransformOrigin="0.505,0.603" Height="30" Background="#FFC5B5BD"/>
+        <Button x:Name="UpdateReceivedBtn" Content="Received Update" HorizontalAlignment="Left" Margin="147,343,0,0" VerticalAlignment="Top" Click="UpdateReceivedButton_Click" RenderTransformOrigin="0.505,0.603" Height="30" Background="#FFC5B5BD"/>
+        <Button x:Name="DeleteButton" Content="Delete" HorizontalAlignment="Left" Margin="109,304,0,0" VerticalAlignment="Top" Click="DeleteButton_Click" RenderTransformOrigin="0.256,-1.631" Width="49" Height="30" Background="#FFC5B5BD"/>
     </Grid>
 </Window>

@@ -1,8 +1,10 @@
 ﻿namespace DalApi;
 
-using System.Runtime.CompilerServices;
 using System.Xml.Linq;
 
+/// <summary>
+/// We use this class to access to the Dal functions that we need (DalList or DalXml)
+/// </summary>
 static class DalConfig
 {
     internal static string? s_dalName;

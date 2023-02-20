@@ -16,25 +16,36 @@ namespace Dal
         {
 
             string localPath;
+            // Get the location file
             string str = Assembly.GetExecutingAssembly().Location;
             localPath = Path.GetDirectoryName(str);
             localPath = Path.GetDirectoryName(localPath);
-            //localPath = Path.GetDirectoryName(localPath);
 
+            // For every xml file, we get the fullpath
             localPath += @"\xml";
             string productPath =localPath+ @"\ProductXml.xml";
             string orderPath = localPath+@"\OrderXml.xml";
             string orderItemPath = localPath+@"\OrderItemXml.xml";
 
-
+            // Creation of the xml files
             creatXmls(DataSource._products, productPath, "Products");
             creatXmls(DataSource._orders, orderPath, "Orders");
             creatXmls(DataSource._orderItems, orderItemPath, "OrderItems");
+
+            // Save the data list into xml files 
             SaveListToXMLSerializer(DataSource._orders, orderPath);
             SaveListToXMLSerializer(DataSource._orderItems,orderItemPath);
             SaveListToXMLSerializer(DataSource._products, productPath);
+
             //SaveListToXMLSerializer(DalObject.Instance.PowerConsumptionByDrone().ToList(), configPath);
         }
+
+        /// <summary>
+        /// Create a XElement for each element of the generic type T
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public static XElement CreateElement<T>(T? obj)
         {
             var res = new XElement(obj.GetType().Name);
@@ -45,6 +56,13 @@ namespace Dal
             return res;
         }
 
+        /// <summary>
+        ///  Save a XElement for each element of the generic type T
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="list"></param>
+        /// <param name="path"></param>
+        /// <param name="name"></param>
         static void creatXmls<T>(List<T> list, string path, string name)
         {
             XElement root = new XElement(name);
@@ -55,49 +73,13 @@ namespace Dal
             root.Save(path);
         }
 
-        public static XElement LoadListFromXMLElement(string filePath)
-        {
-            try
-            {
-                if (File.Exists(filePath))
-                {
-                    return XElement.Load(filePath);
-                }
-                else
-                {
-                    XElement rootElem = new XElement(filePath);
-                    rootElem.Save(filePath);
-                    return rootElem;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(filePath);
-            }
-        }
-
-        public static List<T> LoadListFromXMLSerializer<T>(string filePath)
-        {
-            try
-            {
-                if (File.Exists(filePath))
-                {
-                    List<T> list;
-                    XmlSerializer x = new XmlSerializer(typeof(List<T>));
-                    FileStream file = new FileStream(filePath, FileMode.Open);
-                    list = (List<T>)x.Deserialize(file);
-                    file.Close();
-                    return list;
-                }
-                else
-                    return new List<T>();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(filePath);
-            }
-        }
-
+        /// <summary>
+        /// Save the data in the xml file
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="list"></param>
+        /// <param name="filePath"></param>
+        /// <exception cref="Exception"></exception>
         public static void SaveListToXMLSerializer<T>(List<T> list, string filePath)
         {
             try
@@ -113,17 +95,62 @@ namespace Dal
             }
         }
 
-        public static void SaveListToXMLElement(XElement rootElem, string filePath)
-        {
-            try
-            {
-                rootElem.Save(filePath);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(filePath);
-            }
-        }
+
+        //public static XElement LoadListFromXMLElement(string filePath)
+        //{
+        //    try
+        //    {
+        //        if (File.Exists(filePath))
+        //        {
+        //            return XElement.Load(filePath);
+        //        }
+        //        else
+        //        {
+        //            XElement rootElem = new XElement(filePath);
+        //            rootElem.Save(filePath);
+        //            return rootElem;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception(filePath);
+        //    }
+        //}
+
+        //public static List<T> LoadListFromXMLSerializer<T>(string filePath)
+        //{
+        //    try
+        //    {
+        //        if (File.Exists(filePath))
+        //        {
+        //            List<T> list;
+        //            XmlSerializer x = new XmlSerializer(typeof(List<T>));
+        //            FileStream file = new FileStream(filePath, FileMode.Open);
+        //            list = (List<T>)x.Deserialize(file);
+        //            file.Close();
+        //            return list;
+        //        }
+        //        else
+        //            return new List<T>();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception(filePath);
+        //    }
+        //}
+
+
+        //public static void SaveListToXMLElement(XElement rootElem, string filePath)
+        //{
+        //    try
+        //    {
+        //        rootElem.Save(filePath);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception(filePath);
+        //    }
+        //}
     }
 }
 

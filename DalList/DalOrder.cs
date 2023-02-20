@@ -8,7 +8,7 @@ namespace Dal;
 internal class DalOrder:IOrder
 {
     /// <summary>
-    /// //////////////////////////Add/////////////////////////
+    /// Call the function Add in the DataSource to add a new order in the list of orders
     /// </summary>
     /// <param name="order"></param>
     [MethodImpl(MethodImplOptions.Synchronized)]
@@ -18,12 +18,11 @@ internal class DalOrder:IOrder
     }
 
     /// <summary>
-    /// //////////////////////////GetById////////////////////
+    /// Return a specified order
     /// </summary>
     /// <param name="OrderId"></param>
     /// <returns></returns>
     [MethodImpl(MethodImplOptions.Synchronized)]
-
     public Order Get(int OrderId, int val=0)
     {
 
@@ -40,11 +39,10 @@ internal class DalOrder:IOrder
     }
 
     /// <summary>
-    /// //////////////////////GetList/////////////////////////
+    /// Return a list of orders in the DataSource
     /// </summary>
     /// <returns></returns>
     [MethodImpl(MethodImplOptions.Synchronized)]
-
     public IEnumerable<Order?> GetList(Func<Order?,bool> func = null!)
     {
         if (func != null)
@@ -56,23 +54,20 @@ internal class DalOrder:IOrder
     }
 
     /// <summary>
-    /// /////////////////////Delete///////////////////////////
+    /// Remove from the list of orders a specified order
     /// </summary>
     /// <param name="orderId"></param>
     [MethodImpl(MethodImplOptions.Synchronized)]
-
     public void Delete(int orderId,int v=0)
     {
         DataSource._orders.Remove(Get(orderId));
         //DataSource.Config._automaticOrderId--;
     }
 
-    /// <summary>
-    /// //////////////////////////Update///////////////////////////////////
+    /// <summary>Update a specified order in the list of orders
     /// </summary>
     /// <param name="orderId"></param>
     [MethodImpl(MethodImplOptions.Synchronized)]
-
     public void Update(int orderId,int v=0)
     {
         int count = 0;
@@ -87,7 +82,6 @@ internal class DalOrder:IOrder
     }
 
     [MethodImpl(MethodImplOptions.Synchronized)]
-
     public Order? GetItem(Func<Order?, bool>? predicate)
     {
         Predicate<Order?> predicate1 = ord => predicate!(ord);

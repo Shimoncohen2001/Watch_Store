@@ -11,7 +11,7 @@ internal static class DataSource
     {
         number = rand.Next(100000, 999999);
         DataSource._Sinitialise();
-       // BuildXmlFromDs.BuildXmlFromDataSource();
+       // BuildXmlFromDs.BuildXmlFromDataSource(); // Reference for to initialize one time the datasource into the xml files
     }
 
     internal static class Config
@@ -77,18 +77,16 @@ internal static class DataSource
         }
     }
 
-    // This will contain arrays for the "ישויות"
-    // We nead to add a private function that will add all the objects in the array of each yechout
-    internal static List<Order?>_orders = new List<Order?>(); // _camelCase
-    internal static List<Products?>_products = new List<Products?>(); // _camelCase
-    internal static List<OrderItems?>_orderItems = new List<OrderItems?>(); // _camelCase
+    internal static List<Order?>_orders = new List<Order?>(); 
+    internal static List<Products?>_products = new List<Products?>(); 
+    internal static List<OrderItems?>_orderItems = new List<OrderItems?>();
 
     /// <summary>
-    /// //////////////////////////////////Add//////////////////////////////////////////
+    /// Add an order into the list of orders
     /// </summary>
-    private static void AddOrderToList(Order o)  // add an order into the list of orders
+    private static void AddOrderToList(Order o)  
     {
-        Order order = new Order();  // create a new object to add a new element on the list of Orders
+        Order order = new Order(); 
         order.Id = o.Id;
         order.CustomerName = o.CustomerName;
         order.CustomerEmail = o.CustomerEmail;
@@ -96,14 +94,14 @@ internal static class DataSource
         order.OrderDate = o.OrderDate;
         order.ShipDate = o.ShipDate;
         order.DeliveryDate = o.DeliveryDate;
-        _orders.Add(order);  // add order into array in the first free place
+        _orders.Add(order);  
     }
 
     /// <summary>
-    /// ////////////////////////////Add////////////////////////////////
+    ///  Add an Product into the list of Products
     /// </summary>
     /// <param name="pr"></param>
-    private static void AddProductToList(Products pr)  // Add an Product into the list of Products
+    private static void AddProductToList(Products pr)  
     {
         
             Products p = new Products();
@@ -112,14 +110,14 @@ internal static class DataSource
             p.Price = pr.Price;
             p.Category = pr.Category;
             p.InStock = pr.InStock;
-            _products.Add(p);  // Add product into array in the first free place
+            _products.Add(p);  
     }
 
     /// <summary>
-    /// ////////////////////////////////Add//////////////////////////////
+    /// Add an orderItem into the list of ordersItems
     /// </summary>
     /// <param name="ordIt"></param>
-    private static void AddOrderItemToList(OrderItems ordIt)  // Add an orderItem into the list of ordersItems
+    private static void AddOrderItemToList(OrderItems ordIt)  
     {
         
             OrderItems Oitems = new OrderItems();
@@ -128,8 +126,10 @@ internal static class DataSource
             Oitems.OrderId = ordIt.OrderId;
             Oitems.Price = ordIt.Price;
             Oitems.Amount = ordIt.Amount;
-            _orderItems.Add(Oitems);  // Add product into array in the first free place
+            _orderItems.Add(Oitems);  
     }
+
+
     public static void GetAddOrderItemToList(OrderItems ordIt)
     {
         AddOrderItemToList(ordIt);
@@ -143,5 +143,4 @@ internal static class DataSource
     {
         AddProductToList(prod);
     }
-
 }

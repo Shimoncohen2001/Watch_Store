@@ -2,14 +2,18 @@
 using System.Reflection;
 using static DalApi.DalConfig;
 
+/// <summary>
+/// Allow use to use Singleton to create one reference only for every entity when we use the dal functions
+/// </summary>
 public static class Factory
 {
     public static IDal? Get()
     {
-
-        string dalType = "xml"
-            ?? throw new DalConfigException($"DAL name is not extracted from the configuration");
         
+        string dalType = "xml"// the same name a we can found on the dal.config.xml file
+            ?? throw new DalConfigException($"DAL name is not extracted from the configuration");
+        // we access to the element on the dictionnary wich xml is his key
+        // s_dalPackage(the dictionnary) is defined in the dalConfig file
         string dal = s_dalPackages[dalType]
            ?? throw new DalConfigException($"Package for {dalType} is not found in packages list");
         try

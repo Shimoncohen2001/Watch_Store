@@ -5,7 +5,7 @@ using System.Security.Cryptography;
 namespace BlImplementation;
 internal class BlProduct : BlApi.IProduct
 {
-    DalApi.IDal? dal = DalApi.Factory.Get();
+    DalApi.IDal? dal = DalApi.Factory.Get(); // Get the instance of the Dal
 
 
     /// <summary>
@@ -13,7 +13,6 @@ internal class BlProduct : BlApi.IProduct
     /// </summary>
     /// <returns></returns>
     [MethodImpl(MethodImplOptions.Synchronized)]
-
     public IEnumerable<BO.ProductForList?> GetProductForLists(Func<BO.ProductForList?, bool>? func = null)
     {
         lock (dal!)
@@ -57,7 +56,6 @@ internal class BlProduct : BlApi.IProduct
     /// <param name="productId"></param>
     /// <returns></returns>
     [MethodImpl(MethodImplOptions.Synchronized)]
-
     public BO.Product GetDirector(int productId)
     {
         lock (dal!)
@@ -91,7 +89,6 @@ internal class BlProduct : BlApi.IProduct
     /// <param name="productId"></param>
     /// <returns></returns>
     [MethodImpl(MethodImplOptions.Synchronized)]
-
     public BO.ProductItem GetClient(int productId, BO.Cart cart)
     {
         lock (dal!)
@@ -128,7 +125,6 @@ internal class BlProduct : BlApi.IProduct
     /// </summary>
     /// <param name="product"></param>
     [MethodImpl(MethodImplOptions.Synchronized)]
-
     public void Add(BO.Product product)
     {
         lock (dal!)
@@ -161,7 +157,6 @@ internal class BlProduct : BlApi.IProduct
     /// </summary>
     /// <param name="id"></param>
     [MethodImpl(MethodImplOptions.Synchronized)]
-
     public void Delete(int productId)
     {
         lock (dal!)
@@ -189,7 +184,6 @@ internal class BlProduct : BlApi.IProduct
     /// </summary>
     /// <param name="productId"></param>
     [MethodImpl(MethodImplOptions.Synchronized)]
-
     public void Update(BO.Product product)
     {
         lock (dal!)
@@ -220,7 +214,6 @@ internal class BlProduct : BlApi.IProduct
                     return;
             }
                     throw new BO.NoExistingItemException("Product doesn't exist");
-
         }
     }
 }

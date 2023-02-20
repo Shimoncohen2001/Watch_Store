@@ -21,7 +21,7 @@
             <ComboBox x:Name="CategorySelector" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" SelectionChanged="CategorySelector_SelectionChanged" Height="43" Width="400"/>
             <Label x:Name="Categories" Content="Category:" HorizontalAlignment="Left" Margin="123,0,0,0" VerticalAlignment="Center"/>
         </Grid>
-        <ListView Grid.Row="1" ItemsSource="{Binding ProductItems}" Name="lstView" MouseDoubleClick="AddProductItem_DoubleClick">
+        <ListView Grid.Row="1" ItemsSource="{Binding ProductItems}" Name="lstView" MouseDoubleClick="AddProductItem_DoubleClick" Background="#FFB2A5A5">
             <ListView.View>
                 <GridView>
                     <GridViewColumn x:Name="ProductItemId" Header="Id" DisplayMemberBinding="{Binding ID}" />
@@ -30,10 +30,7 @@
                     <GridViewColumn x:Name="ProductItemCategry" Header="Category"  DisplayMemberBinding="{Binding Category}"/>
                     <GridViewColumn x:Name="ProductItemAmount" Header="Amount"  DisplayMemberBinding="{Binding Amount}"/>
                     <GridViewColumn x:Name="ProductItemInStock" Header="InStock"  DisplayMemberBinding="{Binding InStock}"/>
-                    <GridViewColumn Header="Choice">                        <GridViewColumn.CellTemplate>                            <DataTemplate>                                <StackPanel>
-                                   
-                                </StackPanel>
-                            </DataTemplate>                        </GridViewColumn.CellTemplate>                    </GridViewColumn>                </GridView>
+                </GridView>
             </ListView.View>
         </ListView>
         <Button Content="Show Cart" Grid.Row="2" HorizontalAlignment="Right" Margin="5" Padding="5" Click="ShowCartButton_Click"/>

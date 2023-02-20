@@ -8,18 +8,22 @@
         mc:Ignorable="d"
         Title="OrderListWindow" Height="450" Width="800">
     <Grid Name="MainGrid" HorizontalAlignment="Right" Width="800">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="723*"/>
+            <ColumnDefinition Width="77*"/>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="40*"/>
             <RowDefinition Height="500*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Grid Name="UpGrid" Height="auto" Grid.Row="0" HorizontalAlignment="Left" Width="800">
+        <Grid Name="UpGrid" Height="auto" Grid.Row="0" HorizontalAlignment="Left" Width="800" Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions >
         </Grid>
-        <ListView Grid.Row="1" Name="lstView" MouseDoubleClick="OrderListWindow_MouseDoubleClick">
+        <ListView Name="lstView" MouseDoubleClick="OrderListWindow_MouseDoubleClick" Grid.ColumnSpan="2" Margin="0,32,0,0" Grid.RowSpan="2" Background="#FFF6F096">
             <ListView.View>
                 <GridView>
                     <GridViewColumn x:Name="OrderId" Header="Id" DisplayMemberBinding="{Binding ID}"/>

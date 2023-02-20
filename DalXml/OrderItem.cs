@@ -18,10 +18,11 @@ internal class OrderItem : IOrderItem
         string str = Assembly.GetExecutingAssembly().Location;
         localPath = Path.GetDirectoryName(str);
         localPath = Path.GetDirectoryName(localPath);
-        //localPath = Path.GetDirectoryName(localPath);
 
         localPath += @"\xml";
         string extOrderItemPath = localPath + @"\OrderItemXml.xml";
+
+        // Verify if the file exists or not and create him if he doesn't exist
         if (!File.Exists(extOrderItemPath))
         {
             HelpXml.CreateFiles(extOrderItemPath);
@@ -32,8 +33,13 @@ internal class OrderItem : IOrderItem
         }
         OrderItemPath = extOrderItemPath;
     }
-    [MethodImpl(MethodImplOptions.Synchronized)]
 
+    /// <summary>
+    /// Add a orderitem at the end of the list in the xml file
+    /// </summary>
+    /// <param name="t"></param>
+    /// <exception cref="Exception"></exception>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public void Add(OrderItems t)
     {
         List<OrderItems> ListOrderItems = HelpXml.LoadListFromXmlSerializer<OrderItems>(OrderItemPath);
@@ -42,8 +48,13 @@ internal class OrderItem : IOrderItem
         ListOrderItems.Add(t);
         HelpXml.SaveListToXmlSerializer(ListOrderItems, OrderItemPath);
     }
-    [MethodImpl(MethodImplOptions.Synchronized)]
 
+    /// <summary>
+    /// Remove a orderitem from the list of products in the xml file
+    /// </summary>
+    /// <param name="Id1"></param>
+    /// <param name="Id2"></param>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public void Delete(int Id1, int Id2)
     {
         List<OrderItems> ListOrderItems = HelpXml.LoadListFromXmlSerializer<OrderItems>(OrderItemPath);
@@ -53,8 +64,15 @@ internal class OrderItem : IOrderItem
         ListOrderItems.Remove(orderItem);
         HelpXml.SaveListToXmlSerializer(ListOrderItems, OrderItemPath);
     }
-    [MethodImpl(MethodImplOptions.Synchronized)]
 
+    /// <summary>
+    /// Return a specified orderitem
+    /// </summary>
+    /// <param name="Id1"></param>
+    /// <param name="Id2"></param>
+    /// <returns></returns>
+    /// <exception cref="Exception"></exception>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public OrderItems Get(int Id1, int Id2)
     {
         List<OrderItems> ListOrderItems = HelpXml.LoadListFromXmlSerializer<OrderItems>(OrderItemPath);
@@ -73,18 +91,20 @@ internal class OrderItem : IOrderItem
         
     }
 
-    // A faire (même pb que pour order, il faut trouver comment faire avec le predicate)
     [MethodImpl(MethodImplOptions.Synchronized)]
-
     public OrderItems? GetItem(Func<OrderItems?, bool>? predicate)
     {
         throw new NotImplementedException();
     }
-    [MethodImpl(MethodImplOptions.Synchronized)]
 
+    /// <summary>
+    /// Return the list of orderitem in the xml file
+    /// </summary>
+    /// <param name="predicate"></param>
+    /// <returns></returns>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public IEnumerable<OrderItems?> GetList(Func<OrderItems?, bool>? predicate = null)
     {
-        //IEnumerable<DO.OrderItems?> ListOrderItems;
         var ListOrderItems1 = HelpXml.LoadListFromXmlSerializer<DO.OrderItems?>(OrderItemPath);
         if (predicate!=null)
         {
@@ -93,8 +113,13 @@ internal class OrderItem : IOrderItem
         }
         return ListOrderItems1;
     }
-    [MethodImpl(MethodImplOptions.Synchronized)]
 
+    /// <summary>
+    /// Update a specified orderitem in the xml file
+    /// </summary>
+    /// <param name="Id1"></param>
+    /// <param name="Id2"></param>
+    [MethodImpl(MethodImplOptions.Synchronized)]
     public void Update(int Id1, int Id2)
     {
         List<OrderItems> ListOrderItems = HelpXml.LoadListFromXmlSerializer<OrderItems>(OrderItemPath);

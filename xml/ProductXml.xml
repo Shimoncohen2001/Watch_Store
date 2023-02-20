@@ -26,7 +26,7 @@
     <Name>Rolex_Datejust</Name>
     <Price>46610</Price>
     <Category>Children</Category>
-    <InStock>0</InStock>
+    <InStock>10</InStock>
   </Products>
   <Products>
     <Id>100007</Id>
@@ -64,13 +64,6 @@
     <InStock>3</InStock>
   </Products>
   <Products>
-    <Id>100002</Id>
-    <Name>Rolex</Name>
-    <Price>1111</Price>
-    <Category>Women</Category>
-    <InStock>908</InStock>
-  </Products>
-  <Products>
     <Id>100004</Id>
     <Name>Casio_GSHOK</Name>
     <Price>1</Price>
@@ -78,10 +71,24 @@
     <InStock>4</InStock>
   </Products>
   <Products>
+    <Id>100023</Id>
+    <Name>Rol</Name>
+    <Price>2097</Price>
+    <Category>Children</Category>
+    <InStock>23</InStock>
+  </Products>
+  <Products>
+    <Id>100002</Id>
+    <Name>Rolex</Name>
+    <Price>1111</Price>
+    <Category>Women</Category>
+    <InStock>883</InStock>
+  </Products>
+  <Products>
     <Id>100001</Id>
     <Name>Rolex_GMTMaster</Name>
     <Price>4113</Price>
     <Category>Men</Category>
-    <InStock>7</InStock>
+    <InStock>5</InStock>
   </Products>
 </ArrayOfProducts>

@@ -6,24 +6,22 @@ namespace Dal;
 internal class DalOrderItems : IOrderItem
 {
     /// <summary>
-    /// ////////////////////////////Add//////////////////////////
+    /// Call the function Add in the DataSource to add a new orderitem in the list of orderitems
     /// </summary>
     /// <param name="orderItems"></param>
     [MethodImpl(MethodImplOptions.Synchronized)]
-
     public void Add(OrderItems orderItems)
     {
         DataSource.GetAddOrderItemToList(orderItems);
     }
 
     /// <summary>
-    /// ///////////////////////////GetById//////////////////////
+    /// Return a specified orderitem from the list of orderitem
     /// </summary>
     /// <param name="OrderId"></param>
     /// <param name="ProductId"></param>
     /// <returns></returns>
     [MethodImpl(MethodImplOptions.Synchronized)]
-
     public OrderItems Get(int OrderId, int ProductId)
     {
         //foreach (var item in DataSource._orderItems)
@@ -44,11 +42,10 @@ internal class DalOrderItems : IOrderItem
     }
 
     /// <summary>
-    /// ///////////////////////GetList/////////////////////////
+    /// Return a list of orderitems from the DataSource
     /// </summary>
     /// <returns></returns>
     [MethodImpl(MethodImplOptions.Synchronized)]
-
     public IEnumerable<OrderItems?> GetList(Func<OrderItems?, bool> func=null!)
     {
         if (func != null)
@@ -61,23 +58,21 @@ internal class DalOrderItems : IOrderItem
     }
 
     /// <summary>
-    /// //////////////////////Delete///////////////////////////
+    /// Remove a specified orderitem from the list of orderitems
     /// </summary>
     /// <param name="ProductId"></param>
     /// <param name="orderId"></param>
     [MethodImpl(MethodImplOptions.Synchronized)]
-
     public void Delete(int ProductId, int orderId)
     {
         DataSource._orderItems.Remove(Get(orderId, ProductId));
     }
 
     /// <summary>
-    /// //////////////////////////Update///////////////////////
+    /// Update a specified orderitem in the list of orderitems
     /// </summary>
     /// <param name="orderId"></param>
     [MethodImpl(MethodImplOptions.Synchronized)]
-
     public void Update(int orderId, int productId)
     {
         int count = 0;
@@ -98,7 +93,6 @@ internal class DalOrderItems : IOrderItem
     }
 
     [MethodImpl(MethodImplOptions.Synchronized)]
-
     public OrderItems? GetItem(Func<OrderItems?, bool>? predicate)
     {
         Predicate<OrderItems?> predicate1 = ordIt => predicate!(ordIt);
