@@ -78,17 +78,24 @@
     <InStock>23</InStock>
   </Products>
   <Products>
-    <Id>100002</Id>
-    <Name>Rolex</Name>
-    <Price>1111</Price>
-    <Category>Women</Category>
-    <InStock>883</InStock>
-  </Products>
-  <Products>
     <Id>100001</Id>
     <Name>Rolex_GMTMaster</Name>
     <Price>4113</Price>
     <Category>Men</Category>
     <InStock>5</InStock>
+  </Products>
+  <Products>
+    <Id>111</Id>
+    <Name>RolexMAster</Name>
+    <Price>22</Price>
+    <Category>Women</Category>
+    <InStock>11</InStock>
+  </Products>
+  <Products>
+    <Id>100002</Id>
+    <Name>Rolex</Name>
+    <Price>1111</Price>
+    <Category>Women</Category>
+    <InStock>861</InStock>
   </Products>
 </ArrayOfProducts>
